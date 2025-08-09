@@ -124,7 +124,7 @@ When you click "Start build", Bitrise will use the **default workflow** for your
 - [ ] Open App Store Connect → My Apps → your app → TestFlight and wait for the new build to appear (10–20 mins)
 
 #### If the build fails (quick checks)
-- [ ] **Git Clone Repository missing**: If you see "Expected to find project root in current working directory" and the directory is empty, you're missing the **Git Clone Repository** step at the top of your workflow
+- [ ] **Git Clone Repository missing**: If you see "Expected to find project root in current working directory" and the directory is empty, you're missing the **Git Clone Repository** step at the very top of your workflow
 - [ ] **CocoaPods issues**: If you see "The Podfile does not contain any dependencies" or "Could not automatically select an Xcode workspace":
   1. **Check your Podfile**: Make sure it has dependencies and workspace specification
   2. **Add workspace to Podfile**: Add this line to your `ios/Podfile`:
@@ -133,6 +133,20 @@ When you click "Start build", Bitrise will use the **default workflow** for your
      ```
   3. **Alternative**: Skip CocoaPods step if your Flutter project doesn't use native iOS dependencies
   4. **Quick fix**: **Remove the "Run CocoaPods install" step** from your workflow - it's not essential for basic Flutter iOS builds
+- [ ] **CocoaPods podhelper.rb error**: If you see "cannot load such file -- ../.ios/Flutter/podhelper.rb":
+  1. **CRITICAL**: Make sure the **Script step** (running `flutter pub get`) runs BEFORE the CocoaPods step
+  2. **Check Script step working directory**: Ensure it's set to `$BITRISE_SOURCE_DIR` (project root)
+  3. **Alternative script content**: If still failing, try this script content:
+     ```bash
+     #!/bin/bash
+     set -ex
+     cd $BITRISE_SOURCE_DIR
+     flutter clean
+     flutter pub get
+     # Generate iOS files properly
+     flutter build ios --no-codesign --debug
+     ```
+  4. **Remove CocoaPods step**: If the issue persists, **remove the "Run CocoaPods install" step** entirely - Flutter handles iOS dependencies automatically
 - [ ] Signing error: make sure the Auto Provision step is before Xcode Archive and uses the correct Bundle ID + API key
 - [ ] Workspace/scheme error: ensure `ios/Runner.xcworkspace` and `Runner` are set in the Xcode Archive step
 - [ ] CocoaPods error: ensure "CocoaPods Install" step exists and is before Xcode Archive
@@ -152,5 +166,20 @@ When you click "Start build", Bitrise will use the **default workflow** for your
      ```
   5. **Check Flutter Install step**: Make sure Flutter Install step completed successfully (green checkmark)
 - [ ] To see details: open the failed build → Logs → scroll to the first red error
+- [ ] **Manage iOS Code Signing error**: If you see "CertificateURLList: required variable is not present":
+  1. **Check Apple service connection method**: Make sure it's set to "Default (api-key)"
+  2. **Select your API key**: In the "Apple service connection method" dropdown, select your "NadiaPoint CI" API key (not "Default (api-key)")
+  3. **If API key doesn't appear in dropdown** (even though it's configured):
+     - **Try selecting "api-key"** (without "Default") from the dropdown - this should use your configured API key
+     - **Alternative**: Try selecting "Default (api-key)" - this should also work if your API key is properly configured
+  4. **If still failing with API key method**:
+     - **Remove the "Manage iOS Code Signing" step entirely** - it's not essential for basic Flutter iOS builds
+     - **Let Xcode Archive step handle code signing automatically** - it will use your API key configuration
+  5. **Verify settings**: Ensure these fields are set:
+     - Apple service connection method: "api-key" or "Default (api-key)"
+     - Distribution method: `app-store`
+     - Project path: `ios/Runner.xcworkspace`
+     - Scheme: `Runner`
+     - Build configuration: `Release`
 
 

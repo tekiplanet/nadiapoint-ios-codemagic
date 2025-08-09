@@ -1,10 +1,10 @@
-bitrise_cli_command: $ bitrise "run" "--config" "/var/folders/f6/wf2hj3cj75qdwmt5rn814r_00000gn/T/bitrise-agent728737319/bitrise.yml" "--inventory" "/var/folders/f6/wf2hj3cj75qdwmt5rn814r_00000gn/T/bitrise-agent728737319/bitrise.secrets.yml" "--json-params-base64" "eyJ3b3JrZmxvdyI6InByaW1hcnkifQ==" "--output-format" "json"
-xcode_version: 16.4
 den_agent_version: 2.57.12
 stack_image_version: 2-108-3
-host_name: vm-osx-sequoia-16-g2.mac.large-bcb72ab0-1246-4982-8ecf-5d871058f7df
-node_name: US-CENTRAL-ORD-1A-AM06-0219
-Invocation started at 14:44:32
+host_name: vm-osx-sequoia-16-g2.mac.large-f8de95be-5976-4465-9750-7516765d4939
+node_name: US-CENTRAL-ORD-1A-AM06-0100
+bitrise_cli_command: $ bitrise "run" "--config" "/var/folders/f6/wf2hj3cj75qdwmt5rn814r_00000gn/T/bitrise-agent13294423/bitrise.yml" "--inventory" "/var/folders/f6/wf2hj3cj75qdwmt5rn814r_00000gn/T/bitrise-agent13294423/bitrise.secrets.yml" "--json-params-base64" "eyJ3b3JrZmxvdyI6InByaW1hcnkifQ==" "--output-format" "json"
+xcode_version: 16.4
+Invocation started at 15:36:22
 Bitrise CLI version: 2.33.0
 Run modes:
 CI mode: true
@@ -25,7 +25,7 @@ Step uses latest version, updating StepLib...
 +---+---------------------------------------------------------------+----------+
 
 +---+---------------------------------------------------------------+----------+
-| ✓ | Git Clone Repository                                          | 5.84 sec |
+| ✓ | Git Clone Repository                                          | 5.64 sec |
 +---+---------------------------------------------------------------+----------+
                                         ▼
 +------------------------------------------------------------------------------+
@@ -34,7 +34,7 @@ Step uses latest version, updating StepLib...
 +---+---------------------------------------------------------------+----------+
 
 +---+---------------------------------------------------------------+----------+
-| ✓ | Flutter Install                                               | 40.20 sec |
+| ✓ | Flutter Install                                               | 40.96 sec |
 +---+---------------------------------------------------------------+----------+
 | Update available: 0 (0.13.1) -> 1.0.0                                        |
 | Release notes are available below                                            |
@@ -47,561 +47,143 @@ Step uses latest version, updating StepLib...
 +---+---------------------------------------------------------------+----------+
 
 +---+---------------------------------------------------------------+----------+
-| ✓ | Script                                                        | 18.04 sec |
+| ✓ | Script                                                        | 24.16 sec |
 +---+---------------------------------------------------------------+----------+
                                         ▼
 +------------------------------------------------------------------------------+
 
-| (3) Run CocoaPods install                                                    |
+| (3) Xcode Archive & Export for iOS                                           |
 +------------------------------------------------------------------------------+
-| id: cocoapods-install                                                        |
-| version: 2.4.2                                                               |
+| id: xcode-archive                                                            |
+| version: 5.8.0                                                               |
 | collection: https://github.com/bitrise-io/bitrise-steplib.git                |
 | toolkit: go                                                                  |
-| time: 2025-08-09T14:45:32Z                                                   |
+| time: 2025-08-09T15:37:29Z                                                   |
 +------------------------------------------------------------------------------+
 |                                                                              |
-ConfigsModel:
-- command: install
-- source_root_path: /Users/vagrant/git/ios
-- podfile_path: <unset>
-- verbose: false
-- is_cache_disabled: false
-Searching for Podfile
-Found Podfile: /Users/vagrant/git/ios/Podfile
-Determining required cocoapods version
-Searching for Podfile.lock
-No Podfile.lock found at: /Users/vagrant/git/ios/Podfile.lock
-Make sure it's committed into your repository!
-Searching for gem lockfile with cocoapods gem
-No gem lockfile with cocoapods gem found at: 
-Using system installed CocoaPods version
-Checking selected Ruby version
-$ asdf "current" "ruby"
-ruby            3.3             /Users/vagrant/.tool-versions
-The selected Ruby version (3.3) is installed.
-Installing cocoapods
-Using system installed cocoapods
-cocoapods version:
-$ pod "--version"
-1.16.2
-Installing Pods
-$ pod "install" "--no-repo-update"
-[!] Invalid `Podfile` file: undefined method `flutter_install_all_ios_pods' for an instance of Pod::Podfile.
- #  from /Users/vagrant/git/ios/Podfile:13
- #  -------------------------------------------
- #  
- >    flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
- #  end
- #  -------------------------------------------
-Failed to install Pods:
-  command failed with exit status 1 (pod "install" "--no-repo-update"):
-    [!] Invalid `Podfile` file: undefined method `flutter_install_all_ios_pods' for an instance of Pod::Podfile.
-Retrying with pod repo update...
-$ pod "repo" "update"
-Updating spec repo `master`
-  $ /opt/homebrew/bin/git -C /Users/vagrant/.cocoapods/repos/master fetch origin --progress
-  remote: Enumerating objects: 68873, done.        
-  remote: Counting objects:   0% (1/26098)        
-  remote: Counting objects:   1% (261/26098)        
-  remote: Counting objects:   2% (522/26098)        
-  remote: Counting objects:   3% (783/26098)        
-  remote: Counting objects:   4% (1044/26098)        
-  remote: Counting objects:   5% (1305/26098)        
-  remote: Counting objects:   6% (1566/26098)        
-  remote: Counting objects:   7% (1827/26098)        
-  remote: Counting objects:   8% (2088/26098)        
-  remote: Counting objects:   9% (2349/26098)        
-  remote: Counting objects:  10% (2610/26098)        
-  remote: Counting objects:  11% (2871/26098)        
-  remote: Counting objects:  12% (3132/26098)        
-  remote: Counting objects:  13% (3393/26098)        
-  remote: Counting objects:  14% (3654/26098)        
-  remote: Counting objects:  15% (3915/26098)        
-  remote: Counting objects:  16% (4176/26098)        
-  remote: Counting objects:  17% (4437/26098)        
-  remote: Counting objects:  18% (4698/26098)        
-  remote: Counting objects:  19% (4959/26098)        
-  remote: Counting objects:  20% (5220/26098)        
-  remote: Counting objects:  21% (5481/26098)        
-  remote: Counting objects:  22% (5742/26098)        
-  remote: Counting objects:  23% (6003/26098)        
-  remote: Counting objects:  24% (6264/26098)        
-  remote: Counting objects:  25% (6525/26098)        
-  remote: Counting objects:  26% (6786/26098)        
-  remote: Counting objects:  27% (7047/26098)        
-  remote: Counting objects:  28% (7308/26098)        
-  remote: Counting objects:  29% (7569/26098)        
-  remote: Counting objects:  30% (7830/26098)        
-  remote: Counting objects:  31% (8091/26098)        
-  remote: Counting objects:  32% (8352/26098)        
-  remote: Counting objects:  33% (8613/26098)        
-  remote: Counting objects:  34% (8874/26098)        
-  remote: Counting objects:  35% (9135/26098)        
-  remote: Counting objects:  36% (9396/26098)        
-  remote: Counting objects:  37% (9657/26098)        
-  remote: Counting objects:  38% (9918/26098)        
-  remote: Counting objects:  39% (10179/26098)        
-  remote: Counting objects:  40% (10440/26098)        
-  remote: Counting objects:  41% (10701/26098)        
-  remote: Counting objects:  42% (10962/26098)        
-  remote: Counting objects:  43% (11223/26098)        
-  remote: Counting objects:  44% (11484/26098)        
-  remote: Counting objects:  45% (11745/26098)        
-  remote: Counting objects:  46% (12006/26098)        
-  remote: Counting objects:  47% (12267/26098)        
-  remote: Counting objects:  48% (12528/26098)        
-  remote: Counting objects:  49% (12789/26098)        
-  remote: Counting objects:  50% (13049/26098)        
-  remote: Counting objects:  51% (13310/26098)        
-  remote: Counting objects:  52% (13571/26098)        
-  remote: Counting objects:  53% (13832/26098)        
-  remote: Counting objects:  54% (14093/26098)        
-  remote: Counting objects:  55% (14354/26098)        
-  remote: Counting objects:  56% (14615/26098)        
-  remote: Counting objects:  57% (14876/26098)        
-  remote: Counting objects:  58% (15137/26098)        
-  remote: Counting objects:  59% (15398/26098)        
-  remote: Counting objects:  60% (15659/26098)        
-  remote: Counting objects:  61% (15920/26098)        
-  remote: Counting objects:  62% (16181/26098)        
-  remote: Counting objects:  63% (16442/26098)        
-  remote: Counting objects:  64% (16703/26098)        
-  remote: Counting objects:  65% (16964/26098)        
-  remote: Counting objects:  66% (17225/26098)        
-  remote: Counting objects:  67% (17486/26098)        
-  remote: Counting objects:  68% (17747/26098)        
-  remote: Counting objects:  69% (18008/26098)        
-  remote: Counting objects:  70% (18269/26098)        
-  remote: Counting objects:  71% (18530/26098)        
-  remote: Counting objects:  72% (18791/26098)        
-  remote: Counting objects:  73% (19052/26098)        
-  remote: Counting objects:  74% (19313/26098)        
-  remote: Counting objects:  75% (19574/26098)        
-  remote: Counting objects:  76% (19835/26098)        
-  remote: Counting objects:  77% (20096/26098)        
-  remote: Counting objects:  78% (20357/26098)        
-  remote: Counting objects:  79% (20618/26098)        
-  remote: Counting objects:  80% (20879/26098)        
-  remote: Counting objects:  81% (21140/26098)        
-  remote: Counting objects:  82% (21401/26098)        
-  remote: Counting objects:  83% (21662/26098)        
-  remote: Counting objects:  84% (21923/26098)        
-  remote: Counting objects:  85% (22184/26098)        
-  remote: Counting objects:  86% (22445/26098)        
-  remote: Counting objects:  87% (22706/26098)        
-  remote: Counting objects:  88% (22967/26098)        
-  remote: Counting objects:  89% (23228/26098)        
-  remote: Counting objects:  90% (23489/26098)        
-  remote: Counting objects:  91% (23750/26098)        
-  remote: Counting objects:  92% (24011/26098)        
-  remote: Counting objects:  93% (24272/26098)        
-  remote: Counting objects:  94% (24533/26098)        
-  remote: Counting objects:  95% (24794/26098)        
-  remote: Counting objects:  96% (25055/26098)        
-  remote: Counting objects:  97% (25316/26098)        
-  remote: Counting objects:  98% (25577/26098)        
-  remote: Counting objects:  99% (25838/26098)        
-  remote: Counting objects: 100% (26098/26098)        
-  remote: Counting objects: 100% (26098/26098), done.        
-  remote: Compressing objects:   0% (1/315)        
-  remote: Compressing objects:   1% (4/315)        
-  remote: Compressing objects:   2% (7/315)        
-  remote: Compressing objects:   3% (10/315)        
-  remote: Compressing objects:   4% (13/315)        
-  remote: Compressing objects:   5% (16/315)        
-  remote: Compressing objects:   6% (19/315)        
-  remote: Compressing objects:   7% (23/315)        
-  remote: Compressing objects:   8% (26/315)        
-  remote: Compressing objects:   9% (29/315)        
-  remote: Compressing objects:  10% (32/315)        
-  remote: Compressing objects:  11% (35/315)        
-  remote: Compressing objects:  12% (38/315)        
-  remote: Compressing objects:  13% (41/315)        
-  remote: Compressing objects:  14% (45/315)        
-  remote: Compressing objects:  15% (48/315)        
-  remote: Compressing objects:  16% (51/315)        
-  remote: Compressing objects:  17% (54/315)        
-  remote: Compressing objects:  18% (57/315)        
-  remote: Compressing objects:  19% (60/315)        
-  remote: Compressing objects:  20% (63/315)        
-  remote: Compressing objects:  21% (67/315)        
-  remote: Compressing objects:  22% (70/315)        
-  remote: Compressing objects:  23% (73/315)        
-  remote: Compressing objects:  24% (76/315)        
-  remote: Compressing objects:  25% (79/315)        
-  remote: Compressing objects:  26% (82/315)        
-  remote: Compressing objects:  27% (86/315)        
-  remote: Compressing objects:  28% (89/315)        
-  remote: Compressing objects:  29% (92/315)        
-  remote: Compressing objects:  30% (95/315)        
-  remote: Compressing objects:  31% (98/315)        
-  remote: Compressing objects:  32% (101/315)        
-  remote: Compressing objects:  33% (104/315)        
-  remote: Compressing objects:  34% (108/315)        
-  remote: Compressing objects:  35% (111/315)        
-  remote: Compressing objects:  36% (114/315)        
-  remote: Compressing objects:  37% (117/315)        
-  remote: Compressing objects:  38% (120/315)        
-  remote: Compressing objects:  39% (123/315)        
-  remote: Compressing objects:  40% (126/315)        
-  remote: Compressing objects:  41% (130/315)        
-  remote: Compressing objects:  42% (133/315)        
-  remote: Compressing objects:  43% (136/315)        
-  remote: Compressing objects:  44% (139/315)        
-  remote: Compressing objects:  45% (142/315)        
-  remote: Compressing objects:  46% (145/315)        
-  remote: Compressing objects:  47% (149/315)        
-  remote: Compressing objects:  48% (152/315)        
-  remote: Compressing objects:  49% (155/315)        
-  remote: Compressing objects:  50% (158/315)        
-  remote: Compressing objects:  51% (161/315)        
-  remote: Compressing objects:  52% (164/315)        
-  remote: Compressing objects:  53% (167/315)        
-  remote: Compressing objects:  54% (171/315)        
-  remote: Compressing objects:  55% (174/315)        
-  remote: Compressing objects:  56% (177/315)        
-  remote: Compressing objects:  57% (180/315)        
-  remote: Compressing objects:  58% (183/315)        
-  remote: Compressing objects:  59% (186/315)        
-  remote: Compressing objects:  60% (189/315)        
-  remote: Compressing objects:  61% (193/315)        
-  remote: Compressing objects:  62% (196/315)        
-  remote: Compressing objects:  63% (199/315)        
-  remote: Compressing objects:  64% (202/315)        
-  remote: Compressing objects:  65% (205/315)        
-  remote: Compressing objects:  66% (208/315)        
-  remote: Compressing objects:  67% (212/315)        
-  remote: Compressing objects:  68% (215/315)        
-  remote: Compressing objects:  69% (218/315)        
-  remote: Compressing objects:  70% (221/315)        
-  remote: Compressing objects:  71% (224/315)        
-  remote: Compressing objects:  72% (227/315)        
-  remote: Compressing objects:  73% (230/315)        
-  remote: Compressing objects:  74% (234/315)        
-  remote: Compressing objects:  75% (237/315)        
-  remote: Compressing objects:  76% (240/315)        
-  remote: Compressing objects:  77% (243/315)        
-  remote: Compressing objects:  78% (246/315)        
-  remote: Compressing objects:  79% (249/315)        
-  remote: Compressing objects:  80% (252/315)        
-  remote: Compressing objects:  81% (256/315)        
-  remote: Compressing objects:  82% (259/315)        
-  remote: Compressing objects:  83% (262/315)        
-  remote: Compressing objects:  84% (265/315)        
-  remote: Compressing objects:  85% (268/315)        
-  remote: Compressing objects:  86% (271/315)        
-  remote: Compressing objects:  87% (275/315)        
-  remote: Compressing objects:  88% (278/315)        
-  remote: Compressing objects:  89% (281/315)        
-  remote: Compressing objects:  90% (284/315)        
-  remote: Compressing objects:  91% (287/315)        
-  remote: Compressing objects:  92% (290/315)        
-  remote: Compressing objects:  93% (293/315)        
-  remote: Compressing objects:  94% (297/315)        
-  remote: Compressing objects:  95% (300/315)        
-  remote: Compressing objects:  96% (303/315)        
-  remote: Compressing objects:  97% (306/315)        
-  remote: Compressing objects:  98% (309/315)        
-  remote: Compressing objects:  99% (312/315)        
-  remote: Compressing objects: 100% (315/315)        
-  remote: Compressing objects: 100% (315/315), done.        
-  Receiving objects:   0% (1/68873)
-  Receiving objects:   1% (689/68873)
-  Receiving objects:   2% (1378/68873)
-  Receiving objects:   3% (2067/68873)
-  Receiving objects:   4% (2755/68873)
-  Receiving objects:   5% (3444/68873)
-  Receiving objects:   6% (4133/68873)
-  Receiving objects:   7% (4822/68873)
-  Receiving objects:   8% (5510/68873)
-  Receiving objects:   9% (6199/68873)
-  Receiving objects:  10% (6888/68873)
-  Receiving objects:  11% (7577/68873)
-  Receiving objects:  12% (8265/68873)
-  Receiving objects:  13% (8954/68873)
-  Receiving objects:  14% (9643/68873)
-  Receiving objects:  15% (10331/68873)
-  Receiving objects:  16% (11020/68873)
-  Receiving objects:  17% (11709/68873)
-  Receiving objects:  18% (12398/68873)
-  Receiving objects:  19% (13086/68873)
-  Receiving objects:  20% (13775/68873)
-  Receiving objects:  21% (14464/68873)
-  Receiving objects:  22% (15153/68873)
-  Receiving objects:  23% (15841/68873)
-  Receiving objects:  24% (16530/68873)
-  Receiving objects:  25% (17219/68873)
-  Receiving objects:  26% (17907/68873)
-  Receiving objects:  27% (18596/68873)
-  Receiving objects:  28% (19285/68873)
-  Receiving objects:  29% (19974/68873)
-  Receiving objects:  30% (20662/68873)
-  Receiving objects:  31% (21351/68873)
-  Receiving objects:  32% (22040/68873)
-  Receiving objects:  33% (22729/68873)
-  Receiving objects:  34% (23417/68873)
-  Receiving objects:  35% (24106/68873)
-  Receiving objects:  36% (24795/68873)
-  Receiving objects:  37% (25484/68873)
-  Receiving objects:  38% (26172/68873)
-  Receiving objects:  39% (26861/68873)
-  Receiving objects:  40% (27550/68873)
-  Receiving objects:  41% (28238/68873)
-  Receiving objects:  42% (28927/68873)
-  Receiving objects:  43% (29616/68873)
-  Receiving objects:  44% (30305/68873)
-  Receiving objects:  45% (30993/68873)
-  Receiving objects:  46% (31682/68873)
-  Receiving objects:  47% (32371/68873)
-  Receiving objects:  48% (33060/68873)
-  Receiving objects:  49% (33748/68873)
-  Receiving objects:  50% (34437/68873)
-  Receiving objects:  51% (35126/68873)
-  Receiving objects:  52% (35814/68873)
-  Receiving objects:  53% (36503/68873)
-  Receiving objects:  54% (37192/68873)
-  Receiving objects:  55% (37881/68873)
-  Receiving objects:  56% (38569/68873)
-  Receiving objects:  57% (39258/68873)
-  Receiving objects:  58% (39947/68873)
-  Receiving objects:  59% (40636/68873)
-  Receiving objects:  60% (41324/68873)
-  Receiving objects:  61% (42013/68873)
-  Receiving objects:  62% (42702/68873)
-  Receiving objects:  63% (43390/68873)
-  Receiving objects:  64% (44079/68873)
-  Receiving objects:  65% (44768/68873)
-  Receiving objects:  66% (45457/68873)
-  Receiving objects:  67% (46145/68873)
-  Receiving objects:  68% (46834/68873)
-  Receiving objects:  69% (47523/68873)
-  Receiving objects:  70% (48212/68873)
-  Receiving objects:  71% (48900/68873)
-  Receiving objects:  72% (49589/68873)
-  Receiving objects:  73% (50278/68873)
-  Receiving objects:  74% (50967/68873)
-  Receiving objects:  75% (51655/68873)
-  Receiving objects:  76% (52344/68873)
-  Receiving objects:  77% (53033/68873)
-  Receiving objects:  78% (53721/68873)
-  Receiving objects:  79% (54410/68873)
-  Receiving objects:  80% (55099/68873)
-  Receiving objects:  81% (55788/68873)
-  Receiving objects:  82% (56476/68873)
-  Receiving objects:  83% (57165/68873)
-  Receiving objects:  84% (57854/68873)
-  Receiving objects:  85% (58543/68873)
-  Receiving objects:  86% (59231/68873)
-  Receiving objects:  87% (59920/68873)
-  Receiving objects:  88% (60609/68873)
-  Receiving objects:  89% (61297/68873)
-  Receiving objects:  90% (61986/68873)
-  Receiving objects:  91% (62675/68873)
-  Receiving objects:  92% (63364/68873)
-  Receiving objects:  93% (64052/68873)
-  Receiving objects:  94% (64741/68873)
-  Receiving objects:  95% (65430/68873)
-  Receiving objects:  96% (66119/68873)
-  Receiving objects:  97% (66807/68873)
-  Receiving objects:  98% (67496/68873)
-  Receiving objects:  99% (68185/68873)
-  remote: Total 68873 (delta 25926), reused 25778 (delta 25778), pack-reused 42775 (from 3)        
-  Receiving objects: 100% (68873/68873)
-  Receiving objects: 100% (68873/68873), 9.46 MiB | 40.89 MiB/s, done.
-  Resolving deltas:   0% (0/49220)
-  Resolving deltas:   1% (493/49220)
-  Resolving deltas:   2% (985/49220)
-  Resolving deltas:   3% (1477/49220)
-  Resolving deltas:   4% (1969/49220)
-  Resolving deltas:   5% (2461/49220)
-  Resolving deltas:   6% (2954/49220)
-  Resolving deltas:   7% (3446/49220)
-  Resolving deltas:   8% (3938/49220)
-  Resolving deltas:   9% (4430/49220)
-  Resolving deltas:  10% (4922/49220)
-  Resolving deltas:  11% (5415/49220)
-  Resolving deltas:  12% (5907/49220)
-  Resolving deltas:  13% (6399/49220)
-  Resolving deltas:  14% (6891/49220)
-  Resolving deltas:  15% (7383/49220)
-  Resolving deltas:  16% (7876/49220)
-  Resolving deltas:  17% (8368/49220)
-  Resolving deltas:  18% (8861/49220)
-  Resolving deltas:  19% (9352/49220)
-  Resolving deltas:  20% (9844/49220)
-  Resolving deltas:  21% (10337/49220)
-  Resolving deltas:  22% (10829/49220)
-  Resolving deltas:  23% (11321/49220)
-  Resolving deltas:  24% (11813/49220)
-  Resolving deltas:  25% (12305/49220)
-  Resolving deltas:  26% (12798/49220)
-  Resolving deltas:  27% (13290/49220)
-  Resolving deltas:  28% (13782/49220)
-  Resolving deltas:  29% (14274/49220)
-  Resolving deltas:  30% (14766/49220)
-  Resolving deltas:  31% (15259/49220)
-  Resolving deltas:  32% (15751/49220)
-  Resolving deltas:  33% (16243/49220)
-  Resolving deltas:  34% (16735/49220)
-  Resolving deltas:  35% (17228/49220)
-  Resolving deltas:  36% (17720/49220)
-  Resolving deltas:  37% (18213/49220)
-  Resolving deltas:  38% (18704/49220)
-  Resolving deltas:  39% (19196/49220)
-  Resolving deltas:  40% (19688/49220)
-  Resolving deltas:  41% (20182/49220)
-  Resolving deltas:  42% (20674/49220)
-  Resolving deltas:  43% (21165/49220)
-  Resolving deltas:  44% (21657/49220)
-  Resolving deltas:  45% (22149/49220)
-  Resolving deltas:  46% (22642/49220)
-  Resolving deltas:  47% (23134/49220)
-  Resolving deltas:  48% (23626/49220)
-  Resolving deltas:  49% (24118/49220)
-  Resolving deltas:  50% (24610/49220)
-  Resolving deltas:  51% (25103/49220)
-  Resolving deltas:  52% (25595/49220)
-  Resolving deltas:  53% (26087/49220)
-  Resolving deltas:  54% (26579/49220)
-  Resolving deltas:  55% (27071/49220)
-  Resolving deltas:  56% (27564/49220)
-  Resolving deltas:  57% (28056/49220)
-  Resolving deltas:  58% (28548/49220)
-  Resolving deltas:  59% (29040/49220)
-  Resolving deltas:  60% (29532/49220)
-  Resolving deltas:  61% (30025/49220)
-  Resolving deltas:  62% (30517/49220)
-  Resolving deltas:  63% (31009/49220)
-  Resolving deltas:  64% (31501/49220)
-  Resolving deltas:  65% (31993/49220)
-  Resolving deltas:  66% (32486/49220)
-  Resolving deltas:  67% (32978/49220)
-  Resolving deltas:  68% (33470/49220)
-  Resolving deltas:  69% (33962/49220)
-  Resolving deltas:  70% (34454/49220)
-  Resolving deltas:  71% (34947/49220)
-  Resolving deltas:  72% (35439/49220)
-  Resolving deltas:  73% (35931/49220)
-  Resolving deltas:  74% (36423/49220)
-  Resolving deltas:  75% (36915/49220)
-  Resolving deltas:  76% (37408/49220)
-  Resolving deltas:  77% (37900/49220)
-  Resolving deltas:  78% (38392/49220)
-  Resolving deltas:  79% (38884/49220)
-  Resolving deltas:  80% (39376/49220)
-  Resolving deltas:  81% (39869/49220)
-  Resolving deltas:  82% (40361/49220)
-  Resolving deltas:  83% (40853/49220)
-  Resolving deltas:  84% (41345/49220)
-  Resolving deltas:  85% (41837/49220)
-  Resolving deltas:  86% (42330/49220)
-  Resolving deltas:  87% (42822/49220)
-  Resolving deltas:  88% (43314/49220)
-  Resolving deltas:  89% (43806/49220)
-  Resolving deltas:  90% (44298/49220)
-  Resolving deltas:  91% (44791/49220)
-  Resolving deltas:  92% (45283/49220)
-  Resolving deltas:  93% (45775/49220)
-  Resolving deltas:  94% (46267/49220)
-  Resolving deltas:  95% (46759/49220)
-  Resolving deltas:  96% (47252/49220)
-  Resolving deltas:  97% (47744/49220)
-  Resolving deltas:  98% (48236/49220)
-  Resolving deltas:  99% (48728/49220)
-  Resolving deltas: 100% (49220/49220)
-  Resolving deltas: 100% (49220/49220), completed with 4974 local objects.
-  From https://github.com/CocoaPods/Specs
-     92156ed38722..7d084f1849ac  master     -> origin/master
-  $ /opt/homebrew/bin/git -C /Users/vagrant/.cocoapods/repos/master rev-parse --abbrev-ref HEAD
-  master
-  $ /opt/homebrew/bin/git -C /Users/vagrant/.cocoapods/repos/master reset --hard origin/master
-  Updating files:  83% (6260/7466)
-  Updating files:  84% (6272/7466)
-  Updating files:  85% (6347/7466)
-  Updating files:  86% (6421/7466)
-  Updating files:  87% (6496/7466)
-  Updating files:  88% (6571/7466)
-  Updating files:  89% (6645/7466)
-  Updating files:  90% (6720/7466)
-  Updating files:  91% (6795/7466)
-  Updating files:  92% (6869/7466)
-  Updating files:  93% (6944/7466)
-  Updating files:  94% (7019/7466)
-  Updating files:  95% (7093/7466)
-  Updating files:  96% (7168/7466)
-  Updating files:  97% (7243/7466)
-  Updating files:  98% (7317/7466)
-  Updating files:  99% (7392/7466)
-  Updating files: 100% (7466/7466)
-  Updating files: 100% (7466/7466), done.
-  HEAD is now at 7d084f1849ac [Add] MultiSlider 2.2.1
-Updating spec repo `trunk`
-$ pod "install" "--no-repo-update"
-[!] Invalid `Podfile` file: undefined method `flutter_install_all_ios_pods' for an instance of Pod::Podfile.
- #  from /Users/vagrant/git/ios/Podfile:13
- #  -------------------------------------------
- #  
- >    flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
- #  end
- #  -------------------------------------------
-Failed to install Pods:
-  command failed with exit status 1 (pod "install" "--no-repo-update"):
-    [!] Invalid `Podfile` file: undefined method `flutter_install_all_ios_pods' for an instance of Pod::Podfile.
-Failed to install Pods:
-  command failed with exit status 1 (pod "install" "--no-repo-update"):
-    [!] Invalid `Podfile` file: undefined method `flutter_install_all_ios_pods' for an instance of Pod::Podfile.
+Inputs:
+- project_path: ios/Runner.xcworkspace
+- scheme: Runner
+- distribution_method: app-store
+- platform: detect
+- configuration: <unset>
+- xcconfig_content: COMPILER_INDEX_STORE_ENABLE = NO
+- perform_clean_action: false
+- xcodebuild_options: <unset>
+- log_formatter: xcpretty
+- automatic_code_signing: off
+- register_test_devices: false
+- test_device_list_path: <unset>
+- min_profile_validity: 0
+- certificate_url_list: <unset>
+- passphrase_list: <unset>
+- keychain_path: /Users/[REDACTED]/Library/Keychains/login.keychain
+- keychain_password: *****
+- fallback_provisioning_profile_url_list: <unset>
+- export_development_team: <unset>
+- compile_bitcode: true
+- upload_bitcode: true
+- icloud_container_environment: <unset>
+- testflight_internal_testing_only: false
+- export_options_plist_content: <unset>
+- output_dir: /Users/[REDACTED]/deploy
+- export_all_dsyms: true
+- artifact_name: <unset>
+- cache_level: swift_packages
+- api_key_path: <unset>
+- api_key_id: <unset>
+- api_key_issuer_id: <unset>
+- api_key_enterprise_account: false
+- verbose_log: false
+- BITRISE_BUILD_URL: https://app.bitrise.io/build/6b729149-9746-4c4d-8d00-5e05be560962
+- BITRISE_BUILD_API_TOKEN: *****
+Xcode version:
+Xcode 16.4 (16F6)
+Checking if log formatter (xcpretty) is installed
+- log formatter version: 0.4.1
+Running resolve Swift package dependencies
+[15:37:40] Resolving package dependencies...
+[15:37:40] $ xcodebuild "-workspace" "/Users/[REDACTED]/git/ios/Runner.xcworkspace" "-scheme" "Runner" "-resolvePackageDependencies"
+Command line invocation:
+    /Applications/Xcode-16.4.0.app/Contents/Developer/usr/bin/xcodebuild -workspace /Users/[REDACTED]/git/ios/Runner.xcworkspace -scheme Runner -resolvePackageDependencies
+resolved source packages: 
+[15:37:40] Resolved package dependencies.
+Looking for artifact name as field is empty
+[15:37:40] Reading build settings...
+[15:37:40] $ xcodebuild "-workspace" "/Users/[REDACTED]/git/ios/Runner.xcworkspace" "-scheme" "Runner" "-showBuildSettings"
+[15:37:41] Read target settings.
+Automatic code signing is disabled, skipped downloading code sign assets
+[15:37:41] Opening xcode project at path: /Users/[REDACTED]/git/ios/Runner.xcworkspace for scheme: Runner
+Read Runner scheme in 0s.
+[15:37:41] Reading xcode project
+[15:37:41] Platform is set to 'automatic', detecting platform from the project.
+[15:37:41] Define the platform step input manually to avoid this phase in the future.
+Finding platform type
+[15:37:41] Reading build settings...
+[15:37:41] $ xcodebuild "-project" "/Users/[REDACTED]/git/ios/Runner.xcodeproj" "-target" "Runner" "-configuration" "Release" "-showBuildSettings"
+[15:37:42] Read target settings.
+Platform type: iOS
+[15:37:42] Reading main target
+[15:37:42] Creating the Archive ...
+[15:37:42] $ set -o pipefail && xcodebuild "archive" "-workspace" "/Users/[REDACTED]/git/ios/Runner.xcworkspace" "-scheme" "Runner" "-xcconfig" "/var/folders/f6/wf2hj3cj75qdwmt5rn814r_00000gn/T/831728999/temp.xcconfig" "-archivePath" "/var/folders/f6/wf2hj3cj75qdwmt5rn814r_00000gn/T/xcodeArchive3682611146/Runner.xcarchive" "-destination" "generic/platform=iOS" | xcpretty
+Last lines of the Xcode log:
+ExecuteExternalTool /Applications/Xcode-16.4.0.app/Contents/Developer/usr/bin/actool --print-asset-tag-combinations --output-format xml1 /Users/[REDACTED]/git/ios/Runner/Assets.xcassets
+ExecuteExternalTool /Applications/Xcode-16.4.0.app/Contents/Developer/usr/bin/actool --version --output-format xml1
+ExecuteExternalTool /Applications/Xcode-16.4.0.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc --version
+ExecuteExternalTool /Applications/Xcode-16.4.0.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld -version_details
+Build description signature: 78ea240e7a9e467cbcaf634e759f1698
+Build description path: /Users/[REDACTED]/Library/Developer/Xcode/DerivedData/Runner-fvdlvfvunbwmbcgkbjykdeexifra/Build/Intermediates.noindex/ArchiveIntermediates/Runner/IntermediateBuildFilesPath/XCBuildData/78ea240e7a9e467cbcaf634e759f1698.xcbuilddata
+/Users/[REDACTED]/git/ios/Runner.xcodeproj: error: Signing for "Runner" requires a development team. Select a development team in the Signing & Capabilities editor. (in target 'Runner' from project 'Runner')
+note: Disabling previews because SWIFT_VERSION is set and SWIFT_OPTIMIZATION_LEVEL=-O, expected -Onone (in target 'Runner' from project 'Runner')
+note: Run script build phase 'Run Script' will be run during every build because the option to run the script phase "Based on dependency analysis" is unchecked. (in target 'Runner' from project 'Runner')
+note: Run script build phase 'Thin Binary' will be run during every build because the option to run the script phase "Based on dependency analysis" is unchecked. (in target 'Runner' from project 'Runner')
+** ARCHIVE FAILED **
+The following build commands failed:
+	Archiving workspace Runner with scheme Runner
+(1 failure)
+If you can't find the reason of the error in the log, please check the artifact xcodebuild-archive.log.
+The log file is stored in $BITRISE_DEPLOY_DIR, and its full path
+is available in the $BITRISE_XCODEBUILD_ARCHIVE_LOG_PATH environment variable.
+Deploy to Bitrise.io Step can attach the file to your build as an artifact.
+Failed to execute Step main logic:
+  failed to archive the project:
+    command failed with exit status 65 (xcodebuild "archive" "-workspace" "/Users/[REDACTED]/git/ios/Runner.xcworkspace" "-scheme" "Runner" "-xcconfig" "/var/folders/f6/wf2hj3cj75qdwmt5rn814r_00000gn/T/831728999/temp.xcconfig" "-archivePath" "/var/folders/f6/wf2hj3cj75qdwmt5rn814r_00000gn/T/xcodeArchive3682611146/Runner.xcarchive" "-destination" "generic/platform=iOS"):
+      /Users/[REDACTED]/git/ios/Runner.xcodeproj: error: Signing for "Runner" requires a development team. Select a development team in the Signing & Capabilities editor. (in target 'Runner' from project 'Runner')
+[15:37:45] Exporting outputs...
+The xcodebuild archive log path is now available in the Environment Variable: BITRISE_XCODEBUILD_ARCHIVE_LOG_PATH (value: /Users/[REDACTED]/deploy/xcodebuild-archive.log)
+Failed to execute Step main logic:
+  failed to archive the project:
+    command failed with exit status 65 (xcodebuild "archive" "-workspace" "/Users/[REDACTED]/git/ios/Runner.xcworkspace" "-scheme" "Runner" "-xcconfig" "/var/folders/f6/wf2hj3cj75qdwmt5rn814r_00000gn/T/831728999/temp.xcconfig" "-archivePath" "/var/folders/f6/wf2hj3cj75qdwmt5rn814r_00000gn/T/xcodeArchive3682611146/Runner.xcarchive" "-destination" "generic/platform=iOS"):
+      /Users/[REDACTED]/git/ios/Runner.xcodeproj: error: Signing for "Runner" requires a development team. Select a development team in the Signing & Capabilities editor. (in target 'Runner' from project 'Runner')
 |                                                                              |
 +---+---------------------------------------------------------------+----------+
-| x | Run CocoaPods install (Failed)                                | 30.66 sec |
+| x | Xcode Archive & Export for iOS (Failed)                       | 17.39 sec |
 +---+---------------------------------------------------------------+----------+
-| Issue tracker: https://github.com/bitrise-io/steps-cocoapods-install/issues  |
-| Source: https://github.com/bitrise-io/steps-cocoapods-install                |
-+---+---------------------------------------------------------------+----------+
-                                        ▼
-+------------------------------------------------------------------------------+
-
-| (4) Manage iOS Code Signing                                                  |
-+---+---------------------------------------------------------------+----------+
-
-+---+---------------------------------------------------------------+----------+
-| - | Manage iOS Code Signing (Skipped)                             | 0.60 sec |
-+---+---------------------------------------------------------------+----------+
-                                        ▼
-+------------------------------------------------------------------------------+
-
-| (5) Xcode Archive & Export for iOS                                           |
-+---+---------------------------------------------------------------+----------+
-
-+---+---------------------------------------------------------------+----------+
-| - | Xcode Archive & Export for iOS (Skipped)                      | 0.71 sec |
+| Issue tracker: https://github.com/bitrise-steplib/steps-xcode-archive/issues |
+| Source: https://github.com/bitrise-steplib/steps-xcode-archive               |
 +---+---------------------------------------------------------------+----------+
 +------------------------------------------------------------------------------+
 |                           bitrise summary: primary                           |
 +---+---------------------------------------------------------------+----------+
 |   | title                                                         | time (s) |
 +---+---------------------------------------------------------------+----------+
-| ✓ | Git Clone Repository                                          | 5.84 sec |
+| ✓ | Git Clone Repository                                          | 5.64 sec |
 +---+---------------------------------------------------------------+----------+
-| ✓ | Flutter Install                                               | 40.20 sec|
+| ✓ | Flutter Install                                               | 40.96 sec|
 +---+---------------------------------------------------------------+----------+
 | Update available: 0 (0.13.1) -> 1.0.0                                        |
 |                                                                              |
 | Release notes are available below                                            |
 | https://github.com/bitrise-steplib/bitrise-step-flutter-installer/releases   |
 +---+---------------------------------------------------------------+----------+
-| ✓ | Script                                                        | 18.04 sec|
+| ✓ | Script                                                        | 24.16 sec|
 +---+---------------------------------------------------------------+----------+
-| x | Run CocoaPods install (Failed)                                | 30.67 sec|
+| x | Xcode Archive & Export for iOS (Failed)                       | 17.39 sec|
 +---+---------------------------------------------------------------+----------+
-| Issue tracker: https://github.com/bitrise-io/steps-cocoapods-install/issues  |
-| Source: https://github.com/bitrise-io/steps-cocoapods-install                |
+| Issue tracker: https://github.com/bitrise-steplib/steps-xcode-archive/issues |
+| Source: https://github.com/bitrise-steplib/steps-xcode-archive               |
 +---+---------------------------------------------------------------+----------+
-| - | Manage iOS Code Signing (Skipped)                             | 0.60 sec |
-+---+---------------------------------------------------------------+----------+
-| - | Xcode Archive & Export for iOS (Skipped)                      | 0.71 sec |
-+---+---------------------------------------------------------------+----------+
-| Total runtime: 1.6 min                                                       |
+| Total runtime: 1.5 min                                                       |
 +------------------------------------------------------------------------------+
 Bitrise build failed (exit code: 1)
 ExitCode: 1
