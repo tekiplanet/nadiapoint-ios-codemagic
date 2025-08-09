@@ -36,9 +36,6 @@ target 'Runner' do
   use_modular_headers!
 
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
-  
-  # Force GoogleUtilities to version 8.1.0 to resolve dependency conflict
-  pod 'GoogleUtilities', '8.1.0'
 end
 
 post_install do |installer|

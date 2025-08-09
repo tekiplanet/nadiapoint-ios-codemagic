@@ -243,31 +243,26 @@ To update the CocoaPods specs, run: pod repo update
   mobile_scanner depends on GoogleUtilities/UserDefaults (~> 7.0)
 ```
 
-**NEWEST SOLUTION**: Fix GoogleUtilities dependency conflict in Podfile:
+**NEWEST SOLUTION**: Update mobile_scanner to compatible version:
 
 #### **Root Cause**: 
 Two Flutter plugins require incompatible versions of GoogleUtilities:
-- firebase_messaging (v15.2.7) requires GoogleUtilities/UserDefaults (~> 8.1)
-- mobile_scanner (v3.2.0) requires GoogleUtilities/UserDefaults (~> 7.0)
+- firebase_messaging (v15.2.7) requires GoogleUtilities/UserDefaults (~> 8.1 (>=8.1, <9.0)
+- mobile_scanner (v3.2.0) requires GoogleUtilities/UserDefaults (~> 7.0 (>=7.0, <8.0)
+
+These ranges don't overlap, so there's no compatible version.
 
 #### **Fix**: 
-Added explicit version specification to `ios/Podfile` target section:
-```ruby
-target 'Runner' do
-  use_frameworks!
-  use_modular_headers!
-
-  flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
-  
-  # Force GoogleUtilities to version 8.1.0 to resolve dependency conflict
-  pod 'GoogleUtilities', '8.1.0'
-end
+Updated mobile_scanner to latest version in `pubspec.yaml`:
+```yaml
+dependencies:
+  mobile_scanner: ^5.0.0  # Updated from 3.2.0
 ```
 
 #### **Why This Fixes It**:
-- Forces CocoaPods to use GoogleUtilities version 8.1.0 for all dependencies
-- Version 8.1.0 satisfies both the (~> 8.1) and (~> 7.0) requirements
-- Resolves the version conflict between firebase_messaging and mobile_scanner
+- mobile_scanner v5.x supports GoogleUtilities 8.x versions
+- Both plugins can now use compatible GoogleUtilities versions  
+- Removes the version range conflict entirely
 
 **If the build succeeds:**
 - **Check App Store Connect** → My Apps → your app → TestFlight
