@@ -8,26 +8,26 @@ Use this list from top to bottom. Do the next unchecked item and come back.
 - [ ] File exists in repo: `ios/Runner/GoogleService-Info.plist`
 
 #### 1) Create an App Store Connect API Key (one time)
-- [ ] Open App Store Connect → Users and Access → Integrations → App Store Connect API → Keys
-- [ ] Click “Generate API Key” (or +)
-- [ ] Name it anything (e.g., NadiaPoint CI), Role: App Manager
-- [ ] On the Keys list, click **Download** next to your key → save the `.p8` file
-- [ ] Copy the **Issuer ID** (top of the page) and the key’s **Key ID** (table column)
-- [ ] Keep the `.p8`, Issuer ID, and Key ID handy for the next step
+- [x] Open App Store Connect → Users and Access → Integrations → App Store Connect API → Keys
+- [x] Click “Generate API Key” (or +)
+- [x] Name it anything (e.g., NadiaPoint CI), Role: App Manager
+- [x] On the Keys list, click **Download** next to your key → save the `.p8` file
+- [x] Copy the **Issuer ID** (top of the page) and the key’s **Key ID** (table column)
+- [x] Keep the `.p8`, Issuer ID, and Key ID handy for the next step
 
 Tip: If you cannot see “Integrations” or “App Store Connect API,” you must be signed in as the **Account Holder** or **Admin**. Ask the Account Holder to grant Admin, or have them create the key and send you the `.p8`, Issuer ID, and Key ID.
 
 #### 2) Add that key in Bitrise (code signing)
-- [ ] In Bitrise, open your app → Project settings → Code signing → click **Set up connection**
-- [ ] You will land on Project settings → **Integrations → Stores → App Store Connect**
-- [ ] Click **Add API key** (Recommended)
-- [ ] Fill the form:
+- [x] In Bitrise, open your app → Project settings → Code signing → click **Set up connection**
+- [x] You will land on Project settings → **Integrations → Stores → App Store Connect**
+- [x] Click **Add API key** (Recommended)
+- [x] Fill the form:
   - Name: `NadiaPoint CI`
   - Issuer ID: paste from App Store Connect
   - Key ID: paste from App Store Connect
   - Private key: upload the `.p8` you downloaded
   - Team: pick your Apple team (if asked)
-- [ ] If it redirects to Workspace settings, add the key there, then come back to this screen and select it
+- [x] If it redirects to Workspace settings, add the key there, then come back to this screen and select it
 - [ ] Return to Project settings → **Code signing** and confirm the “App Store connection” now shows your team (not “None selected”)
 
 #### 3) Configure the workflow steps
