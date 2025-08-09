@@ -28,10 +28,17 @@ Tip: If you cannot see “Integrations” or “App Store Connect API,” you mu
   - Private key: upload the `.p8` you downloaded
   - Team: pick your Apple team (if asked)
 - [x] If it redirects to Workspace settings, add the key there, then come back to this screen and select it
-- [ ] Return to Project settings → **Code signing** and confirm the “App Store connection” now shows your team (not “None selected”)
+- [x] Return to Project settings → **Code signing** and confirm the “App Store connection” now shows your team (not “None selected”)
+
+#### 2.5) Stop automatic builds from webhooks (optional)
+- [ ] In Bitrise, click **Workflows** (top right) → **Triggers** tab
+- [ ] In the “Build trigger map”, remove all rows for Push, Pull request, and Tag (trash/bin icon at row end)
+- [ ] Click **Save** (top right)
+- Note: The “Automatic webhook: Connected” can stay; with an empty trigger map, pushes/PRs won’t start builds. You can still start builds manually from the Builds page.
 
 #### 3) Configure the workflow steps
-- [ ] Open Bitrise → Workflows (top right of your app)
+- [ ] Open Bitrise → **Workflows** (top right)
+- [ ] Select the default workflow (often `primary`)
 - [ ] Ensure these steps exist and are ordered exactly like this (top to bottom):
   1. Flutter Install
   2. Flutter Pub Get
@@ -39,12 +46,13 @@ Tip: If you cannot see “Integrations” or “App Store Connect API,” you mu
   4. iOS Auto Provision with App Store Connect
   5. Xcode Archive & Export for iOS
   6. Deploy to App Store Connect (TestFlight)
-- [ ] Click the “iOS Auto Provision with App Store Connect” step → select the API key you added and set Bundle ID to `com.nadiapoint.exchange`
+- [ ] In “iOS Auto Provision with App Store Connect” → select the API key you added and set Bundle ID to `com.nadiapoint.exchange`
 - [ ] Click the “Xcode Archive & Export for iOS” step and set:
   - Project path: `ios/Runner.xcworkspace`
   - Scheme: `Runner`
   - Export method: `app-store`
-- [ ] Click the “Deploy to App Store Connect” step → select the same API key integration
+- [ ] In “Deploy to App Store Connect” → select the same API key integration
+- [ ] Save the workflow
 
 #### 4) Start a build
 - [ ] Go to Builds → click “Start build” (branch `main`) or “Rebuild” the last one
