@@ -212,7 +212,7 @@ When you click "Start build", Bitrise will use the **default workflow** for your
 
 ### 🚨 **FLUTTER BUILD ISSUE RESOLVED (AS OF 2025-08-09)**
 
-**STATUS**: ✅ **CERTIFICATE ISSUE FIXED** - New Flutter Build approach working, but CocoaPods issue found
+**STATUS**: ✅ **CERTIFICATE ISSUE FIXED** - New Flutter Build approach working, but CocoaPods dependency conflict found and fixed
 
 **PREVIOUS ERROR** (FIXED):
 ```
@@ -229,28 +229,45 @@ To update the CocoaPods specs, run: pod repo update
 
 **SOLUTION** (COMPLETED): Added CocoaPods install step with repository update ✅
 
-**NEWEST ERROR**:
+**PREVIOUS ERROR** (FIXED):
 ```
 [!] Unable to find a specification for `IdensicMobileSDK (= 1.35.1)` depended upon by `flutter_idensic_mobile_sdk_plugin`
 ```
 
-**NEWEST SOLUTION**: Add missing CocoaPods sources to Podfile:
+**SOLUTION** (COMPLETED): Add missing CocoaPods sources to Podfile ✅
+
+**NEWEST ERROR** (2025-01-16):
+```
+[!] CocoaPods could not find compatible versions for pod "GoogleUtilities/UserDefaults":
+  firebase_messaging depends on GoogleUtilities/UserDefaults (~> 8.1)
+  mobile_scanner depends on GoogleUtilities/UserDefaults (~> 7.0)
+```
+
+**NEWEST SOLUTION**: Fix GoogleUtilities dependency conflict in Podfile:
 
 #### **Root Cause**: 
-When replacing the Podfile with the standard Flutter version, the custom CocoaPods source repository was removed. The IdensicMobileSDK is hosted in a custom repository.
+Two Flutter plugins require incompatible versions of GoogleUtilities:
+- firebase_messaging (v15.2.7) requires GoogleUtilities/UserDefaults (~> 8.1)
+- mobile_scanner (v3.2.0) requires GoogleUtilities/UserDefaults (~> 7.0)
 
 #### **Fix**: 
-Added these lines to the top of `ios/Podfile`:
+Added explicit version specification to `ios/Podfile` target section:
 ```ruby
-# Add custom sources for IdensicMobileSDK
-source 'https://cdn.cocoapods.org/'
-source 'https://github.com/SumSubstance/Specs.git'
+target 'Runner' do
+  use_frameworks!
+  use_modular_headers!
+
+  flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
+  
+  # Force GoogleUtilities to version 8.1.0 to resolve dependency conflict
+  pod 'GoogleUtilities', '8.1.0'
+end
 ```
 
 #### **Why This Fixes It**:
-- Adds the SumSubstance specs repository that contains IdensicMobileSDK
-- Keeps the standard CocoaPods CDN source for other dependencies
-- Allows CocoaPods to find and install the IdensicMobileSDK (= 1.35.1) dependency
+- Forces CocoaPods to use GoogleUtilities version 8.1.0 for all dependencies
+- Version 8.1.0 satisfies both the (~> 8.1) and (~> 7.0) requirements
+- Resolves the version conflict between firebase_messaging and mobile_scanner
 
 **If the build succeeds:**
 - **Check App Store Connect** → My Apps → your app → TestFlight
