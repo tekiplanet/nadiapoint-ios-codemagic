@@ -39,7 +39,7 @@ target 'Runner' do
   
   # Force compatible versions to resolve dependency conflicts
   pod 'GoogleUtilities', '~> 8.1'
-  pod 'GoogleMLKit/BarcodeScanning', '~> 6.0'
+  # Let mobile_scanner determine the GoogleMLKit version to avoid conflicts
 end
 
 post_install do |installer|

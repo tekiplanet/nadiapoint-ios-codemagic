@@ -182,6 +182,6 @@ flutter:
 
 # Force compatible dependency versions to resolve conflicts
 dependency_overrides:
-  web: ^1.1.0
+  # web: ^1.1.0  # Commented out to avoid potential conflicts
 
 
