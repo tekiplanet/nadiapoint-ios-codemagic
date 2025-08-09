@@ -243,26 +243,25 @@ To update the CocoaPods specs, run: pod repo update
   mobile_scanner depends on GoogleUtilities/UserDefaults (~> 7.0)
 ```
 
-**NEWEST SOLUTION**: Update mobile_scanner to compatible version:
+**NEWEST SOLUTION**: Downgrade dependencies to compatible versions:
 
 #### **Root Cause**: 
-Two Flutter plugins require incompatible versions of GoogleUtilities:
-- firebase_messaging (v15.2.7) requires GoogleUtilities/UserDefaults (~> 8.1 (>=8.1, <9.0)
-- mobile_scanner (v3.2.0) requires GoogleUtilities/UserDefaults (~> 7.0 (>=7.0, <8.0)
-
-These ranges don't overlap, so there's no compatible version.
+Multiple dependency conflicts occurred when trying to update mobile_scanner:
+1. firebase_messaging (v15.2.7) vs mobile_scanner (v3.2.0) - GoogleUtilities conflict
+2. firebase_messaging (v15.2.7) vs mobile_scanner (v5.x) - GoogleDataTransport conflict
 
 #### **Fix**: 
-Updated mobile_scanner to latest version in `pubspec.yaml`:
+Downgraded to mutually compatible versions in `pubspec.yaml`:
 ```yaml
 dependencies:
-  mobile_scanner: ^5.0.0  # Updated from 3.2.0
+  firebase_messaging: ^14.9.4  # Downgraded from 15.2.7
+  mobile_scanner: ^3.5.6       # Slightly newer than 3.2.0
 ```
 
 #### **Why This Fixes It**:
-- mobile_scanner v5.x supports GoogleUtilities 8.x versions
-- Both plugins can now use compatible GoogleUtilities versions  
-- Removes the version range conflict entirely
+- firebase_messaging v14.x uses older GoogleUtilities/GoogleDataTransport versions
+- mobile_scanner v3.5.x is compatible with these older Google dependency versions
+- Avoids the version range conflicts entirely by using older, stable versions
 
 **If the build succeeds:**
 - **Check App Store Connect** → My Apps → your app → TestFlight
