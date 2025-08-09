@@ -254,14 +254,17 @@ Multiple dependency conflicts occurred when trying to update mobile_scanner:
 Downgraded to mutually compatible versions in `pubspec.yaml`:
 ```yaml
 dependencies:
+  firebase_core: ^2.32.0       # Downgraded from 3.10.0
+  firebase_auth: ^4.20.0       # Downgraded from 5.4.0  
   firebase_messaging: ^14.9.4  # Downgraded from 15.2.7
   mobile_scanner: ^3.5.6       # Slightly newer than 3.2.0
 ```
 
 #### **Why This Fixes It**:
+- All Firebase plugins now use compatible version ranges
 - firebase_messaging v14.x uses older GoogleUtilities/GoogleDataTransport versions
 - mobile_scanner v3.5.x is compatible with these older Google dependency versions
-- Avoids the version range conflicts entirely by using older, stable versions
+- Avoids both Flutter pub get failures AND CocoaPods dependency conflicts
 
 **If the build succeeds:**
 - **Check App Store Connect** → My Apps → your app → TestFlight
