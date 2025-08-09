@@ -41,19 +41,21 @@ Tip: If you cannot see “Integrations” or “App Store Connect API,” you mu
 #### 3) Configure the workflow steps
 - [ ] Open Bitrise → **Workflows** (top right)
 - [ ] Select the default workflow (often `primary`)
+- **CRITICAL**: Make sure **Git Clone Repository** step is at the very top of your workflow (this clones your code before other steps run)
 - How to add a step here:
-  - Click the `Flutter Install` tile once so it’s selected
+  - Click the `Flutter Install` tile once so it's selected
   - Move your mouse just below it → click the purple **+ Add step** button that appears
   - A Step Library pops up → search the step name → click **Add**
   - Repeat: hover below the last step → **+ Add step** for the next item
 - [ ] Clean up old steps (if present): delete `Certificate and profile installer`, `Flutter Analyze`, `Flutter Test`, `Flutter Build`, and `Deploy to Bitrise.io - Build Artifacts` (trash/bin icon on each). Keep `Git Clone Repository` at the top.
 - [ ] Add and order the steps exactly like this (top to bottom):
-  1. Flutter Install
-  2. Flutter Pub Get
-  3. CocoaPods Install
-  4. Manage iOS Code Signing (App Store Connect)
-  5. Xcode Archive & Export for iOS
-  6. Deploy to App Store Connect (TestFlight)
+  1. **Git Clone Repository** (MUST be first!)
+  2. Flutter Install
+  3. Flutter Pub Get
+  4. CocoaPods Install
+  5. Manage iOS Code Signing (App Store Connect)
+  6. Xcode Archive & Export for iOS
+  7. Deploy to App Store Connect (TestFlight)
 - [ ] In “Manage iOS Code Signing” set:
   - Apple service connection method: Default (api-key)
   - Distribution: `app-store`
@@ -67,7 +69,7 @@ Tip: If you cannot see “Integrations” or “App Store Connect API,” you mu
 - [ ] In “Deploy to App Store Connect” → select the same API key integration
 - [ ] Save the workflow
 
-If you cannot find “Flutter Pub Get” in the Step Library
+If you cannot find "Flutter Pub Get" in the Step Library
 - Add a step named **Script** right after `Flutter Install`
 - Script content:
   ```bash
@@ -75,13 +77,14 @@ If you cannot find “Flutter Pub Get” in the Step Library
   set -ex
   flutter pub get
   ```
+- **IMPORTANT**: Set the **Working Directory** to `$BITRISE_SOURCE_DIR` (this is the project root)
 
  Progress (mark as you go)
 - [x] Added Script step to run `flutter pub get`
-- [x] Added CocoaPods Install (choose step named “Run CocoaPods install”; set Workdir to `$BITRISE_SOURCE_DIR/ios`, leave others default)
+- [x] Added CocoaPods Install (choose step named "Run CocoaPods install"; set Workdir to `$BITRISE_SOURCE_DIR/ios`, leave others default)
 - [x] Added Manage iOS Code Signing and configured fields
-- [ ] Configured Xcode Archive & Export for iOS
-- [ ] Added Deploy to App Store Connect
+- [x] Configured Xcode Archive & Export for iOS
+- [x] Added Deploy to App Store Connect
 - [ ] Saved workflow
 
 - Notes while adding steps
@@ -92,15 +95,61 @@ If you cannot find “Flutter Pub Get” in the Step Library
 - Configure Auto Provision: Connection = your API key, Distribution type = `app-store`, Bundle ID = `com.nadiapoint.exchange`.
 
 #### 4) Start a build
-- [ ] Go to Builds → click “Start build” (branch `main`) or “Rebuild” the last one
+- [ ] Go to Builds → click "Start build" (branch `main`) or "Rebuild" the last one
+
+**⚠️ IMPORTANT: Which workflow will be used?**
+
+When you click "Start build", Bitrise will use the **default workflow** for your app. Here's how to confirm which one that is:
+
+1. **Check the default workflow**:
+   - Go to **Workflows** (top right) → **Triggers** tab
+   - Look at the workflow dropdown (top-left) - this shows your current default
+   - If it says `primary`, that's what will be used when you click "Start build"
+   - If it says `deploy`, then `deploy` will be used
+
+2. **If you want to use a specific workflow**:
+   - When clicking "Start build", you can also:
+     - Click the **down arrow** next to "Start build" 
+     - Select your preferred workflow from the dropdown
+     - Or use "Start/Schedule a Build" → select workflow manually
+
+3. **To change the default workflow**:
+   - Go to **Workflows** → **Triggers** tab
+   - Use the workflow dropdown to select `primary` (or whichever you want as default)
+   - Click **Save changes**
+
+**Current recommendation**: Make sure `primary` is selected as your default workflow since that's the one we configured for iOS deployment.
 
 #### 5) After it turns green
 - [ ] Open App Store Connect → My Apps → your app → TestFlight and wait for the new build to appear (10–20 mins)
 
 #### If the build fails (quick checks)
+- [ ] **Git Clone Repository missing**: If you see "Expected to find project root in current working directory" and the directory is empty, you're missing the **Git Clone Repository** step at the top of your workflow
+- [ ] **CocoaPods issues**: If you see "The Podfile does not contain any dependencies" or "Could not automatically select an Xcode workspace":
+  1. **Check your Podfile**: Make sure it has dependencies and workspace specification
+  2. **Add workspace to Podfile**: Add this line to your `ios/Podfile`:
+     ```ruby
+     workspace 'Runner.xcworkspace'
+     ```
+  3. **Alternative**: Skip CocoaPods step if your Flutter project doesn't use native iOS dependencies
 - [ ] Signing error: make sure the Auto Provision step is before Xcode Archive and uses the correct Bundle ID + API key
 - [ ] Workspace/scheme error: ensure `ios/Runner.xcworkspace` and `Runner` are set in the Xcode Archive step
-- [ ] CocoaPods error: ensure “CocoaPods Install” step exists and is before Xcode Archive
+- [ ] CocoaPods error: ensure "CocoaPods Install" step exists and is before Xcode Archive
+- [ ] **Script step directory error**: If you see "Expected to find project root in current working directory", try these solutions:
+  1. **First, check if Git Clone Repository step exists**: This step MUST be at the very top of your workflow
+  2. **Check if Flutter is properly installed**: The Script step should run after Flutter Install step
+  3. **Verify working directory**: Make sure Script step has `$BITRISE_SOURCE_DIR` as Working Directory
+  4. **Alternative script content**: If still failing, try this script content:
+     ```bash
+     #!/bin/bash
+     set -ex
+     cd $BITRISE_SOURCE_DIR
+     pwd
+     ls -la
+     flutter --version
+     flutter pub get
+     ```
+  5. **Check Flutter Install step**: Make sure Flutter Install step completed successfully (green checkmark)
 - [ ] To see details: open the failed build → Logs → scroll to the first red error
 
 
