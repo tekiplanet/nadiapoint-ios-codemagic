@@ -61,7 +61,7 @@ dependencies:
   qr_flutter: ^4.1.0
   local_auth: ^2.1.8
   intl: ^0.18.0
-  mobile_scanner: ^3.5.6
+  mobile_scanner: ^3.2.0
   fl_chart: ^0.66.0
   flutter_dotenv: ^5.1.0
   country_picker: ^2.0.25
@@ -69,13 +69,13 @@ dependencies:
   image_picker: ^1.0.4
   # image_cropper: ^5.0.1
   image_cropper: ^9.1.0  
-  flutter_image_compress: ^2.4.0  
+  flutter_image_compress: ^2.3.0  
   auto_size_text: ^3.0.0
   flutter_speed_dial: ^7.0.0
   flutter_html: ^3.0.0-beta.2
-  firebase_core: ^2.32.0
-  firebase_auth: ^4.20.0
-  firebase_messaging: ^14.9.4
+  firebase_core: ^3.10.0
+  firebase_auth: ^5.4.0
+  firebase_messaging: ^15.2.7
 
 
   
@@ -179,5 +179,10 @@ flutter:
     - assets/animations/
     - assets/data/
     - assets/images/logo/
+
+# Force compatible dependency versions to resolve conflicts
+dependency_overrides:
+  google_ml_kit: ^0.16.3
+  web: ^1.1.0
 
 

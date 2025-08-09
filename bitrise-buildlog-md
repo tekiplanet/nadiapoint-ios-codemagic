@@ -1,10 +1,10 @@
 xcode_version: 16.4
 den_agent_version: 2.57.12
 stack_image_version: 2-108-3
-host_name: vm-osx-sequoia-16-g2.mac.large-18381437-d182-4097-9f63-1a798cc7dcfb
-node_name: US-EAST-IAD-1A-AM06-0212
-bitrise_cli_command: $ bitrise "run" "--config" "/var/folders/f6/wf2hj3cj75qdwmt5rn814r_00000gn/T/bitrise-agent3231545868/bitrise.yml" "--inventory" "/var/folders/f6/wf2hj3cj75qdwmt5rn814r_00000gn/T/bitrise-agent3231545868/bitrise.secrets.yml" "--json-params-base64" "eyJ3b3JrZmxvdyI6InByaW1hcnkifQ==" "--output-format" "json"
-Invocation started at 20:50:02
+host_name: vm-osx-sequoia-16-g2.mac.large-dd52835b-91b1-4b9c-b2b7-70353d5d6b11
+node_name: US-EAST-IAD-1A-AM06-0139
+bitrise_cli_command: $ bitrise "run" "--config" "/var/folders/f6/wf2hj3cj75qdwmt5rn814r_00000gn/T/bitrise-agent1541047927/bitrise.yml" "--inventory" "/var/folders/f6/wf2hj3cj75qdwmt5rn814r_00000gn/T/bitrise-agent1541047927/bitrise.secrets.yml" "--json-params-base64" "eyJ3b3JrZmxvdyI6InByaW1hcnkifQ==" "--output-format" "json"
+Invocation started at 20:52:55
 Bitrise CLI version: 2.33.0
 Run modes:
 CI mode: true
@@ -25,7 +25,7 @@ Step uses latest version, updating StepLib...
 +---+---------------------------------------------------------------+----------+
 
 +---+---------------------------------------------------------------+----------+
-| ✓ | Git Clone Repository                                          | 5.62 sec |
+| ✓ | Git Clone Repository                                          | 5.13 sec |
 +---+---------------------------------------------------------------+----------+
                                         ▼
 +------------------------------------------------------------------------------+
@@ -34,7 +34,7 @@ Step uses latest version, updating StepLib...
 +---+---------------------------------------------------------------+----------+
 
 +---+---------------------------------------------------------------+----------+
-| ✓ | Flutter Install                                               | 40.14 sec |
+| ✓ | Flutter Install                                               | 40.53 sec |
 +---+---------------------------------------------------------------+----------+
 | Update available: 0 (0.13.1) -> 1.0.0                                        |
 | Release notes are available below                                            |
@@ -49,37 +49,49 @@ Step uses latest version, updating StepLib...
 | version: 1.2.1                                                               |
 | collection: https://github.com/bitrise-io/bitrise-steplib.git                |
 | toolkit: bash                                                                |
-| time: 2025-08-09T20:50:48Z                                                   |
+| time: 2025-08-09T20:53:36Z                                                   |
 +------------------------------------------------------------------------------+
 |                                                                              |
 + cd /Users/vagrant/git
 + flutter clean
-Downloading Material fonts...                                      142ms
-Downloading Gradle Wrapper...                                       22ms
-Downloading package sky_engine...                                   61ms
-Downloading package flutter_gpu...                                  24ms
-Downloading flutter_patched_sdk tools...                           108ms
-Downloading flutter_patched_sdk_product tools...                    97ms
-Downloading darwin-arm64 tools...                                  763ms
-Downloading libimobiledevice...                                     25ms
-Downloading usbmuxd...                                              31ms
-Downloading libplist...                                             26ms
-Downloading openssl...                                              59ms
-Downloading ios-deploy...                                            7ms
-Downloading darwin-arm64/font-subset tools...                       62ms
-Cleaning Xcode workspace...                                      2,350ms
-Cleaning Xcode workspace...                                      2,019ms
+Downloading Material fonts...                                      147ms
+Downloading Gradle Wrapper...                                       24ms
+Downloading package sky_engine...                                   37ms
+Downloading package flutter_gpu...                                   6ms
+Downloading flutter_patched_sdk tools...                            83ms
+Downloading flutter_patched_sdk_product tools...                    77ms
+Downloading darwin-arm64 tools...                                  674ms
+Downloading libimobiledevice...                                     28ms
+Downloading usbmuxd...                                              27ms
+Downloading libplist...                                             21ms
+Downloading openssl...                                              52ms
+Downloading ios-deploy...                                           28ms
+Downloading darwin-arm64/font-subset tools...                       38ms
+Cleaning Xcode workspace...                                      2,686ms
+Cleaning Xcode workspace...                                      2,065ms
 + flutter pub get
 Resolving dependencies...
-Because firebase_messaging ^14.9.4 depends on firebase_core ^2.32.0 and NadiaPoint depends on firebase_core ^3.10.0, firebase_messaging ^14.9.4 is forbidden.
-So, because NadiaPoint depends on firebase_messaging ^14.9.4, version solving failed.
+Because firebase_messaging_web >=3.10.9 <3.10.10 depends on firebase_core ^3.15.1 and firebase_messaging_web ^3.10.10 depends on firebase_core ^3.15.2, firebase_messaging_web ^3.10.9 requires firebase_core ^3.15.1.
+And because firebase_messaging_web >=3.10.8 <3.10.9 depends on firebase_core ^3.15.0, firebase_messaging_web ^3.10.8 requires firebase_core ^3.15.0.
+And because firebase_messaging_web >=3.10.6 <3.10.7 depends on firebase_core ^3.13.1 and firebase_messaging_web >=3.10.5 <3.10.6 depends on firebase_core ^3.13.0, firebase_messaging_web >=3.10.5 <3.10.7-∞ or >=3.10.8 <4.0.0-∞ requires firebase_core ^3.13.0.
+And because firebase_messaging_web >=3.10.4 <3.10.5 depends on firebase_core ^3.12.1 and firebase_messaging_web >=3.10.3 <3.10.4 depends on firebase_core ^3.12.0, firebase_messaging_web >=3.10.3 <3.10.7-∞ or >=3.10.8 <4.0.0-∞ requires firebase_core ^3.12.0.
+And because firebase_messaging_web >=3.10.2 <3.10.3 depends on firebase_core ^3.11.0 and firebase_messaging_web >=3.10.1 <3.10.2 depends on firebase_core ^3.10.1, firebase_messaging_web >=3.10.1 <3.10.7-∞ or >=3.10.8 <4.0.0-∞ requires firebase_core ^3.10.1.
+And because firebase_messaging_web >=3.10.0 <3.10.1 depends on firebase_core ^3.10.0 and firebase_messaging_web >=3.9.5 <3.10.0 depends on firebase_core ^3.8.1, firebase_messaging_web >=3.9.5 <3.10.7-∞ or >=3.10.8 <4.0.0-∞ requires firebase_core ^3.8.1.
+And because firebase_messaging_web >=3.9.4 <3.9.5 depends on firebase_core ^3.8.0 and firebase_messaging_web >=3.9.3 <3.9.4 depends on firebase_core ^3.7.0, firebase_messaging_web >=3.9.3 <3.10.7-∞ or >=3.10.8 <4.0.0-∞ requires firebase_core ^3.7.0.
+And because firebase_messaging_web >=3.9.2 <3.9.3 depends on firebase_core ^3.6.0 and firebase_messaging_web >=3.9.1 <3.9.2 depends on firebase_core ^3.5.0, firebase_messaging_web >=3.9.1 <3.10.7-∞ or >=3.10.8 <4.0.0-∞ requires firebase_core ^3.5.0.
+And because firebase_messaging_web >=3.9.0 <3.9.1 depends on firebase_core ^3.4.1 and no versions of firebase_messaging_web match >3.10.7 <3.10.8, firebase_messaging_web >=3.9.0 <3.10.7-∞ or >3.10.7 <4.0.0-∞ requires firebase_core ^3.4.1.
+And because firebase_messaging_web 3.10.7 depends on firebase_core ^3.14.0 and firebase_messaging ^14.9.4 depends on firebase_messaging_web ^3.8.7, firebase_messaging ^14.9.4 requires firebase_core ^3.4.1 or firebase_messaging_web >=3.8.7 <3.9.0.
+And because firebase_messaging_web >=3.7.0 <3.9.0 depends on web ^0.5.1 and flutter_image_compress_web 0.1.5 depends on web ^1.1.0, if firebase_messaging ^14.9.4 and flutter_image_compress_web 0.1.5 then firebase_core ^3.4.1.
+And because no versions of flutter_image_compress_web match >0.1.5 <0.2.0 and flutter_image_compress 2.4.0 depends on flutter_image_compress_web ^0.1.5, if firebase_messaging ^14.9.4 and flutter_image_compress 2.4.0 then firebase_core ^3.4.1.
+And because no versions of flutter_image_compress match >2.4.0 <3.0.0 and NadiaPoint depends on flutter_image_compress ^2.4.0, firebase_messaging ^14.9.4 requires firebase_core ^3.4.1.
+So, because NadiaPoint depends on both firebase_core ^2.32.0 and firebase_messaging ^14.9.4, version solving failed.
 You can try the following suggestion to make the pubspec resolve:
-* Try upgrading your constraint on firebase_messaging: flutter pub add firebase_messaging:^15.2.7
+* Consider downgrading your constraint on flutter_image_compress: flutter pub add flutter_image_compress:^2.3.0
 Failed to update packages.
 exit status 1
 |                                                                              |
 +---+---------------------------------------------------------------+----------+
-| x | Script (Failed)                                               | 10.32 sec |
+| x | Script (Failed)                                               | 10.74 sec |
 +---+---------------------------------------------------------------+----------+
 | Issue tracker: https://github.com/bitrise-io/steps-script/issues             |
 | Source: https://github.com/bitrise-io/steps-script                           |
@@ -91,7 +103,7 @@ exit status 1
 +---+---------------------------------------------------------------+----------+
 
 +---+---------------------------------------------------------------+----------+
-| - | Run CocoaPods install (Skipped)                               | 0.76 sec |
+| - | Run CocoaPods install (Skipped)                               | 0.58 sec |
 +---+---------------------------------------------------------------+----------+
                                         ▼
 +------------------------------------------------------------------------------+
@@ -109,37 +121,41 @@ exit status 1
 +---+---------------------------------------------------------------+----------+
 
 +---+---------------------------------------------------------------+----------+
-| - | Deploy to App Store Connect - Application Loader... (Skipped) | 0.51 sec |
+| - | Deploy to App Store Connect - Application Loader... (Skipped) | 0.49 sec |
 +---+---------------------------------------------------------------+----------+
 +------------------------------------------------------------------------------+
 |                           bitrise summary: primary                           |
 +---+---------------------------------------------------------------+----------+
 |   | title                                                         | time (s) |
 +---+---------------------------------------------------------------+----------+
-| ✓ | Git Clone Repository                                          | 5.62 sec |
+| ✓ | Git Clone Repository                                          | 5.13 sec |
 +---+---------------------------------------------------------------+----------+
-| ✓ | Flutter Install                                               | 40.14 sec|
+| ✓ | Flutter Install                                               | 40.53 sec|
 +---+---------------------------------------------------------------+----------+
 | Update available: 0 (0.13.1) -> 1.0.0                                        |
 |                                                                              |
 | Release notes are available below                                            |
 | https://github.com/bitrise-steplib/bitrise-step-flutter-installer/releases   |
 +---+---------------------------------------------------------------+----------+
-| x | Script (Failed)                                               | 10.32 sec|
+| x | Script (Failed)                                               | 10.74 sec|
 +---+---------------------------------------------------------------+----------+
 | Issue tracker: https://github.com/bitrise-io/steps-script/issues             |
 | Source: https://github.com/bitrise-io/steps-script                           |
 +---+---------------------------------------------------------------+----------+
-| - | Run CocoaPods install (Skipped)                               | 0.76 sec |
+| - | Run CocoaPods install (Skipped)                               | 0.58 sec |
 +---+---------------------------------------------------------------+----------+
 | - | Flutter Build (Skipped)                                       | 0.47 sec |
 +---+---------------------------------------------------------------+----------+
-| - | Deploy to App Store Connect - Application Loader ... (Skipped)| 0.51 sec |
+| - | Deploy to App Store Connect - Application Loader ... (Skipped)| 0.49 sec |
 +---+---------------------------------------------------------------+----------+
-| Total runtime: 57.82 sec                                                     |
+| Total runtime: 57.95 sec                                                     |
 +------------------------------------------------------------------------------+
 Bitrise build failed (exit code: 1)
 ExitCode: 1
 RunError: exit status 1
 IsTimeout: false
 IsAborted: false
+
+
+
+

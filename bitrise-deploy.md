@@ -243,28 +243,46 @@ To update the CocoaPods specs, run: pod repo update
   mobile_scanner depends on GoogleUtilities/UserDefaults (~> 7.0)
 ```
 
-**NEWEST SOLUTION**: Downgrade dependencies to compatible versions:
+**NEWEST SOLUTION**: Comprehensive dependency conflict resolution:
 
 #### **Root Cause**: 
-Multiple dependency conflicts occurred when trying to update mobile_scanner:
-1. firebase_messaging (v15.2.7) vs mobile_scanner (v3.2.0) - GoogleUtilities conflict
-2. firebase_messaging (v15.2.7) vs mobile_scanner (v5.x) - GoogleDataTransport conflict
+Multiple cascading dependency conflicts:
+1. **Flutter pub level**: firebase_messaging_web vs flutter_image_compress_web - incompatible `web` package versions
+2. **CocoaPods level**: firebase_messaging vs mobile_scanner - GoogleUtilities version conflicts
 
-#### **Fix**: 
-Downgraded to mutually compatible versions in `pubspec.yaml`:
+#### **Comprehensive Fix**: 
+Updated `pubspec.yaml` with version resolution:
 ```yaml
 dependencies:
-  firebase_core: ^2.32.0       # Downgraded from 3.10.0
-  firebase_auth: ^4.20.0       # Downgraded from 5.4.0  
-  firebase_messaging: ^14.9.4  # Downgraded from 15.2.7
-  mobile_scanner: ^3.5.6       # Slightly newer than 3.2.0
+  firebase_core: ^3.10.0         # Back to compatible version
+  firebase_auth: ^5.4.0          # Back to compatible version  
+  firebase_messaging: ^15.2.7    # Back to latest working version
+  mobile_scanner: ^3.2.0         # Keep at stable version
+  flutter_image_compress: ^2.3.0 # Downgraded to fix web conflict
+
+# Force resolution of conflicting transitive dependencies
+dependency_overrides:
+  google_ml_kit: ^0.16.3
+  web: ^1.1.0
+```
+
+Updated `ios/Podfile`:
+```ruby
+target 'Runner' do
+  use_frameworks!
+  use_modular_headers!
+  flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
+  
+  # Force GoogleUtilities version to resolve dependency conflicts
+  pod 'GoogleUtilities', '~> 8.1'
+end
 ```
 
 #### **Why This Fixes It**:
-- All Firebase plugins now use compatible version ranges
-- firebase_messaging v14.x uses older GoogleUtilities/GoogleDataTransport versions
-- mobile_scanner v3.5.x is compatible with these older Google dependency versions
-- Avoids both Flutter pub get failures AND CocoaPods dependency conflicts
+- **flutter_image_compress ^2.3.0** uses compatible web package version
+- **dependency_overrides** forces resolution of transitive dependency conflicts
+- **Podfile override** forces GoogleUtilities ~> 8.1 which mobile_scanner can accept
+- Resolves conflicts at both Flutter and CocoaPods levels simultaneously
 
 **If the build succeeds:**
 - **Check App Store Connect** → My Apps → your app → TestFlight
