@@ -38,7 +38,7 @@ Tip: If you cannot see “Integrations” or “App Store Connect API,” you mu
 - [ ] Click **Save changes** (top right)
 - Note: The “Automatic webhook: Connected” can stay; with an empty trigger map, pushes/PRs won’t start builds. You can still start builds manually from the Builds page.
 
-#### 3) Configure the workflow steps
+#### 3) Configure the workflow step
 - [ ] Open Bitrise → **Workflows** (top right)
 - [ ] Select the default workflow (often `primary`)
 - [ ] Ensure these steps exist and are ordered exactly like this (top to bottom):
