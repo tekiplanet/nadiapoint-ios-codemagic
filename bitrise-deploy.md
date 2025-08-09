@@ -38,23 +38,58 @@ Tip: If you cannot see “Integrations” or “App Store Connect API,” you mu
 - [ ] Click **Save changes** (top right)
 - Note: The “Automatic webhook: Connected” can stay; with an empty trigger map, pushes/PRs won’t start builds. You can still start builds manually from the Builds page.
 
-#### 3) Configure the workflow step
+#### 3) Configure the workflow steps
 - [ ] Open Bitrise → **Workflows** (top right)
 - [ ] Select the default workflow (often `primary`)
-- [ ] Ensure these steps exist and are ordered exactly like this (top to bottom):
+- How to add a step here:
+  - Click the `Flutter Install` tile once so it’s selected
+  - Move your mouse just below it → click the purple **+ Add step** button that appears
+  - A Step Library pops up → search the step name → click **Add**
+  - Repeat: hover below the last step → **+ Add step** for the next item
+- [ ] Clean up old steps (if present): delete `Certificate and profile installer`, `Flutter Analyze`, `Flutter Test`, `Flutter Build`, and `Deploy to Bitrise.io - Build Artifacts` (trash/bin icon on each). Keep `Git Clone Repository` at the top.
+- [ ] Add and order the steps exactly like this (top to bottom):
   1. Flutter Install
   2. Flutter Pub Get
   3. CocoaPods Install
-  4. iOS Auto Provision with App Store Connect
+  4. Manage iOS Code Signing (App Store Connect)
   5. Xcode Archive & Export for iOS
   6. Deploy to App Store Connect (TestFlight)
-- [ ] In “iOS Auto Provision with App Store Connect” → select the API key you added and set Bundle ID to `com.nadiapoint.exchange`
+- [ ] In “Manage iOS Code Signing” set:
+  - Apple service connection method: Default (api-key)
+  - Distribution: `app-store`
+  - Project path: `ios/Runner.xcworkspace`
+  - Scheme: `Runner`
+  - Build configuration: `Release`
 - [ ] Click the “Xcode Archive & Export for iOS” step and set:
   - Project path: `ios/Runner.xcworkspace`
   - Scheme: `Runner`
   - Export method: `app-store`
 - [ ] In “Deploy to App Store Connect” → select the same API key integration
 - [ ] Save the workflow
+
+If you cannot find “Flutter Pub Get” in the Step Library
+- Add a step named **Script** right after `Flutter Install`
+- Script content:
+  ```bash
+  #!/bin/bash
+  set -ex
+  flutter pub get
+  ```
+
+ Progress (mark as you go)
+- [x] Added Script step to run `flutter pub get`
+- [x] Added CocoaPods Install (choose step named “Run CocoaPods install”; set Workdir to `$BITRISE_SOURCE_DIR/ios`, leave others default)
+- [x] Added Manage iOS Code Signing and configured fields
+- [ ] Configured Xcode Archive & Export for iOS
+- [ ] Added Deploy to App Store Connect
+- [ ] Saved workflow
+
+- Notes while adding steps
+- If you can’t find “iOS Auto Provision with App Store Connect”, use the newer step named “Manage iOS Code Signing” (it replaces Auto Provision). If neither shows:
+  1) Click **Clear filters** and search `Code Signing`.
+  2) Click the **Step bundle** tab and ensure “Bitrise Step Library (Official)” is enabled, then search again.
+  3) If still nothing, continue with the next step (Xcode Archive & Export) and we’ll revisit.
+- Configure Auto Provision: Connection = your API key, Distribution type = `app-store`, Bundle ID = `com.nadiapoint.exchange`.
 
 #### 4) Start a build
 - [ ] Go to Builds → click “Start build” (branch `main`) or “Rebuild” the last one
