@@ -228,7 +228,7 @@ When you click "Start build", Bitrise will use the **default workflow** for your
       GoogleUtilities/UserDefaults (~> 7.0)
 ```
 
-**LATEST SOLUTION**: Removed ALL conflicting version constraints
+**LATEST SOLUTION**: Added dependency overrides to force compatible versions
 
 #### **Root Cause**: 
 Multiple version conflicts between forced Podfile constraints and plugin requirements:
@@ -253,13 +253,18 @@ end
 # Force compatible dependency versions to resolve conflicts
 dependency_overrides:
   # web: ^1.1.0  # Commented out to avoid potential conflicts
+  # Force GoogleUtilities to a compatible version for both firebase_messaging and mobile_scanner
+  google_utilities: ^7.11.5
+  # Force GoogleMLKit to a compatible version for mobile_scanner
+  google_mlkit_barcode_scanning: ^0.10.0
 ```
 
 #### **Why This Fixes It**:
-- **Removed ALL version constraints** - lets all plugins specify their own compatible versions
+- **Added specific version overrides** - forces compatible versions that work with both plugins
+- **google_utilities: ^7.11.5** - compatible with both firebase_messaging and mobile_scanner
+- **google_mlkit_barcode_scanning: ^0.10.0** - compatible with mobile_scanner requirements
 - **Commented out web override** - prevents potential conflicts with other packages
-- **Lets plugins manage their own dependencies** - prevents future conflicts
-- **CocoaPods will resolve to compatible versions** - automatically finds working combinations
+- **CocoaPods will use the overridden versions** - resolves the dependency conflict
 
 **PREVIOUS ERRORS** (ALL FIXED):
 - ✅ **Invalid Podfile**: Replaced with standard Flutter Podfile
@@ -280,6 +285,7 @@ dependency_overrides:
 **CHANGES MADE IN THIS SESSION**:
 - ✅ **Fixed CocoaPods GoogleMLKit conflict** - Removed version constraint in Podfile
 - ✅ **Fixed CocoaPods GoogleUtilities conflict** - Removed version constraint in Podfile
+- ✅ **Added dependency overrides** - Force compatible versions in pubspec.yaml
 - ✅ **Commented out web dependency override** - Prevented potential conflicts
 - ✅ **Updated documentation** - Added latest fix to deployment checklist
 

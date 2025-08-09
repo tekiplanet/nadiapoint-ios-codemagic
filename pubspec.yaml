@@ -183,5 +183,9 @@ flutter:
 # Force compatible dependency versions to resolve conflicts
 dependency_overrides:
   # web: ^1.1.0  # Commented out to avoid potential conflicts
+  # Force GoogleUtilities to a compatible version for both firebase_messaging and mobile_scanner
+  google_utilities: ^7.11.5
+  # Force GoogleMLKit to a compatible version for mobile_scanner
+  google_mlkit_barcode_scanning: ^0.10.0
 
 
