@@ -28,6 +28,11 @@
 		<string>LaunchScreen</string>
 		<key>UIMainStoryboardFile</key>
 		<string>Main</string>
+		<key>NSAppTransportSecurity</key>
+		<dict>
+			<key>NSAllowsArbitraryLoads</key>
+			<false/>
+		</dict>
 		<key>UISupportedInterfaceOrientations</key>
 		<array>
 			<string>UIInterfaceOrientationPortrait</string>
@@ -45,12 +50,40 @@
 		<true/>
 		<key>UIApplicationSupportsIndirectInputEvents</key>
 		<true/>
+		<key>NSFaceIDUsageDescription</key>
+		<string>This app uses Face ID to authenticate you quickly and securely</string>
 		<key>NSCameraUsageDescription</key>
 		<string>This app needs access to camera to capture images</string>
 		<key>NSMicrophoneUsageDescription</key>
 		<string>We need access to your microphone for video verification</string>
 		<key>NSPhotoLibraryUsageDescription</key>
 		<string>This app needs access to photo library to select images</string>
+		<key>NSPhotoLibraryAddUsageDescription</key>
+		<string>Allow adding images to your photo library when you export or save media</string>
+		<key>UIBackgroundModes</key>
+		<array>
+			<string>fetch</string>
+			<string>remote-notification</string>
+		</array>
+		<key>LSApplicationQueriesSchemes</key>
+		<array>
+			<string>fbapi</string>
+			<string>fb-messenger-share-api</string>
+			<string>fbauth2</string>
+			<string>fbshareextension</string>
+			<string>google</string>
+		</array>
+		<key>CFBundleURLTypes</key>
+		<array>
+			<dict>
+				<key>CFBundleTypeRole</key>
+				<string>Editor</string>
+				<key>CFBundleURLSchemes</key>
+				<array>
+					<string>com.googleusercontent.apps.758477052887-7c9op4hpajmh3o3irpaa3qfdlcf9c90f</string>
+				</array>
+			</dict>
+		</array>
 		<key>UIStatusBarHidden</key>
 		<true/>
 		<key>UIViewControllerBasedStatusBarAppearance</key>
