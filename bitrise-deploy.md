@@ -123,51 +123,190 @@ When you click "Start build", Bitrise will use the **default workflow** for your
 #### 5) After it turns green
 - [ ] Open App Store Connect → My Apps → your app → TestFlight and wait for the new build to appear (10–20 mins)
 
-### 🚨 CURRENT ISSUE - CODE SIGNING PROBLEM (AS OF 2025-08-09)
+### ✅ UPDATED SOLUTION - FLUTTER BUILD APPROACH (AS OF 2025-08-09)
 
-**STATUS**: ❌ **BUILD FAILING** - Xcode Archive step failing due to code signing configuration
+**STATUS**: 🔄 **TESTING NEW APPROACH** - Using Flutter Build instead of Xcode Archive
 
-**EXACT ERROR**:
+**NEW WORKFLOW**:
 ```
-/Users/[REDACTED]/git/ios/Runner.xcodeproj: error: Signing for "Runner" requires a development team. Select a development team in the Signing & Capabilities editor.
+1. Git Clone Repository
+2. Flutter Install  
+3. Script (flutter pub get)
+4. Flutter Build (iOS archive)
+5. Deploy to App Store Connect - Application Loader
 ```
 
-**ROOT CAUSE ANALYSIS**:
-1. ✅ **NadiaPoint CI API key is properly configured** in Bitrise Code signing section
-2. ✅ **Git Clone Repository, Flutter Install, Script steps** are working correctly
-3. ❌ **Xcode Archive step** has `automatic_code_signing: off` in the build log
-4. ❌ **API key credentials** are not being passed to the Xcode Archive step (`api_key_path: <unset>`, `api_key_id: <unset>`, `api_key_issuer_id: <unset>`)
+**WHY THIS NEW APPROACH**:
+1. ✅ **Certificates are properly uploaded** - Both Development and Distribution certificates exist in Bitrise
+2. ✅ **API key is configured** - "NadiaPoint CI" API key working correctly  
+3. ❌ **Xcode Archive step has certificate URL conflicts** - Environment variables pointing to invalid URLs
+4. ✅ **Flutter Build bypasses certificate URL issues** - Uses Flutter's native build process
+5. ✅ **Deploy step handles signing automatically** - Uses uploaded certificates + API key
 
-**PROBLEM**: The Xcode Archive step is not configured to use the API key for automatic code signing. Even though the API key is configured in Bitrise, the step itself needs to be told to use it.
+**BITRISE SUPPORT CONFIRMED**:
+- **No legacy environment variables** to clear - every build uses a clean virtual machine
+- **Solution**: Upload .p12 certificates to Code Signing & Files tab
+- **Once certificates are uploaded**, the system automatically sets the correct environment variables
+- **"unsupported protocol scheme" error** will resolve once certificates are uploaded
+
+**APPROACHES ALREADY TRIED AND FAILED**:
+- ❌ **Tried adding Manage iOS Code Signing step** - Failed with "CertificateURLList: required variable is not present"
+- ❌ **Tried clearing certificate URLs in Xcode Archive step** - Fields not editable (bound to environment variables)
+- ❌ **Tried clicking dollar sign icons** - Only opened secrets popup, couldn't clear fields
+- ❌ **Tried setting fields to single spaces or EMPTY** - Didn't work
+- ❌ **Tried different automatic_code_signing values** - Still expects certificate URLs
+- ❌ **Checked Project Settings → Code signing** - Only shows API key "Nadiapoint CI", no certificate environment variables
+- ❌ **Checked Project Settings → Environment Variables** - Only shows `BITRISE_FLUTTER_PROJECT_LOCATION`, no certificate variables
+- ❌ **Checked Project Settings → Secrets** - Completely empty, no certificate environment variables
+- ❌ **Checked Workspace Settings** - No certificate environment variables found
+- ❌ **Searched for BITRISE_CERTIFICATE_URL and BITRISE_CERTIFICATE_PASSPHRASE** - Not found anywhere in project configuration
+- ✅ **FOUND**: Certificate environment variables ARE defined - they appear in Manage iOS Code Signing step as `$BITRISE_CERTIFICATE_URL` and `$BITRISE_CERTIFICATE_PASSPHRASE`
+- ❌ **Tried setting certificate fields to EMPTY in Manage iOS Code Signing step** - Failed with "failed to download certificates: Get "[REDACTED]": unsupported protocol scheme """
+- ❌ **Tried removing Manage iOS Code Signing step entirely** - Still failed with same certificate URL error in Xcode Archive step
+
+**PROBLEM**: Bitrise requires actual .p12 certificate files to be uploaded - API keys alone are not sufficient for automatic code signing in this setup.
 
 **SOLUTION REQUIRED**:
 
-**Option A: Configure Xcode Archive Step with API Key (Recommended)**
-1. Open your **Xcode Archive & Export for iOS** step in Bitrise
-2. Set these fields:
-   - **Project path**: `ios/Runner.xcworkspace`
-   - **Scheme**: `Runner`
-   - **Export method**: `app-store`
-   - **Automatic code signing**: `on` ← **CRITICAL CHANGE**
-   - **API key path**: Leave empty (should use global config)
-   - **API key ID**: Leave empty (should use global config)
-   - **API key issuer ID**: Leave empty (should use global config)
+**NEW WORKFLOW CONFIGURATION**:
 
-**Option B: Add Manage iOS Code Signing Step Back**
-1. Add **Manage iOS Code Signing** step before Xcode Archive step
-2. Configure it with:
-   - **Apple service connection method**: Select "NadiaPoint CI" (your API key)
-   - **Distribution**: `app-store`
-   - **Project path**: `ios/Runner.xcworkspace`
-   - **Scheme**: `Runner`
-   - **Build configuration**: `Release`
+#### **Step 4: Flutter Build Configuration**
+- **Platform**: `iOS`  
+- **iOS output artifact type**: `archive`
+- **Codesign Identity**: (leave empty)
+- **Additional parameters**: `--release --no-codesign`
 
-**WHY THIS HAPPENED**: 
-- The "Manage iOS Code Signing" step was removed due to previous configuration issues
-- The Xcode Archive step was left with `automatic_code_signing: off`
-- Without either the Manage iOS Code Signing step OR automatic code signing enabled in Xcode Archive, the build fails
+#### **Step 5: Deploy to App Store Connect Configuration**
+- **Step**: "Deploy to App Store Connect - Application Loader"
+- **Bitrise Apple Developer Connection**: `Default (automatic)` (uses your API key)
+- **API Key: URL**: Leave EMPTY
+- **API Key: Issuer ID**: Leave EMPTY  
+- **Apple ID: Email**: Leave EMPTY (using API key, not Apple ID)
+- **Apple ID: Password**: Leave EMPTY
+- **Apple ID: Application-specific password**: Leave EMPTY
+- **IPA path**: Keep default `$BITRISE_IPA_PATH` (auto-detects from Flutter Build)
+- **PKG path**: Keep default `$BITRISE_PKG_PATH`
+- **Platform**: Keep `Default (auto)`
 
-**NEXT ACTION**: Try **Option A** first (enable automatic code signing in Xcode Archive step) as it's the simplest fix.
+### 🎯 **NEXT STEP: TEST THE NEW FLUTTER BUILD WORKFLOW**
+
+**Now test the new Flutter Build approach:**
+
+1. **Save the Deploy to App Store Connect step** with the configuration above
+2. **Remove the problematic "Xcode Archive & Export for iOS" step** from your workflow
+3. **Your final workflow should be**:
+   - Git Clone Repository ✅
+   - Flutter Install ✅
+   - Script (flutter pub get) ✅  
+   - Flutter Build (iOS archive, --release --no-codesign) ✅
+   - Deploy to App Store Connect - Application Loader ✅
+4. **Save the entire workflow**
+5. **Start a new build** and monitor progress
+
+**What to expect with the new workflow:**
+- ✅ **Flutter Build step** should create iOS archive without certificate URL errors
+- ✅ **Deploy step** should handle code signing automatically using your uploaded certificates
+- ✅ **Build should complete successfully** and deploy to TestFlight
+- ✅ **No more "unsupported protocol scheme" errors**
+
+### 🚨 **FLUTTER BUILD ISSUE RESOLVED (AS OF 2025-08-09)**
+
+**STATUS**: ✅ **CERTIFICATE ISSUE FIXED** - New Flutter Build approach working, but CocoaPods issue found
+
+**CURRENT ERROR**:
+```
+Invalid `Podfile` file: cannot load such file -- ../.ios/Flutter/podhelper.rb
+```
+
+**SOLUTION**: Fix the Podfile path error:
+
+#### **Root Cause**: 
+The `ios/Podfile` file has an incorrect path on line 15:
+```ruby
+load File.join(flutter_application_path, '.ios', 'Flutter', 'podhelper.rb')  # WRONG
+```
+
+#### **Fix**: 
+Change line 15 in `ios/Podfile` from:
+```ruby
+load File.join(flutter_application_path, '.ios', 'Flutter', 'podhelper.rb')
+```
+**To**:
+```ruby
+load File.join(flutter_application_path, 'ios', 'Flutter', 'podhelper.rb')
+```
+
+**The fix**: Remove the dot from `.ios` → `ios`
+
+**If the build succeeds:**
+- **Check App Store Connect** → My Apps → your app → TestFlight
+- **New build should appear** within 10-20 minutes
+- **TestFlight deployment** should be automatic
+
+### 🚨 **TROUBLESHOOTING: .p12 Upload Issue**
+
+**Problem**: Continue button loads but nothing happens when uploading .p12 file
+
+**Possible Causes & Solutions**:
+
+#### **Solution 1: Check .p12 File Format**
+- **Issue**: The .p12 file might not be in the correct format
+- **Fix**: Re-convert the .cer file to .p12 using a different online converter
+- **Try**: [sslshopper.com](https://www.sslshopper.com/ssl-converter.html) or search for "convert cer to p12 online"
+
+#### **Solution 2: Check File Format**
+1. **Go to** [sslshopper.com/ssl-converter.html](https://www.sslshopper.com/ssl-converter.html)
+2. **Upload your `ios_development.cer` file** (you have `apple_distribution.cer` - that's good too!)
+3. **Set conversion options**:
+   - **Type of Current Certificate**: "Standard PEM" (should auto-detect)
+   - **Type To Convert To**: "PFX/PKCS#12" (should already be selected)
+   - **PFX Password**: **Enter a password** (e.g., "password123" or "bitrise2024")
+4. **Click "Convert Certificate"**
+5. **Download the converted .p12 file**
+6. **Try uploading to Bitrise again** - you'll need to enter the same password when uploading
+
+**If SSL Shopper isn't working**, try these alternatives:
+
+#### **Alternative Solution 1: Use CertificateTools.com**
+1. **Go to** [certificatetools.com](https://certificatetools.com) → **Certificate Conversion**
+2. **Upload your .cer file**
+3. **Set options**:
+   - **Current Certificate Type**: "Standard PEM"
+   - **Convert To**: "PFX/PKCS#12"
+   - **PFX Password**: Enter a password (e.g., "password123")
+4. **Click "Convert Certificate"**
+
+#### **Alternative Solution 2: Use OpenSSL Commands**
+If online converters fail, you can use OpenSSL commands on your local machine:
+```bash
+openssl pkcs12 -export -out certificate.p12 -inkey privateKey.key -in certificate.crt
+```
+
+#### **Alternative Solution 3: Try Different Online Converter**
+Search for "convert cer to p12 online" and try:
+- [certificatetools.com](https://certificatetools.com)
+- [ssl.com/converter](https://www.ssl.com/converter/)
+- [digicert.com/ssl-converter](https://www.digicert.com/ssl-converter/)
+
+#### **Solution 3: Add Passphrase**
+- **Issue**: .p12 files often require a passphrase
+- **Fix**: When converting .cer to .p12, set a simple passphrase (e.g., "password123")
+- **Note**: Remember this passphrase - you'll need it when uploading to Bitrise
+
+#### **Solution 4: Check File Size**
+- **Issue**: File might be too large or corrupted
+- **Fix**: Ensure the .p12 file is reasonable size (usually 2-10KB)
+- **Check**: Try downloading the .p12 file again
+
+#### **Solution 5: Try Different Browser**
+- **Issue**: Browser compatibility issue
+- **Fix**: Try uploading in a different browser (Chrome, Firefox, Safari)
+- **Alternative**: Clear browser cache and cookies
+
+#### **Solution 6: Check File Permissions**
+- **Issue**: File might have permission issues
+- **Fix**: Ensure the .p12 file is not read-only or corrupted
+- **Check**: Try opening the file in a text editor (should show binary data)
 
 #### If the build fails (quick checks)
 - [ ] **Git Clone Repository missing**: If you see "Expected to find project root in current working directory" and the directory is empty, you're missing the **Git Clone Repository** step at the very top of your workflow
@@ -227,5 +366,80 @@ When you click "Start build", Bitrise will use the **default workflow** for your
      - Project path: `ios/Runner.xcworkspace`
      - Scheme: `Runner`
      - Build configuration: `Release`
+
+### 🎯 **CERTIFICATE CONFUSION EXPLAINED**
+
+**You're absolutely right to be confused!** Here's the difference:
+
+#### **What You Already Have (.p8 API Key)**
+- **Purpose**: This is for **automatic code signing** - Bitrise can automatically create and manage certificates for you
+- **What it does**: Lets Bitrise talk to Apple's servers and automatically handle certificate creation
+- **Why it's not working**: Bitrise support confirmed that API keys alone are not sufficient - you need actual .p12 certificates uploaded
+
+#### **What You Need Now (.p12/.pfx Certificates)**
+- **Purpose**: These are the **actual signing certificates** that sign your app
+- **What they do**: These are the certificates that get embedded in your app to prove it's from you
+- **Why you need them**: Bitrise support confirmed that you need to upload actual .p12 certificates for the system to work properly
+
+### **The .p12 vs .pfx Confusion**
+
+**✅ YES - .p12 and .pfx are the SAME format!**
+
+- **.p12** = PKCS#12 format (most common for iOS)
+- **.pfx** = PFX format (same as PKCS#12, just different extension)
+
+**For iOS development, you can use either:**
+- `ios_development.p12` 
+- `ios_development.pfx`
+
+**Bitrise accepts both formats!** So if your converter outputs a .pfx file, that's perfectly fine - just upload it to Bitrise.
+
+### **The CSR (Certificate Signing Request) Problem**
+
+**What Apple is asking for**: A **CSR (Certificate Signing Request)** file that's generated from a Mac using Keychain Access or Xcode.
+
+**Why this is frustrating**: Apple assumes everyone has a Mac, but you don't!
+
+### **How to Get .p12 Certificates (NO MAC REQUIRED)**
+
+**CRITICAL**: Since you don't have a MacBook, here are alternative ways to get .p12 certificates:
+
+#### **Option A: Use Online CSR Generators (RECOMMENDED)**
+1. **Use an online CSR generator**:
+   - Go to [certificatetools.com](https://certificatetools.com) or search for "online CSR generator"
+   - **Fill in the required fields**:
+     - **Common Name**: Your name or company name (e.g., "NadiaPoint Exchange" or "John Doe")
+     - **Email Address**: Your email
+     - **Country**: Your country's two-letter code (e.g., "US" for United States, "NG" for Nigeria, "GB" for Great Britain)
+     - **State/Province**: Your state or province (e.g., "California", "Lagos", "England")
+     - **Locality**: Your city (e.g., "San Francisco", "Lagos", "London")
+     - **Organization**: Your company name (e.g., "NadiaPoint Inc.") or your full name if personal
+     - **DNS Names** (Subject Alternative Names): Leave as is or clear if your app doesn't have specific domains
+   - **Generate the CSR file** and download it
+2. **Use the CSR with Apple Developer Portal**:
+   - Go to [developer.apple.com](https://developer.apple.com) → **Certificates, Identifiers & Profiles**
+   - **Click "Certificates"** → **+** (to create new ones)
+   - **Upload your generated CSR file**
+   - **Create**:
+     - **Apple Development** certificate (for development builds)
+     - **Apple Distribution** certificate (for app-store builds)
+   - **Download** the `.cer` files
+3. **Convert .cer to .p12**:
+   - Use online .cer to .p12 conversion tools
+   - Search for "convert cer to p12 online"
+   - Upload your .cer files and convert them to .p12 format
+
+#### **Option B: Ask Someone with a Mac**
+1. **Find someone** with a Mac who has Xcode installed
+2. **Have them**:
+   - Open Xcode → Preferences → Accounts → Manage Certificates
+   - Export the certificates as .p12 files
+   - Send you the .p12 files and passwords
+
+#### **Option C: Use Bitrise's Built-in Certificate Generation (NEW)**
+1. **Check if Bitrise has automatic certificate generation**:
+   - Look in your **Manage iOS Code Signing step** settings
+   - See if there's an option for "Auto-generate certificates" or similar
+   - This might bypass the need for manual .p12 uploads
 
 

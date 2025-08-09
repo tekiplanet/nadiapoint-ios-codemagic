@@ -1,10 +1,10 @@
+bitrise_cli_command: $ bitrise "run" "--config" "/var/folders/f6/wf2hj3cj75qdwmt5rn814r_00000gn/T/bitrise-agent2194731199/bitrise.yml" "--inventory" "/var/folders/f6/wf2hj3cj75qdwmt5rn814r_00000gn/T/bitrise-agent2194731199/bitrise.secrets.yml" "--json-params-base64" "eyJ3b3JrZmxvdyI6InByaW1hcnkifQ==" "--output-format" "json"
+xcode_version: 16.4
 den_agent_version: 2.57.12
 stack_image_version: 2-108-3
-host_name: vm-osx-sequoia-16-g2.mac.large-b294ca68-c565-431c-abb3-68f866e95b2b
-node_name: US-EAST-IAD-1A-AM06-0139
-bitrise_cli_command: $ bitrise "run" "--config" "/var/folders/f6/wf2hj3cj75qdwmt5rn814r_00000gn/T/bitrise-agent767653585/bitrise.yml" "--inventory" "/var/folders/f6/wf2hj3cj75qdwmt5rn814r_00000gn/T/bitrise-agent767653585/bitrise.secrets.yml" "--json-params-base64" "eyJ3b3JrZmxvdyI6InByaW1hcnkifQ==" "--output-format" "json"
-xcode_version: 16.4
-Invocation started at 16:17:38
+host_name: vm-osx-sequoia-16-g2.mac.large-6a3878ad-716a-4110-82e8-7af0a810cf7b
+node_name: US-EAST-IAD-1A-AM06-0212
+Invocation started at 19:14:09
 Bitrise CLI version: 2.33.0
 Run modes:
 CI mode: true
@@ -25,7 +25,7 @@ Step uses latest version, updating StepLib...
 +---+---------------------------------------------------------------+----------+
 
 +---+---------------------------------------------------------------+----------+
-| ✓ | Git Clone Repository                                          | 5.28 sec |
+| ✓ | Git Clone Repository                                          | 4.98 sec |
 +---+---------------------------------------------------------------+----------+
                                         ▼
 +------------------------------------------------------------------------------+
@@ -34,7 +34,7 @@ Step uses latest version, updating StepLib...
 +---+---------------------------------------------------------------+----------+
 
 +---+---------------------------------------------------------------+----------+
-| ✓ | Flutter Install                                               | 39.91 sec |
+| ✓ | Flutter Install                                               | 40.45 sec |
 +---+---------------------------------------------------------------+----------+
 | Update available: 0 (0.13.1) -> 1.0.0                                        |
 | Release notes are available below                                            |
@@ -47,93 +47,113 @@ Step uses latest version, updating StepLib...
 +---+---------------------------------------------------------------+----------+
 
 +---+---------------------------------------------------------------+----------+
-| ✓ | Script                                                        | 23.97 sec |
+| ✓ | Script                                                        | 24.11 sec |
 +---+---------------------------------------------------------------+----------+
                                         ▼
 +------------------------------------------------------------------------------+
 
-| (3) Xcode Archive & Export for iOS                                           |
+| (3) Flutter Build                                                            |
 +------------------------------------------------------------------------------+
-| id: xcode-archive                                                            |
-| version: 5.8.0                                                               |
+| id: flutter-build                                                            |
+| version: 0.17.0                                                              |
 | collection: https://github.com/bitrise-io/bitrise-steplib.git                |
 | toolkit: go                                                                  |
-| time: 2025-08-09T16:18:48Z                                                   |
+| time: 2025-08-09T19:15:14Z                                                   |
 +------------------------------------------------------------------------------+
 |                                                                              |
-Inputs:
-- project_path: ios/Runner.xcworkspace
-- scheme: Runner
-- distribution_method: app-store
-- platform: detect
-- configuration: <unset>
-- xcconfig_content: COMPILER_INDEX_STORE_ENABLE = NO
-- perform_clean_action: false
-- xcodebuild_options: <unset>
-- log_formatter: xcpretty
-- automatic_code_signing: api-key
-- register_test_devices: false
-- test_device_list_path: <unset>
-- min_profile_validity: 0
-- certificate_url_list: <unset>
-- passphrase_list: <unset>
-- keychain_path: /Users/[REDACTED]/Library/Keychains/login.keychain
-- keychain_password: *****
-- fallback_provisioning_profile_url_list: <unset>
-- export_development_team: <unset>
-- compile_bitcode: true
-- upload_bitcode: true
-- icloud_container_environment: <unset>
-- testflight_internal_testing_only: false
-- export_options_plist_content: <unset>
-- output_dir: /Users/[REDACTED]/deploy
-- export_all_dsyms: true
-- artifact_name: <unset>
-- cache_level: swift_packages
-- api_key_path: <unset>
-- api_key_id: <unset>
-- api_key_issuer_id: <unset>
-- api_key_enterprise_account: false
-- verbose_log: false
-- BITRISE_BUILD_URL: https://app.bitrise.io/build/c9239dc5-55f3-4200-932e-1d852f6ff608
-- BITRISE_BUILD_API_TOKEN: *****
-Xcode version:
-Xcode 16.4 (16F6)
-Failed to process Step inputs:
-  failed to prepare automatic code signing:
-    code signing certificate URL is not specified
-Failed to process Step inputs:
-  failed to prepare automatic code signing:
-    code signing certificate URL is not specified
+Config:
+- project_location: /Users/vagrant/git
+- platform: ios
+- additional_build_params: <unset>
+- is_debug_mode: false
+- cache_level: all
+- ios_output_type: archive
+- ios_additional_params: --release --no-codesign
+- ios_output_pattern: [*build/ios/iphoneos/*.app *build/ios/archive/*.xcarchive]
+- ios_codesign_identity: <unset>
+- android_output_type: apk
+- android_additional_params: --release
+- android_output_pattern: [*build/app/outputs/apk/*/*.apk *build/app/outputs/bundle/*/*.aab]
+- android_bundle_output_pattern: [*build/app/outputs/bundle/*/*.aab]
+iOS Codesign settings
+ - Skipping codesign preparation, --no-codesign parameter set
+Build iOS app
+$ flutter "build" "ipa" "--release" "--no-codesign"
+Downloading ios tools...                                         1,715ms
+Downloading ios-profile tools...                                 1,478ms
+Downloading ios-release tools...                                 2,143ms
+Warning: Building for device with codesigning disabled. You will have to manually codesign before deploying to device.
+Archiving com.nadiapoint.exchange...
+.gitignore does not ignore Swift Package Manager build directories, updating.
+Upgrading Runner.xcscheme
+Running pod install...                                             482ms
+CocoaPods' output:
+↳
+    [!] Invalid `Podfile` file: cannot load such file -- ../.ios/Flutter/podhelper.rb.
+     #  from /Users/vagrant/git/ios/Podfile:15
+     #  -------------------------------------------
+     #    flutter_application_path = '../'
+     >    load File.join(flutter_application_path, '.ios', 'Flutter', 'podhelper.rb')
+     #    install_all_flutter_pods(flutter_application_path)
+     #  -------------------------------------------
+    /Users/vagrant/.asdf/installs/ruby/3.3.7/lib/ruby/gems/3.3.0/gems/cocoapods-core-1.16.2/lib/cocoapods-core/podfile.rb:335:in `rescue in block in from_ruby'
+    /Users/vagrant/.asdf/installs/ruby/3.3.7/lib/ruby/gems/3.3.0/gems/cocoapods-core-1.16.2/lib/cocoapods-core/podfile.rb:329:in `block in from_ruby'
+    /Users/vagrant/.asdf/installs/ruby/3.3.7/lib/ruby/gems/3.3.0/gems/cocoapods-core-1.16.2/lib/cocoapods-core/podfile.rb:50:in `instance_eval'
+    /Users/vagrant/.asdf/installs/ruby/3.3.7/lib/ruby/gems/3.3.0/gems/cocoapods-core-1.16.2/lib/cocoapods-core/podfile.rb:50:in `initialize'
+    /Users/vagrant/.asdf/installs/ruby/3.3.7/lib/ruby/gems/3.3.0/gems/cocoapods-core-1.16.2/lib/cocoapods-core/podfile.rb:327:in `new'
+    /Users/vagrant/.asdf/installs/ruby/3.3.7/lib/ruby/gems/3.3.0/gems/cocoapods-core-1.16.2/lib/cocoapods-core/podfile.rb:327:in `from_ruby'
+    /Users/vagrant/.asdf/installs/ruby/3.3.7/lib/ruby/gems/3.3.0/gems/cocoapods-core-1.16.2/lib/cocoapods-core/podfile.rb:293:in `from_file'
+    /Users/vagrant/.asdf/installs/ruby/3.3.7/lib/ruby/gems/3.3.0/gems/cocoapods-1.16.2/lib/cocoapods/config.rb:206:in `podfile'
+    /Users/vagrant/.asdf/installs/ruby/3.3.7/lib/ruby/gems/3.3.0/gems/cocoapods-1.16.2/lib/cocoapods/command.rb:160:in `verify_podfile_exists!'
+    /Users/vagrant/.asdf/installs/ruby/3.3.7/lib/ruby/gems/3.3.0/gems/cocoapods-1.16.2/lib/cocoapods/command/install.rb:46:in `run'
+    /Users/vagrant/.asdf/installs/ruby/3.3.7/lib/ruby/gems/3.3.0/gems/claide-1.1.0/lib/claide/command.rb:334:in `run'
+    /Users/vagrant/.asdf/installs/ruby/3.3.7/lib/ruby/gems/3.3.0/gems/cocoapods-1.16.2/lib/cocoapods/command.rb:52:in `run'
+    /Users/vagrant/.asdf/installs/ruby/3.3.7/lib/ruby/gems/3.3.0/gems/cocoapods-1.16.2/bin/pod:55:in `<top (required)>'
+    /Users/vagrant/.asdf/installs/ruby/3.3/bin/pod:25:in `load'
+    /Users/vagrant/.asdf/installs/ruby/3.3/bin/pod:25:in `<main>'
+Error running pod install
+Run: failed to build iOS app: exit status 1
+Run: failed to build iOS app: exit status 1
 |                                                                              |
 +---+---------------------------------------------------------------+----------+
-| x | Xcode Archive & Export for iOS (Failed)                       | 10.89 sec |
+| x | Flutter Build (Failed)                                        | 25.07 sec |
 +---+---------------------------------------------------------------+----------+
-| Issue tracker: https://github.com/bitrise-steplib/steps-xcode-archive/issues |
-| Source: https://github.com/bitrise-steplib/steps-xcode-archive               |
+| Issue tracker: https://github.com/bitrise-steplib/bitrise-step-flutter-bu... |
+| Source: https://github.com/bitrise-steplib/bitrise-step-flutter-build        |
++---+---------------------------------------------------------------+----------+
+                                        ▼
++------------------------------------------------------------------------------+
+
+| (4) Deploy to App Store Connect - Application Loader (formerly iTunes Con... |
++---+---------------------------------------------------------------+----------+
+
++---+---------------------------------------------------------------+----------+
+| - | Deploy to App Store Connect - Application Loader... (Skipped) | 0.48 sec |
 +---+---------------------------------------------------------------+----------+
 +------------------------------------------------------------------------------+
 |                           bitrise summary: primary                           |
 +---+---------------------------------------------------------------+----------+
 |   | title                                                         | time (s) |
 +---+---------------------------------------------------------------+----------+
-| ✓ | Git Clone Repository                                          | 5.28 sec |
+| ✓ | Git Clone Repository                                          | 4.98 sec |
 +---+---------------------------------------------------------------+----------+
-| ✓ | Flutter Install                                               | 39.91 sec|
+| ✓ | Flutter Install                                               | 40.45 sec|
 +---+---------------------------------------------------------------+----------+
 | Update available: 0 (0.13.1) -> 1.0.0                                        |
 |                                                                              |
 | Release notes are available below                                            |
 | https://github.com/bitrise-steplib/bitrise-step-flutter-installer/releases   |
 +---+---------------------------------------------------------------+----------+
-| ✓ | Script                                                        | 23.97 sec|
+| ✓ | Script                                                        | 24.11 sec|
 +---+---------------------------------------------------------------+----------+
-| x | Xcode Archive & Export for iOS (Failed)                       | 10.89 sec|
+| x | Flutter Build (Failed)                                        | 25.07 sec|
 +---+---------------------------------------------------------------+----------+
-| Issue tracker: https://github.com/bitrise-steplib/steps-xcode-archive/issues |
-| Source: https://github.com/bitrise-steplib/steps-xcode-archive               |
+| Issue tracker: ...thub.com/bitrise-steplib/bitrise-step-flutter-build/issues |
+| Source: https://github.com/bitrise-steplib/bitrise-step-flutter-build        |
 +---+---------------------------------------------------------------+----------+
-| Total runtime: 1.3 min                                                       |
+| - | Deploy to App Store Connect - Application Loader ... (Skipped)| 0.48 sec |
++---+---------------------------------------------------------------+----------+
+| Total runtime: 1.6 min                                                       |
 +------------------------------------------------------------------------------+
 Bitrise build failed (exit code: 1)
 ExitCode: 1
