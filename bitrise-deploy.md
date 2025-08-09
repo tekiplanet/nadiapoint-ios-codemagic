@@ -197,7 +197,8 @@ When you click "Start build", Bitrise will use the **default workflow** for your
 3. **Your final workflow should be**:
    - Git Clone Repository ✅
    - Flutter Install ✅
-   - Script (flutter pub get) ✅  
+   - Script (flutter pub get) ✅
+   - **Run CocoaPods install** (with repository update enabled) ✅
    - Flutter Build (iOS archive, --release --no-codesign) ✅
    - Deploy to App Store Connect - Application Loader ✅
 4. **Save the entire workflow**
@@ -213,30 +214,43 @@ When you click "Start build", Bitrise will use the **default workflow** for your
 
 **STATUS**: ✅ **CERTIFICATE ISSUE FIXED** - New Flutter Build approach working, but CocoaPods issue found
 
-**CURRENT ERROR**:
+**PREVIOUS ERROR** (FIXED):
 ```
 Invalid `Podfile` file: cannot load such file -- ../.ios/Flutter/podhelper.rb
 ```
 
-**SOLUTION**: Fix the Podfile path error:
+**SOLUTION** (COMPLETED): Replaced with standard Flutter Podfile ✅
+
+**PREVIOUS ERROR** (FIXED):
+```
+Error: CocoaPods's specs repository is too out-of-date to satisfy dependencies.
+To update the CocoaPods specs, run: pod repo update
+```
+
+**SOLUTION** (COMPLETED): Added CocoaPods install step with repository update ✅
+
+**NEWEST ERROR**:
+```
+[!] Unable to find a specification for `IdensicMobileSDK (= 1.35.1)` depended upon by `flutter_idensic_mobile_sdk_plugin`
+```
+
+**NEWEST SOLUTION**: Add missing CocoaPods sources to Podfile:
 
 #### **Root Cause**: 
-The `ios/Podfile` file has an incorrect path on line 15:
-```ruby
-load File.join(flutter_application_path, '.ios', 'Flutter', 'podhelper.rb')  # WRONG
-```
+When replacing the Podfile with the standard Flutter version, the custom CocoaPods source repository was removed. The IdensicMobileSDK is hosted in a custom repository.
 
 #### **Fix**: 
-Change line 15 in `ios/Podfile` from:
+Added these lines to the top of `ios/Podfile`:
 ```ruby
-load File.join(flutter_application_path, '.ios', 'Flutter', 'podhelper.rb')
-```
-**To**:
-```ruby
-load File.join(flutter_application_path, 'ios', 'Flutter', 'podhelper.rb')
+# Add custom sources for IdensicMobileSDK
+source 'https://cdn.cocoapods.org/'
+source 'https://github.com/SumSubstance/Specs.git'
 ```
 
-**The fix**: Remove the dot from `.ios` → `ios`
+#### **Why This Fixes It**:
+- Adds the SumSubstance specs repository that contains IdensicMobileSDK
+- Keeps the standard CocoaPods CDN source for other dependencies
+- Allows CocoaPods to find and install the IdensicMobileSDK (= 1.35.1) dependency
 
 **If the build succeeds:**
 - **Check App Store Connect** → My Apps → your app → TestFlight
