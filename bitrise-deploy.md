@@ -123,6 +123,52 @@ When you click "Start build", Bitrise will use the **default workflow** for your
 #### 5) After it turns green
 - [ ] Open App Store Connect → My Apps → your app → TestFlight and wait for the new build to appear (10–20 mins)
 
+### 🚨 CURRENT ISSUE - CODE SIGNING PROBLEM (AS OF 2025-08-09)
+
+**STATUS**: ❌ **BUILD FAILING** - Xcode Archive step failing due to code signing configuration
+
+**EXACT ERROR**:
+```
+/Users/[REDACTED]/git/ios/Runner.xcodeproj: error: Signing for "Runner" requires a development team. Select a development team in the Signing & Capabilities editor.
+```
+
+**ROOT CAUSE ANALYSIS**:
+1. ✅ **NadiaPoint CI API key is properly configured** in Bitrise Code signing section
+2. ✅ **Git Clone Repository, Flutter Install, Script steps** are working correctly
+3. ❌ **Xcode Archive step** has `automatic_code_signing: off` in the build log
+4. ❌ **API key credentials** are not being passed to the Xcode Archive step (`api_key_path: <unset>`, `api_key_id: <unset>`, `api_key_issuer_id: <unset>`)
+
+**PROBLEM**: The Xcode Archive step is not configured to use the API key for automatic code signing. Even though the API key is configured in Bitrise, the step itself needs to be told to use it.
+
+**SOLUTION REQUIRED**:
+
+**Option A: Configure Xcode Archive Step with API Key (Recommended)**
+1. Open your **Xcode Archive & Export for iOS** step in Bitrise
+2. Set these fields:
+   - **Project path**: `ios/Runner.xcworkspace`
+   - **Scheme**: `Runner`
+   - **Export method**: `app-store`
+   - **Automatic code signing**: `on` ← **CRITICAL CHANGE**
+   - **API key path**: Leave empty (should use global config)
+   - **API key ID**: Leave empty (should use global config)
+   - **API key issuer ID**: Leave empty (should use global config)
+
+**Option B: Add Manage iOS Code Signing Step Back**
+1. Add **Manage iOS Code Signing** step before Xcode Archive step
+2. Configure it with:
+   - **Apple service connection method**: Select "NadiaPoint CI" (your API key)
+   - **Distribution**: `app-store`
+   - **Project path**: `ios/Runner.xcworkspace`
+   - **Scheme**: `Runner`
+   - **Build configuration**: `Release`
+
+**WHY THIS HAPPENED**: 
+- The "Manage iOS Code Signing" step was removed due to previous configuration issues
+- The Xcode Archive step was left with `automatic_code_signing: off`
+- Without either the Manage iOS Code Signing step OR automatic code signing enabled in Xcode Archive, the build fails
+
+**NEXT ACTION**: Try **Option A** first (enable automatic code signing in Xcode Archive step) as it's the simplest fix.
+
 #### If the build fails (quick checks)
 - [ ] **Git Clone Repository missing**: If you see "Expected to find project root in current working directory" and the directory is empty, you're missing the **Git Clone Repository** step at the very top of your workflow
 - [ ] **CocoaPods issues**: If you see "The Podfile does not contain any dependencies" or "Could not automatically select an Xcode workspace":

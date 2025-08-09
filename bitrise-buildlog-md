@@ -1,10 +1,10 @@
 den_agent_version: 2.57.12
 stack_image_version: 2-108-3
-host_name: vm-osx-sequoia-16-g2.mac.large-f8de95be-5976-4465-9750-7516765d4939
-node_name: US-CENTRAL-ORD-1A-AM06-0100
-bitrise_cli_command: $ bitrise "run" "--config" "/var/folders/f6/wf2hj3cj75qdwmt5rn814r_00000gn/T/bitrise-agent13294423/bitrise.yml" "--inventory" "/var/folders/f6/wf2hj3cj75qdwmt5rn814r_00000gn/T/bitrise-agent13294423/bitrise.secrets.yml" "--json-params-base64" "eyJ3b3JrZmxvdyI6InByaW1hcnkifQ==" "--output-format" "json"
+host_name: vm-osx-sequoia-16-g2.mac.large-b294ca68-c565-431c-abb3-68f866e95b2b
+node_name: US-EAST-IAD-1A-AM06-0139
+bitrise_cli_command: $ bitrise "run" "--config" "/var/folders/f6/wf2hj3cj75qdwmt5rn814r_00000gn/T/bitrise-agent767653585/bitrise.yml" "--inventory" "/var/folders/f6/wf2hj3cj75qdwmt5rn814r_00000gn/T/bitrise-agent767653585/bitrise.secrets.yml" "--json-params-base64" "eyJ3b3JrZmxvdyI6InByaW1hcnkifQ==" "--output-format" "json"
 xcode_version: 16.4
-Invocation started at 15:36:22
+Invocation started at 16:17:38
 Bitrise CLI version: 2.33.0
 Run modes:
 CI mode: true
@@ -25,7 +25,7 @@ Step uses latest version, updating StepLib...
 +---+---------------------------------------------------------------+----------+
 
 +---+---------------------------------------------------------------+----------+
-| ✓ | Git Clone Repository                                          | 5.64 sec |
+| ✓ | Git Clone Repository                                          | 5.28 sec |
 +---+---------------------------------------------------------------+----------+
                                         ▼
 +------------------------------------------------------------------------------+
@@ -34,7 +34,7 @@ Step uses latest version, updating StepLib...
 +---+---------------------------------------------------------------+----------+
 
 +---+---------------------------------------------------------------+----------+
-| ✓ | Flutter Install                                               | 40.96 sec |
+| ✓ | Flutter Install                                               | 39.91 sec |
 +---+---------------------------------------------------------------+----------+
 | Update available: 0 (0.13.1) -> 1.0.0                                        |
 | Release notes are available below                                            |
@@ -47,7 +47,7 @@ Step uses latest version, updating StepLib...
 +---+---------------------------------------------------------------+----------+
 
 +---+---------------------------------------------------------------+----------+
-| ✓ | Script                                                        | 24.16 sec |
+| ✓ | Script                                                        | 23.97 sec |
 +---+---------------------------------------------------------------+----------+
                                         ▼
 +------------------------------------------------------------------------------+
@@ -58,7 +58,7 @@ Step uses latest version, updating StepLib...
 | version: 5.8.0                                                               |
 | collection: https://github.com/bitrise-io/bitrise-steplib.git                |
 | toolkit: go                                                                  |
-| time: 2025-08-09T15:37:29Z                                                   |
+| time: 2025-08-09T16:18:48Z                                                   |
 +------------------------------------------------------------------------------+
 |                                                                              |
 Inputs:
@@ -71,7 +71,7 @@ Inputs:
 - perform_clean_action: false
 - xcodebuild_options: <unset>
 - log_formatter: xcpretty
-- automatic_code_signing: off
+- automatic_code_signing: api-key
 - register_test_devices: false
 - test_device_list_path: <unset>
 - min_profile_validity: 0
@@ -95,69 +95,19 @@ Inputs:
 - api_key_issuer_id: <unset>
 - api_key_enterprise_account: false
 - verbose_log: false
-- BITRISE_BUILD_URL: https://app.bitrise.io/build/6b729149-9746-4c4d-8d00-5e05be560962
+- BITRISE_BUILD_URL: https://app.bitrise.io/build/c9239dc5-55f3-4200-932e-1d852f6ff608
 - BITRISE_BUILD_API_TOKEN: *****
 Xcode version:
 Xcode 16.4 (16F6)
-Checking if log formatter (xcpretty) is installed
-- log formatter version: 0.4.1
-Running resolve Swift package dependencies
-[15:37:40] Resolving package dependencies...
-[15:37:40] $ xcodebuild "-workspace" "/Users/[REDACTED]/git/ios/Runner.xcworkspace" "-scheme" "Runner" "-resolvePackageDependencies"
-Command line invocation:
-    /Applications/Xcode-16.4.0.app/Contents/Developer/usr/bin/xcodebuild -workspace /Users/[REDACTED]/git/ios/Runner.xcworkspace -scheme Runner -resolvePackageDependencies
-resolved source packages: 
-[15:37:40] Resolved package dependencies.
-Looking for artifact name as field is empty
-[15:37:40] Reading build settings...
-[15:37:40] $ xcodebuild "-workspace" "/Users/[REDACTED]/git/ios/Runner.xcworkspace" "-scheme" "Runner" "-showBuildSettings"
-[15:37:41] Read target settings.
-Automatic code signing is disabled, skipped downloading code sign assets
-[15:37:41] Opening xcode project at path: /Users/[REDACTED]/git/ios/Runner.xcworkspace for scheme: Runner
-Read Runner scheme in 0s.
-[15:37:41] Reading xcode project
-[15:37:41] Platform is set to 'automatic', detecting platform from the project.
-[15:37:41] Define the platform step input manually to avoid this phase in the future.
-Finding platform type
-[15:37:41] Reading build settings...
-[15:37:41] $ xcodebuild "-project" "/Users/[REDACTED]/git/ios/Runner.xcodeproj" "-target" "Runner" "-configuration" "Release" "-showBuildSettings"
-[15:37:42] Read target settings.
-Platform type: iOS
-[15:37:42] Reading main target
-[15:37:42] Creating the Archive ...
-[15:37:42] $ set -o pipefail && xcodebuild "archive" "-workspace" "/Users/[REDACTED]/git/ios/Runner.xcworkspace" "-scheme" "Runner" "-xcconfig" "/var/folders/f6/wf2hj3cj75qdwmt5rn814r_00000gn/T/831728999/temp.xcconfig" "-archivePath" "/var/folders/f6/wf2hj3cj75qdwmt5rn814r_00000gn/T/xcodeArchive3682611146/Runner.xcarchive" "-destination" "generic/platform=iOS" | xcpretty
-Last lines of the Xcode log:
-ExecuteExternalTool /Applications/Xcode-16.4.0.app/Contents/Developer/usr/bin/actool --print-asset-tag-combinations --output-format xml1 /Users/[REDACTED]/git/ios/Runner/Assets.xcassets
-ExecuteExternalTool /Applications/Xcode-16.4.0.app/Contents/Developer/usr/bin/actool --version --output-format xml1
-ExecuteExternalTool /Applications/Xcode-16.4.0.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc --version
-ExecuteExternalTool /Applications/Xcode-16.4.0.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld -version_details
-Build description signature: 78ea240e7a9e467cbcaf634e759f1698
-Build description path: /Users/[REDACTED]/Library/Developer/Xcode/DerivedData/Runner-fvdlvfvunbwmbcgkbjykdeexifra/Build/Intermediates.noindex/ArchiveIntermediates/Runner/IntermediateBuildFilesPath/XCBuildData/78ea240e7a9e467cbcaf634e759f1698.xcbuilddata
-/Users/[REDACTED]/git/ios/Runner.xcodeproj: error: Signing for "Runner" requires a development team. Select a development team in the Signing & Capabilities editor. (in target 'Runner' from project 'Runner')
-note: Disabling previews because SWIFT_VERSION is set and SWIFT_OPTIMIZATION_LEVEL=-O, expected -Onone (in target 'Runner' from project 'Runner')
-note: Run script build phase 'Run Script' will be run during every build because the option to run the script phase "Based on dependency analysis" is unchecked. (in target 'Runner' from project 'Runner')
-note: Run script build phase 'Thin Binary' will be run during every build because the option to run the script phase "Based on dependency analysis" is unchecked. (in target 'Runner' from project 'Runner')
-** ARCHIVE FAILED **
-The following build commands failed:
-	Archiving workspace Runner with scheme Runner
-(1 failure)
-If you can't find the reason of the error in the log, please check the artifact xcodebuild-archive.log.
-The log file is stored in $BITRISE_DEPLOY_DIR, and its full path
-is available in the $BITRISE_XCODEBUILD_ARCHIVE_LOG_PATH environment variable.
-Deploy to Bitrise.io Step can attach the file to your build as an artifact.
-Failed to execute Step main logic:
-  failed to archive the project:
-    command failed with exit status 65 (xcodebuild "archive" "-workspace" "/Users/[REDACTED]/git/ios/Runner.xcworkspace" "-scheme" "Runner" "-xcconfig" "/var/folders/f6/wf2hj3cj75qdwmt5rn814r_00000gn/T/831728999/temp.xcconfig" "-archivePath" "/var/folders/f6/wf2hj3cj75qdwmt5rn814r_00000gn/T/xcodeArchive3682611146/Runner.xcarchive" "-destination" "generic/platform=iOS"):
-      /Users/[REDACTED]/git/ios/Runner.xcodeproj: error: Signing for "Runner" requires a development team. Select a development team in the Signing & Capabilities editor. (in target 'Runner' from project 'Runner')
-[15:37:45] Exporting outputs...
-The xcodebuild archive log path is now available in the Environment Variable: BITRISE_XCODEBUILD_ARCHIVE_LOG_PATH (value: /Users/[REDACTED]/deploy/xcodebuild-archive.log)
-Failed to execute Step main logic:
-  failed to archive the project:
-    command failed with exit status 65 (xcodebuild "archive" "-workspace" "/Users/[REDACTED]/git/ios/Runner.xcworkspace" "-scheme" "Runner" "-xcconfig" "/var/folders/f6/wf2hj3cj75qdwmt5rn814r_00000gn/T/831728999/temp.xcconfig" "-archivePath" "/var/folders/f6/wf2hj3cj75qdwmt5rn814r_00000gn/T/xcodeArchive3682611146/Runner.xcarchive" "-destination" "generic/platform=iOS"):
-      /Users/[REDACTED]/git/ios/Runner.xcodeproj: error: Signing for "Runner" requires a development team. Select a development team in the Signing & Capabilities editor. (in target 'Runner' from project 'Runner')
+Failed to process Step inputs:
+  failed to prepare automatic code signing:
+    code signing certificate URL is not specified
+Failed to process Step inputs:
+  failed to prepare automatic code signing:
+    code signing certificate URL is not specified
 |                                                                              |
 +---+---------------------------------------------------------------+----------+
-| x | Xcode Archive & Export for iOS (Failed)                       | 17.39 sec |
+| x | Xcode Archive & Export for iOS (Failed)                       | 10.89 sec |
 +---+---------------------------------------------------------------+----------+
 | Issue tracker: https://github.com/bitrise-steplib/steps-xcode-archive/issues |
 | Source: https://github.com/bitrise-steplib/steps-xcode-archive               |
@@ -167,23 +117,23 @@ Failed to execute Step main logic:
 +---+---------------------------------------------------------------+----------+
 |   | title                                                         | time (s) |
 +---+---------------------------------------------------------------+----------+
-| ✓ | Git Clone Repository                                          | 5.64 sec |
+| ✓ | Git Clone Repository                                          | 5.28 sec |
 +---+---------------------------------------------------------------+----------+
-| ✓ | Flutter Install                                               | 40.96 sec|
+| ✓ | Flutter Install                                               | 39.91 sec|
 +---+---------------------------------------------------------------+----------+
 | Update available: 0 (0.13.1) -> 1.0.0                                        |
 |                                                                              |
 | Release notes are available below                                            |
 | https://github.com/bitrise-steplib/bitrise-step-flutter-installer/releases   |
 +---+---------------------------------------------------------------+----------+
-| ✓ | Script                                                        | 24.16 sec|
+| ✓ | Script                                                        | 23.97 sec|
 +---+---------------------------------------------------------------+----------+
-| x | Xcode Archive & Export for iOS (Failed)                       | 17.39 sec|
+| x | Xcode Archive & Export for iOS (Failed)                       | 10.89 sec|
 +---+---------------------------------------------------------------+----------+
 | Issue tracker: https://github.com/bitrise-steplib/steps-xcode-archive/issues |
 | Source: https://github.com/bitrise-steplib/steps-xcode-archive               |
 +---+---------------------------------------------------------------+----------+
-| Total runtime: 1.5 min                                                       |
+| Total runtime: 1.3 min                                                       |
 +------------------------------------------------------------------------------+
 Bitrise build failed (exit code: 1)
 ExitCode: 1
