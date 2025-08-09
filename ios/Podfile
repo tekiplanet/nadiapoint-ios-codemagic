@@ -38,7 +38,8 @@ target 'Runner' do
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
   
   # Force compatible versions to resolve dependency conflicts
-  # Let plugins determine their own GoogleUtilities and GoogleMLKit versions to avoid conflicts
+  # Override GoogleUtilities to a version compatible with both firebase_messaging and mobile_scanner
+  pod 'GoogleUtilities', '~> 7.11.5'
 end
 
 post_install do |installer|
