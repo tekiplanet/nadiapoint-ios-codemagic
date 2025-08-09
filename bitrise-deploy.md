@@ -132,6 +132,7 @@ When you click "Start build", Bitrise will use the **default workflow** for your
      workspace 'Runner.xcworkspace'
      ```
   3. **Alternative**: Skip CocoaPods step if your Flutter project doesn't use native iOS dependencies
+  4. **Quick fix**: **Remove the "Run CocoaPods install" step** from your workflow - it's not essential for basic Flutter iOS builds
 - [ ] Signing error: make sure the Auto Provision step is before Xcode Archive and uses the correct Bundle ID + API key
 - [ ] Workspace/scheme error: ensure `ios/Runner.xcworkspace` and `Runner` are set in the Xcode Archive step
 - [ ] CocoaPods error: ensure "CocoaPods Install" step exists and is before Xcode Archive

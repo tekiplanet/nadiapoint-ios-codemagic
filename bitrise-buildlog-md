@@ -1,10 +1,10 @@
+bitrise_cli_command: $ bitrise "run" "--config" "/var/folders/f6/wf2hj3cj75qdwmt5rn814r_00000gn/T/bitrise-agent728737319/bitrise.yml" "--inventory" "/var/folders/f6/wf2hj3cj75qdwmt5rn814r_00000gn/T/bitrise-agent728737319/bitrise.secrets.yml" "--json-params-base64" "eyJ3b3JrZmxvdyI6InByaW1hcnkifQ==" "--output-format" "json"
+xcode_version: 16.4
 den_agent_version: 2.57.12
 stack_image_version: 2-108-3
-host_name: vm-osx-sequoia-16-g2.mac.large-9fcf77f2-bc74-4251-9451-336c989a6ddb
-node_name: US-CENTRAL-ORD-1A-AM06-0216
-bitrise_cli_command: $ bitrise "run" "--config" "/var/folders/f6/wf2hj3cj75qdwmt5rn814r_00000gn/T/bitrise-agent584119764/bitrise.yml" "--inventory" "/var/folders/f6/wf2hj3cj75qdwmt5rn814r_00000gn/T/bitrise-agent584119764/bitrise.secrets.yml" "--json-params-base64" "eyJ3b3JrZmxvdyI6InByaW1hcnkifQ==" "--output-format" "json"
-xcode_version: 16.4
-Invocation started at 14:39:50
+host_name: vm-osx-sequoia-16-g2.mac.large-bcb72ab0-1246-4982-8ecf-5d871058f7df
+node_name: US-CENTRAL-ORD-1A-AM06-0219
+Invocation started at 14:44:32
 Bitrise CLI version: 2.33.0
 Run modes:
 CI mode: true
@@ -25,7 +25,7 @@ Step uses latest version, updating StepLib...
 +---+---------------------------------------------------------------+----------+
 
 +---+---------------------------------------------------------------+----------+
-| ✓ | Git Clone Repository                                          | 5.54 sec |
+| ✓ | Git Clone Repository                                          | 5.84 sec |
 +---+---------------------------------------------------------------+----------+
                                         ▼
 +------------------------------------------------------------------------------+
@@ -34,7 +34,7 @@ Step uses latest version, updating StepLib...
 +---+---------------------------------------------------------------+----------+
 
 +---+---------------------------------------------------------------+----------+
-| ✓ | Flutter Install                                               | 40.97 sec |
+| ✓ | Flutter Install                                               | 40.20 sec |
 +---+---------------------------------------------------------------+----------+
 | Update available: 0 (0.13.1) -> 1.0.0                                        |
 | Release notes are available below                                            |
@@ -47,7 +47,7 @@ Step uses latest version, updating StepLib...
 +---+---------------------------------------------------------------+----------+
 
 +---+---------------------------------------------------------------+----------+
-| ✓ | Script                                                        | 17.83 sec |
+| ✓ | Script                                                        | 18.04 sec |
 +---+---------------------------------------------------------------+----------+
                                         ▼
 +------------------------------------------------------------------------------+
@@ -58,7 +58,7 @@ Step uses latest version, updating StepLib...
 | version: 2.4.2                                                               |
 | collection: https://github.com/bitrise-io/bitrise-steplib.git                |
 | toolkit: go                                                                  |
-| time: 2025-08-09T14:40:54Z                                                   |
+| time: 2025-08-09T14:45:32Z                                                   |
 +------------------------------------------------------------------------------+
 |                                                                              |
 ConfigsModel:
@@ -87,17 +87,16 @@ $ pod "--version"
 1.16.2
 Installing Pods
 $ pod "install" "--no-repo-update"
-[!] The Podfile does not contain any dependencies.
-Analyzing dependencies
-Downloading dependencies
-Generating Pods project
-Integrating client projects
-[!] Could not automatically select an Xcode workspace. Specify one in your Podfile like so:
-    workspace 'path/to/Workspace.xcworkspace'
+[!] Invalid `Podfile` file: undefined method `flutter_install_all_ios_pods' for an instance of Pod::Podfile.
+ #  from /Users/vagrant/git/ios/Podfile:13
+ #  -------------------------------------------
+ #  
+ >    flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
+ #  end
+ #  -------------------------------------------
 Failed to install Pods:
   command failed with exit status 1 (pod "install" "--no-repo-update"):
-    [!] The Podfile does not contain any dependencies.
-    [!] Could not automatically select an Xcode workspace. Specify one in your Podfile like so:
+    [!] Invalid `Podfile` file: undefined method `flutter_install_all_ios_pods' for an instance of Pod::Podfile.
 Retrying with pod repo update...
 $ pod "repo" "update"
 Updating spec repo `master`
@@ -409,26 +408,26 @@ Updating spec repo `master`
   Receiving objects:  99% (68185/68873)
   remote: Total 68873 (delta 25926), reused 25778 (delta 25778), pack-reused 42775 (from 3)        
   Receiving objects: 100% (68873/68873)
-  Receiving objects: 100% (68873/68873), 9.46 MiB | 42.69 MiB/s, done.
+  Receiving objects: 100% (68873/68873), 9.46 MiB | 40.89 MiB/s, done.
   Resolving deltas:   0% (0/49220)
-  Resolving deltas:   1% (494/49220)
+  Resolving deltas:   1% (493/49220)
   Resolving deltas:   2% (985/49220)
   Resolving deltas:   3% (1477/49220)
   Resolving deltas:   4% (1969/49220)
-  Resolving deltas:   5% (2462/49220)
+  Resolving deltas:   5% (2461/49220)
   Resolving deltas:   6% (2954/49220)
   Resolving deltas:   7% (3446/49220)
-  Resolving deltas:   8% (3940/49220)
+  Resolving deltas:   8% (3938/49220)
   Resolving deltas:   9% (4430/49220)
   Resolving deltas:  10% (4922/49220)
   Resolving deltas:  11% (5415/49220)
-  Resolving deltas:  12% (5908/49220)
+  Resolving deltas:  12% (5907/49220)
   Resolving deltas:  13% (6399/49220)
   Resolving deltas:  14% (6891/49220)
   Resolving deltas:  15% (7383/49220)
   Resolving deltas:  16% (7876/49220)
   Resolving deltas:  17% (8368/49220)
-  Resolving deltas:  18% (8860/49220)
+  Resolving deltas:  18% (8861/49220)
   Resolving deltas:  19% (9352/49220)
   Resolving deltas:  20% (9844/49220)
   Resolving deltas:  21% (10337/49220)
@@ -445,18 +444,18 @@ Updating spec repo `master`
   Resolving deltas:  32% (15751/49220)
   Resolving deltas:  33% (16243/49220)
   Resolving deltas:  34% (16735/49220)
-  Resolving deltas:  35% (17227/49220)
+  Resolving deltas:  35% (17228/49220)
   Resolving deltas:  36% (17720/49220)
-  Resolving deltas:  37% (18212/49220)
+  Resolving deltas:  37% (18213/49220)
   Resolving deltas:  38% (18704/49220)
   Resolving deltas:  39% (19196/49220)
   Resolving deltas:  40% (19688/49220)
-  Resolving deltas:  41% (20181/49220)
-  Resolving deltas:  42% (20673/49220)
+  Resolving deltas:  41% (20182/49220)
+  Resolving deltas:  42% (20674/49220)
   Resolving deltas:  43% (21165/49220)
   Resolving deltas:  44% (21657/49220)
   Resolving deltas:  45% (22149/49220)
-  Resolving deltas:  46% (22643/49220)
+  Resolving deltas:  46% (22642/49220)
   Resolving deltas:  47% (23134/49220)
   Resolving deltas:  48% (23626/49220)
   Resolving deltas:  49% (24118/49220)
@@ -517,7 +516,12 @@ Updating spec repo `master`
   $ /opt/homebrew/bin/git -C /Users/vagrant/.cocoapods/repos/master rev-parse --abbrev-ref HEAD
   master
   $ /opt/homebrew/bin/git -C /Users/vagrant/.cocoapods/repos/master reset --hard origin/master
-  Updating files:  88% (6612/7466)
+  Updating files:  83% (6260/7466)
+  Updating files:  84% (6272/7466)
+  Updating files:  85% (6347/7466)
+  Updating files:  86% (6421/7466)
+  Updating files:  87% (6496/7466)
+  Updating files:  88% (6571/7466)
   Updating files:  89% (6645/7466)
   Updating files:  90% (6720/7466)
   Updating files:  91% (6795/7466)
@@ -534,24 +538,22 @@ Updating spec repo `master`
   HEAD is now at 7d084f1849ac [Add] MultiSlider 2.2.1
 Updating spec repo `trunk`
 $ pod "install" "--no-repo-update"
-[!] The Podfile does not contain any dependencies.
-Analyzing dependencies
-Downloading dependencies
-Generating Pods project
-Integrating client projects
-[!] Could not automatically select an Xcode workspace. Specify one in your Podfile like so:
-    workspace 'path/to/Workspace.xcworkspace'
+[!] Invalid `Podfile` file: undefined method `flutter_install_all_ios_pods' for an instance of Pod::Podfile.
+ #  from /Users/vagrant/git/ios/Podfile:13
+ #  -------------------------------------------
+ #  
+ >    flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
+ #  end
+ #  -------------------------------------------
 Failed to install Pods:
   command failed with exit status 1 (pod "install" "--no-repo-update"):
-    [!] The Podfile does not contain any dependencies.
-    [!] Could not automatically select an Xcode workspace. Specify one in your Podfile like so:
+    [!] Invalid `Podfile` file: undefined method `flutter_install_all_ios_pods' for an instance of Pod::Podfile.
 Failed to install Pods:
   command failed with exit status 1 (pod "install" "--no-repo-update"):
-    [!] The Podfile does not contain any dependencies.
-    [!] Could not automatically select an Xcode workspace. Specify one in your Podfile like so:
+    [!] Invalid `Podfile` file: undefined method `flutter_install_all_ios_pods' for an instance of Pod::Podfile.
 |                                                                              |
 +---+---------------------------------------------------------------+----------+
-| x | Run CocoaPods install (Failed)                                | 29.35 sec |
+| x | Run CocoaPods install (Failed)                                | 30.66 sec |
 +---+---------------------------------------------------------------+----------+
 | Issue tracker: https://github.com/bitrise-io/steps-cocoapods-install/issues  |
 | Source: https://github.com/bitrise-io/steps-cocoapods-install                |
@@ -563,7 +565,7 @@ Failed to install Pods:
 +---+---------------------------------------------------------------+----------+
 
 +---+---------------------------------------------------------------+----------+
-| - | Manage iOS Code Signing (Skipped)                             | 0.56 sec |
+| - | Manage iOS Code Signing (Skipped)                             | 0.60 sec |
 +---+---------------------------------------------------------------+----------+
                                         ▼
 +------------------------------------------------------------------------------+
@@ -579,23 +581,23 @@ Failed to install Pods:
 +---+---------------------------------------------------------------+----------+
 |   | title                                                         | time (s) |
 +---+---------------------------------------------------------------+----------+
-| ✓ | Git Clone Repository                                          | 5.55 sec |
+| ✓ | Git Clone Repository                                          | 5.84 sec |
 +---+---------------------------------------------------------------+----------+
-| ✓ | Flutter Install                                               | 40.97 sec|
+| ✓ | Flutter Install                                               | 40.20 sec|
 +---+---------------------------------------------------------------+----------+
 | Update available: 0 (0.13.1) -> 1.0.0                                        |
 |                                                                              |
 | Release notes are available below                                            |
 | https://github.com/bitrise-steplib/bitrise-step-flutter-installer/releases   |
 +---+---------------------------------------------------------------+----------+
-| ✓ | Script                                                        | 17.83 sec|
+| ✓ | Script                                                        | 18.04 sec|
 +---+---------------------------------------------------------------+----------+
-| x | Run CocoaPods install (Failed)                                | 29.35 sec|
+| x | Run CocoaPods install (Failed)                                | 30.67 sec|
 +---+---------------------------------------------------------------+----------+
 | Issue tracker: https://github.com/bitrise-io/steps-cocoapods-install/issues  |
 | Source: https://github.com/bitrise-io/steps-cocoapods-install                |
 +---+---------------------------------------------------------------+----------+
-| - | Manage iOS Code Signing (Skipped)                             | 0.56 sec |
+| - | Manage iOS Code Signing (Skipped)                             | 0.60 sec |
 +---+---------------------------------------------------------------+----------+
 | - | Xcode Archive & Export for iOS (Skipped)                      | 0.71 sec |
 +---+---------------------------------------------------------------+----------+
