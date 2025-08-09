@@ -1,0 +1,104 @@
+plugins {
+    id "com.android.application"
+    id "kotlin-android"
+    id "dev.flutter.flutter-gradle-plugin"
+}
+
+android {
+    namespace = "com.nadiapoint.exchange"
+    compileSdk = 35
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+
+    kotlinOptions {
+        jvmTarget = "17"
+    }
+
+    packaging {
+        resources {
+            excludes += ['META-INF/DEPENDENCIES']
+            excludes += ['META-INF/LICENSE']
+            excludes += ['META-INF/LICENSE.txt']
+            excludes += ['META-INF/license.txt']
+            excludes += ['META-INF/NOTICE']
+            excludes += ['META-INF/NOTICE.txt']
+            excludes += ['META-INF/notice.txt']
+            excludes += ['META-INF/ASL2.0']
+            excludes += ['META-INF/versions/9/OSGI-INF/MANIFEST.MF']
+            pickFirsts += ['META-INF/versions/9/OSGI-INF/MANIFEST.MF']
+        }
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+
+    signingConfigs {
+        release {
+            keyAlias 'upload'
+            keyPassword 'GoToKeyStoreNadiapoint123456'
+            storeFile file('upload-keystore.jks')
+            storePassword 'GoToKeyStoreNadiapoint123456'
+        }
+    }
+
+    defaultConfig {
+        applicationId = "com.nadiapoint.exchange"
+        minSdkVersion 23
+        targetSdk = 35
+        versionCode = 2
+        versionName = "1.0.1"
+    }
+
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+flutter {
+    source = "../.."
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation 'androidx.core:core-ktx:1.13.1'
+    implementation 'androidx.appcompat:appcompat:1.7.0-alpha03'
+    implementation 'com.google.android.material:material:1.11.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.2.0-alpha10'
+    implementation "androidx.appcompat:appcompat:1.6.1"
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+}
+
+// This should be already in your file
+// allprojects {
+//     repositories {
+//         google()
+//         mavenCentral()
+//     }
+
+//     // Add this part -------------->
+//     subprojects {
+//         afterEvaluate { project ->
+//             if (project.hasProperty('android')) {
+//                 project.android {
+//                     if (namespace == null) {
+//                         namespace project.group
+//                     }
+//                 }
+//             }
+//         }
+//     }
+//     // until here
+
+// }
+
+apply plugin: 'com.google.gms.google-services'

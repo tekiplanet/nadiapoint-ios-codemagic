@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "758477052887",
+    "project_id": "nadiapoint-exchange",
+    "storage_bucket": "nadiapoint-exchange.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:758477052887:android:54465727f30e4758b54992",
+        "android_client_info": {
+          "package_name": "com.nadiapoint.exchange"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "758477052887-mv415fnq1bt9j1jeb75a4dosrm9d3fql.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nadiapoint.exchange",
+            "certificate_hash": "f8212efe2910f1c6f67363c558cf18ff98951713"
+          }
+        },
+        {
+          "client_id": "758477052887-rrtniabgvcuqv7jrrno7980ahhv57q7v.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nadiapoint.exchange",
+            "certificate_hash": "5a40dffb7a5446da5f146636707c36b45ff4d168"
+          }
+        },
+        {
+          "client_id": "758477052887-9m35a8snephjr0p5m4187pd513e9dn01.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCfZ1HDI2ArayC5MaFxMzFfL6LiDssLDYs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "758477052887-9m35a8snephjr0p5m4187pd513e9dn01.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

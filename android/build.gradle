@@ -1,0 +1,61 @@
+buildscript {
+    ext.kotlin_version = '1.9.25'
+    repositories {
+        google()
+        mavenCentral()
+        maven { url 'https://maven.google.com' }
+        maven { url 'https://jitpack.io' }
+        maven { url 'https://plugins.gradle.org/m2/' }
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:8.1.0'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'com.google.gms:google-services:4.3.15'
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+        maven { url 'https://maven.google.com' }
+        maven { url 'https://jitpack.io' }
+        maven { url 'https://plugins.gradle.org/m2/' }
+    }
+
+    subprojects {
+        afterEvaluate { project ->
+            if (project.hasProperty('android')) {
+                android {
+                    if (project.name == 'flutter_idensic_mobile_sdk_plugin') {
+                        namespace "com.sumsub.idensic.mobile.sdk.plugin"
+                        compileSdkVersion 35
+                        defaultConfig {
+                            minSdkVersion 21
+                            targetSdkVersion 35
+                        }
+                    }
+                    else if (project.name == 'mobile_scanner') {
+                        namespace "dev.steenbakker.mobile_scanner"
+                    }
+                    else if (project.android.hasProperty('namespace') && project.android.namespace == null) {
+                        namespace project.group
+                    }
+                }
+            }
+        }
+    }
+}
+
+rootProject.buildDir = "../build"
+subprojects {
+    project.buildDir = "${rootProject.buildDir}/${project.name}"
+}
+subprojects {
+    project.evaluationDependsOn(":app")
+}
+
+tasks.register("clean", Delete) {
+    delete rootProject.buildDir
+}
+
