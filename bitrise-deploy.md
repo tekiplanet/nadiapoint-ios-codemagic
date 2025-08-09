@@ -262,7 +262,6 @@ dependencies:
 
 # Force resolution of conflicting transitive dependencies
 dependency_overrides:
-  google_ml_kit: ^0.16.3
   web: ^1.1.0
 ```
 
@@ -273,15 +272,17 @@ target 'Runner' do
   use_modular_headers!
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
   
-  # Force GoogleUtilities version to resolve dependency conflicts
+  # Force compatible versions to resolve dependency conflicts
   pod 'GoogleUtilities', '~> 8.1'
+  pod 'GoogleMLKit/BarcodeScanning', '~> 6.0'
 end
 ```
 
 #### **Why This Fixes It**:
 - **flutter_image_compress ^2.3.0** uses compatible web package version
-- **dependency_overrides** forces resolution of transitive dependency conflicts
-- **Podfile override** forces GoogleUtilities ~> 8.1 which mobile_scanner can accept
+- **web override** forces resolution of web package conflicts  
+- **GoogleUtilities ~> 8.1** forces Firebase-compatible version
+- **GoogleMLKit/BarcodeScanning ~> 6.0** forces mobile_scanner to use newer MLKit that's compatible with GoogleUtilities 8.x
 - Resolves conflicts at both Flutter and CocoaPods levels simultaneously
 
 **If the build succeeds:**
