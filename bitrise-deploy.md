@@ -32,8 +32,10 @@ Tip: If you cannot see “Integrations” or “App Store Connect API,” you mu
 
 #### 2.5) Stop automatic builds from webhooks (optional)
 - [ ] In Bitrise, click **Workflows** (top right) → **Triggers** tab
+- [ ] In the workflow dropdown (top-left), switch to `primary` and repeat the same check
 - [ ] In the “Build trigger map”, remove all rows for Push, Pull request, and Tag (trash/bin icon at row end)
-- [ ] Click **Save** (top right)
+- [ ] Ensure **Enable triggers** toggle is OFF for each workflow you use (especially `primary`)
+- [ ] Click **Save changes** (top right)
 - Note: The “Automatic webhook: Connected” can stay; with an empty trigger map, pushes/PRs won’t start builds. You can still start builds manually from the Builds page.
 
 #### 3) Configure the workflow steps
