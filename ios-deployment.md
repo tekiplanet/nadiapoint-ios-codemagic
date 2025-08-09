@@ -122,6 +122,24 @@ Troubleshooting if no file appears
 - [ ] Create/Upload Distribution certificate (.p12) and App Store provisioning profile to Bitrise
 - [ ] Configure Bitrise iOS workflow: Flutter build, Cocoapods install, Xcode Archive & Export
 
+### EASIEST: Bitrise Automatic Code Signing (no OpenSSL needed)
+1) In App Store Connect → Users and Access → Keys → **Add**. Name it, select **App Manager** access, download the `.p8`. Note **Issuer ID** and **Key ID**.
+2) In Bitrise → App → **Code Signing** → **App Store Connect API Key** → add the Key ID, Issuer ID, and upload the `.p8`.
+3) In your workflow, add the step: **iOS Auto Provision with App Store Connect** (before the Xcode Archive step). Select your app’s Bundle ID `com.nadiapoint.exchange`.
+4) The step will create the Apple Distribution certificate and App Store provisioning profile for you and use them for the build automatically.
+
+Optional: Manual Windows CSR (if you prefer local generation)
+- Install OpenSSL via winget:
+  - `winget install --id=ShiningLight.OpenSSL.Light -e`
+- Close and reopen PowerShell, then run:
+  - `openssl genrsa -out ios_dist.key 2048`
+  - `openssl req -new -key ios_dist.key -out ios_dist.csr -subj "/CN=Nadiapoint/O=Nadiapoint/C=US"`
+- Upload `ios_dist.csr` when creating an Apple Distribution certificate in Apple Developer → Certificates.
+- Convert to `.p12`:
+  - `openssl x509 -in certificate.cer -inform DER -out cert.pem -outform PEM`
+  - `openssl pkcs12 -export -inkey ios_dist.key -in cert.pem -out ios_dist.p12 -name "iOS Distribution" -passout pass:SET_A_PASSWORD`
+- Upload the `.p12` (with password) and the provisioning profile to Bitrise.
+
 ## App Store Compliance
 - App icon: no transparency, squared. Present.
 - Privacy: Data usage descriptions present for camera/mic/photos/biometrics.
