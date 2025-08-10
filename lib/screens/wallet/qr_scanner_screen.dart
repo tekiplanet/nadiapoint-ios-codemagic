@@ -19,8 +19,7 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
     _hasScanned = false;
     _controller = MobileScannerController(
       formats: [BarcodeFormat.qrCode],
-      facing: CameraFacing.back,
-      torchEnabled: false,
+      cameraDirection: CameraFacing.back,
     );
   }
 
@@ -45,10 +44,10 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
         actions: [
           IconButton(
             icon: ValueListenableBuilder(
-              valueListenable: _controller.torchState,
+              valueListenable: _controller.torchEnabled,
               builder: (context, state, child) {
                 return Icon(
-                  state == TorchState.off ? Icons.flash_off : Icons.flash_on,
+                  state ? Icons.flash_on : Icons.flash_off,
                   color: Colors.white,
                 );
               },
@@ -57,7 +56,7 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
           ),
           IconButton(
             icon: ValueListenableBuilder(
-              valueListenable: _controller.cameraFacingState,
+              valueListenable: _controller.cameraDirection,
               builder: (context, state, child) {
                 return Icon(
                   state == CameraFacing.front
