@@ -39,8 +39,6 @@ target 'Runner' do
   
   # Force compatible versions to resolve dependency conflicts
   # Override GoogleUtilities to a version compatible with both firebase_messaging and mobile_scanner
-  # Force GoogleMLKit version required by mobile_scanner
-  pod 'GoogleMLKit/BarcodeScanning', '~> 4.0.0'
 end
 
 post_install do |installer|
