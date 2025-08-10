@@ -42,7 +42,6 @@ target 'Runner' do
   pod 'GoogleUtilities', '~> 7.11.5'
   # Force GoogleMLKit version required by mobile_scanner
   pod 'GoogleMLKit/BarcodeScanning', '~> 4.0.0'
-end
 
 post_install do |installer|
   installer.pods_project.targets.each do |target|
