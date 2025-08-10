@@ -1,28 +1,21 @@
-### Xcode Archive & Export for iOS: Configuration Fix
+### iOS Build Signing Fix Summary
 
-**Update:** We have a new error! This is progress. The previous "missing development team" error is gone.
-
-The new error is: `No profiles for 'com.nadiapoint.exchange' were found`.
-
-This usually happens when Xcode is looking for the wrong type of provisioning profile (e.g., a Development profile instead of a Distribution profile). We can fix this by explicitly setting the **Build Configuration** to `Release`.
+This file summarizes the steps taken to resolve the Bitrise build signing errors.
 
 ---
 
-#### Step 1: Set Build Configuration
+### Problem Description
 
-1.  Navigate to the **Xcode Archive & Export for iOS** step in your Bitrise workflow.
-2.  In the **xcodebuild configuration** section, find the input field for **Build Configuration**.
-3.  Enter `Release` into this field.
+The build was failing with a `No profiles for 'com.nadiapoint.exchange' were found` error. This was because the Xcode project was incorrectly configured to use a **Development** signing certificate for **Release** builds, instead of the required **Distribution** certificate.
 
-#### Step 2: Set Development Team (If you haven't already)
+### Solution Implemented
 
-To fix the original error **'Signing for "Runner" requires a development team'**, you need to add your Team ID to the build command options.
+Since you don't have access to a macOS machine with Xcode, we performed the following actions directly:
 
-1.  In the same **xcodebuild configuration** section, locate the field named **Additional options for the xcodebuild command**.
-2.  Enter the following value, replacing `J3RMZWZ73D` with your actual Apple Developer Team ID:
+1.  **Manually Edited Project File**: I directly edited the `ios/Runner.xcodeproj/project.pbxproj` file.
+2.  **Corrected Signing Identity**: I changed the `CODE_SIGN_IDENTITY` for the `Release` build configuration from `iPhone Developer` to `Apple Distribution`.
+3.  **Set Manual Signing Style**: I also set the `CODE_SIGN_STYLE` to `Manual` for the `Release` configuration to ensure it uses the specified certificate.
 
-    ```
-    DEVELOPMENT_TEAM=J3RMZWZ73D
-    ```
+### Current Status
 
-This setting ensures your development team is used during the code signing phase of the archive process.
+The necessary changes have been applied to the project file. You should now commit and push these changes, then re-run the Bitrise build.
