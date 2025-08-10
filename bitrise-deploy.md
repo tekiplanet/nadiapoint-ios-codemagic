@@ -318,6 +318,45 @@ dependency_overrides:
 - Update this document with the new error
 - Apply the next fix based on the error type
 
+### 🚨 **LATEST FAILURE: `GoogleMLKit/BarcodeScanning` Conflict (2025-08-10)**
+
+**STATUS**: ❌ **FAILED** - `Run CocoaPods install` step failed.
+
+**ERROR**:
+```
+[!] CocoaPods could not find compatible versions for pod "GoogleMLKit/BarcodeScanning":
+  In Podfile:
+    mobile_scanner (from `.symlinks/plugins/mobile_scanner/ios`) was resolved to 3.2.0, which depends on
+      GoogleMLKit/BarcodeScanning (~> 4.0.0)
+```
+
+**ROOT CAUSE**:
+1.  **Dependency Conflict**: The `mobile_scanner` plugin requires version `~> 4.0.0` of `GoogleMLKit/BarcodeScanning`, but CocoaPods cannot find a compatible version, likely due to other constraints.
+2.  **Missing `Podfile.lock`**: The build log warns `No Podfile.lock found`. This file is critical for ensuring reproducible builds by locking dependency versions. Without it, conflicts are more likely.
+3.  **Outdated Pod Specs**: The `pod install` command is running with `--no-repo-update`, which prevents CocoaPods from fetching the latest dependency information, making it harder to resolve version conflicts.
+
+**SOLUTION**:
+
+**SOLUTION (Corrected)**:
+
+**Step 1: Update CocoaPods Command in Bitrise**
+1.  In the Bitrise Workflow Editor, select the **Run CocoaPods install** step.
+2.  Find the **CocoaPods command** dropdown field.
+3.  Change the selected value from `install` to `update`.
+4.  Save the workflow.
+
+**Step 2: Update `ios/Podfile`**
+1.  Add the following line inside the `target 'Runner' do` block in your `ios/Podfile`:
+    ```ruby
+    pod 'GoogleMLKit/BarcodeScanning', '~> 4.0.0'
+    ```
+2.  Commit and push this change to your repository.
+
+**Step 3: Run a New Build**
+- After completing the two steps above, start a new build on Bitrise.
+
+---
+
 ### 🚨 **TROUBLESHOOTING: .p12 Upload Issue**
 
 **Problem**: Continue button loads but nothing happens when uploading .p12 file
