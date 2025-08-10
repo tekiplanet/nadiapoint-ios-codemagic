@@ -337,22 +337,23 @@ dependency_overrides:
 
 **SOLUTION**:
 
-**SOLUTION (Definitive)**:
+**SOLUTION (Final)**:
 
-The previous solutions failed because the Bitrise `Run CocoaPods install` step automatically adds a `--no-repo-update` flag, which prevents dependency resolution. The definitive solution is to replace this step with a custom script.
+The `Run CocoaPods install` step is the source of the problem, as it forces a `--no-repo-update` flag that cannot be overridden. The final solution is to fix the `Podfile` syntax and replace the failing step with a custom script that gives us full control.
 
 **Step 1: Fix `Podfile` Syntax**
-1.  Ensure the `target 'Runner' do` block in your `ios/Podfile` is correctly closed with an `end` statement before the `post_install` block.
+1.  The `post_install` block in `ios/Podfile` must be closed with an `end` statement. Ensure the file syntax is correct before running a new build.
 
-**Step 2: Replace the CocoaPods Step with a Script**
+**Step 2: Replace the CocoaPods Step with a Custom Script**
 1.  In the Bitrise Workflow Editor, **delete** the `Run CocoaPods install` step.
 2.  Add a new **Script** step in its place.
-3.  In the new `Script` step's **Script content** input field, paste the following:
+3.  In the new `Script` step's **Script content** input field, paste the following commands:
     ```bash
     #!/bin/bash
     set -ex
     cd "${BITRISE_SOURCE_DIR}/ios"
-    pod update --repo-update
+    pod repo update
+    pod install
     ```
 4.  Save the workflow.
 
