@@ -560,3 +560,35 @@ Search for "convert cer to p12 online" and try:
    - Look in your **Manage iOS Code Signing step** settings
    - See if there's an option for "Auto-generate certificates" or similar
    - This might bypass the need for manual .p12 uploads
+
+---
+
+### **Error: `Specs satisfying the ... dependency were found, but they required a higher minimum deployment target.`**
+
+- **Symptom**: The `pod install` command fails, stating that a dependency requires a higher minimum iOS deployment target, even after you have raised the version number.
+
+  ```log
+  [!] CocoaPods could not find compatible versions for pod "mobile_scanner":
+    In Podfile:
+      mobile_scanner (from `.symlinks/plugins/mobile_scanner/ios`)
+
+  Specs satisfying the `mobile_scanner (from `.symlinks/plugins/mobile_scanner/ios`)` dependency were found, but they required a higher minimum deployment target.
+  ```
+
+- **Root Cause**: A Flutter plugin requires a specific version of iOS. Changelogs and documentation can sometimes be out of date. The definitive source of truth is the plugin's `.podspec` file.
+
+- **Solution**: You must find the exact iOS version required by the plugin and set it in your `Podfile`.
+
+  1.  **Find the `.podspec` file**: The most reliable way is to find the plugin's source code on GitHub for the specific version you are using. For `mobile_scanner: ^6.0.1`, the file is located at `https://raw.githubusercontent.com/juliansteenbakker/mobile_scanner/v6.0.1/ios/mobile_scanner.podspec`.
+  2.  **Read the Requirement**: Inside the `.podspec` file, look for the `s.platform` line.
+
+      ```ruby
+      # In mobile_scanner.podspec for v6.0.1
+      s.platform = :ios, '15.5.0'
+      ```
+  3.  **Edit `ios/Podfile`**: Set the platform version in your `Podfile` to match this requirement exactly.
+
+      ```ruby
+      # At the top of ios/Podfile
+      platform :ios, '15.5'
+      ```
