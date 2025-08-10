@@ -14,33 +14,34 @@ This document provides the final instructions to resolve the iOS build signing e
 
 ---
 
-### **The Correct & Final Configuration**
+### **The Definitive & Final Configuration**
 
-The root cause of the build failures was a conflict between how the Xcode project file was configured and how the Bitrise workflow was trying to manage code signing. The solution is to make them work together.
+The root cause of the build failures was a persistent conflict between the Xcode project's settings and overrides from the Bitrise workflow. The definitive solution is to make the Xcode project file the single source of truth for code signing and remove all related overrides from Bitrise.
 
-#### Part 1: Configure the Xcode Project File
+#### Part 1: The Xcode Project File (`project.pbxproj`)
 
-The project file must be set up for **Manual Signing** and point directly to the provisioning profile's UUID. This removes all ambiguity.
+Both `Release` build configurations in the project file must contain the complete and correct manual signing information.
 
 -   **File**: `ios/Runner.xcodeproj/project.pbxproj`
--   **Settings for both `Release` configurations**:
+-   **Required settings for BOTH `Release` configurations**:
     -   `CODE_SIGN_STYLE = Manual;`
     -   `"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Distribution";`
     -   `PROVISIONING_PROFILE_SPECIFIER = "14385a45-f676-46d8-af8e-ba68b50ed804";`
-    -   **IMPORTANT**: `DEVELOPMENT_TEAM` must **NOT** be set in this file.
+    -   `DEVELOPMENT_TEAM = J3RMZWZ73D;`
 
-#### Part 2: Configure the Bitrise Workflow
+This tells Xcode exactly which profile to use and which team it belongs to, leaving no room for ambiguity.
 
-The Bitrise workflow needs the Team ID to find the correct code signing assets, but it must be provided in the correct field so it doesn't override the project settings.
+#### Part 2: The Bitrise Workflow
+
+To prevent conflicts, the Bitrise workflow must be cleared of any settings that could override the project file.
 
 1.  Go to the **Workflow Editor**.
 2.  Click on the **Xcode Archive & Export for iOS** step.
-3.  Find the **IPA export configuration** section.
-4.  In the **Developer Portal team** field, enter your Team ID: `J3RMZWZ73D`.
-5.  Ensure the **Additional options for the xcodebuild command** field (further down) is **empty**.
-6.  **Save** the workflow.
+3.  Ensure the **Developer Portal team** field is **EMPTY**.
+4.  Ensure the **Additional options for the xcodebuild command** field is also **EMPTY**.
+5.  **Save** the workflow.
 
-This combination ensures that Bitrise can find your signing certificate using your Team ID, and Xcode will then use the exact provisioning profile specified in your project, resolving the conflict.
+This setup ensures that Bitrise does not interfere with the build's code signing, allowing the explicit settings in `project.pbxproj` to work as intended.
 
 **Step 2: Upload the Profile to Bitrise**
 
