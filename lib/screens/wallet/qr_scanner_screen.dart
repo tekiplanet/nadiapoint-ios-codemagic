@@ -19,7 +19,6 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
     _hasScanned = false;
     _controller = MobileScannerController(
       formats: [BarcodeFormat.qrCode],
-      cameraDirection: CameraFacing.back,
     );
   }
 
