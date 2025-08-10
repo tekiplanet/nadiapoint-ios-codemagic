@@ -43,10 +43,10 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
         actions: [
           IconButton(
             icon: ValueListenableBuilder(
-              valueListenable: _controller.torchEnabled,
+              valueListenable: _controller.torchState,
               builder: (context, state, child) {
                 return Icon(
-                  state ? Icons.flash_on : Icons.flash_off,
+                  state == TorchState.off ? Icons.flash_off : Icons.flash_on,
                   color: Colors.white,
                 );
               },
@@ -55,7 +55,7 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
           ),
           IconButton(
             icon: ValueListenableBuilder(
-              valueListenable: _controller.cameraDirection,
+              valueListenable: _controller.cameraFacingState,
               builder: (context, state, child) {
                 return Icon(
                   state == CameraFacing.front
@@ -75,7 +75,7 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
             controller: _controller,
             onDetect: (capture) {
               if (_hasScanned) return;
-              
+
               final List<Barcode> barcodes = capture.barcodes;
               for (final barcode in barcodes) {
                 print('Detected barcode: ${barcode.rawValue}');
@@ -182,13 +182,15 @@ class ScannerOverlayPainter extends CustomPainter {
     // Bottom right corner
     canvas.drawPath(
       Path()
-        ..moveTo(scanAreaLeft + scanAreaSize - cornerLength, scanAreaTop + scanAreaSize)
+        ..moveTo(scanAreaLeft + scanAreaSize - cornerLength,
+            scanAreaTop + scanAreaSize)
         ..lineTo(scanAreaLeft + scanAreaSize, scanAreaTop + scanAreaSize)
-        ..lineTo(scanAreaLeft + scanAreaSize, scanAreaTop + scanAreaSize - cornerLength),
+        ..lineTo(scanAreaLeft + scanAreaSize,
+            scanAreaTop + scanAreaSize - cornerLength),
       cornerPaint,
     );
   }
 
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
-} 
+}
