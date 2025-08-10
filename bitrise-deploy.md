@@ -592,3 +592,102 @@ Search for "convert cer to p12 online" and try:
       # At the top of ios/Podfile
       platform :ios, '15.5'
       ```
+
+---
+
+### 🚨 **TROUBLESHOOTING: `Flutter.xcframework must exist` Error**
+
+- **Symptom**: The `pod install` command fails during the `[CP] Embed Pods Frameworks` post-install hook with an error message indicating that `Flutter.xcframework` does not exist.
+
+  ```log
+  [!] Error installing mobile_scanner
+  [!] /bin/sh -c 
+  set -e
+  /flutter/bin/flutter --suppress-analytics --verbose assemble --output=build/ios/framework/Release --no-debug --no-profile build_ios_framework
+  ... 
+  error: Flutter.xcframework must exist. If you're running pod install manually, make sure flutter pub get is executed once. If you're running pod install from an Xcode project, make sure to open Runner.xcworkspace.
+  ```
+
+- **Root Cause**: The Flutter engine artifacts for iOS have not been downloaded to the build machine before CocoaPods tries to integrate them. The `flutter pub get` command alone is not sufficient to prepare these artifacts.
+
+- **Solution**: You must run `flutter precache --ios` before running `pod install`. This command downloads the necessary iOS engine artifacts.
+
+  1.  **Add a `Script` step** in your Bitrise workflow right before the `Run CocoaPods install` step.
+  2.  **Set the Script Content**:
+
+      ```bash
+      #!/bin/bash
+      set -ex
+      cd "$BITRISE_SOURCE_DIR/ios"
+      flutter precache --ios
+      pod repo update
+      pod install
+      ```
+
+  3.  **Disable or Remove the `Run CocoaPods install` step**, as this script now handles it.
+
+---
+
+### 🚨 **TROUBLESHOOTING: Dart Compile Errors After Plugin Upgrade**
+
+- **Symptom**: After upgrading a Flutter plugin (e.g., `mobile_scanner` to v6+), the `flutter build` command fails with Dart compile-time errors like `The getter '...' isn't defined for the class '...'`.
+
+  ```dart
+  // Example error for mobile_scanner v6
+  Error: The getter 'torchState' isn't defined for the class 'MobileScannerController'.
+  ```
+
+- **Root Cause**: The plugin's API has changed in the new version. Properties or methods have been renamed, moved, or replaced.
+
+- **Solution**: You must update your Dart code to use the new API. For `mobile_scanner` v6+, the controller itself becomes the `ValueListenable`, and its state (like torch and camera direction) is accessed through its `value`.
+
+  **Old Code (Incorrect for v6+):**
+  ```dart
+  ValueListenableBuilder(
+    valueListenable: _controller.torchState, // This is wrong
+    builder: (context, state, child) { ... }
+  );
+  ```
+
+  **New Code (Correct for v6+):**
+  ```dart
+  ValueListenableBuilder(
+    valueListenable: _controller, // Listen to the controller itself
+    builder: (context, state, child) { // `state` is the controller's value
+      return Icon(
+        state.torchState == TorchState.off ? Icons.flash_off : Icons.flash_on,
+      );
+    },
+  );
+  ```
+
+---
+
+### 🚨 **TROUBLESHOOTING: `unable to find directory entry in pubspec.yaml`**
+
+- **Symptom**: The Xcode build fails with an error indicating that an asset directory declared in `pubspec.yaml` cannot be found.
+
+  ```log
+  Error (Xcode): Error: unable to find directory entry in pubspec.yaml: /Users/vagrant/git/assets/animations/
+  ```
+
+- **Root Cause**: The `pubspec.yaml` file references an asset directory (e.g., `assets/animations/`) that is empty in your local project. Because Git does not track empty directories, it is not created when your repository is cloned on the build server, causing the build to fail.
+
+- **Solution**: If the directory is not being used, simply remove its declaration from the `assets` section of your `pubspec.yaml` file.
+
+  **Before:**
+  ```yaml
+  flutter:
+    assets:
+      - assets/images/
+      - assets/animations/ # This directory is empty and causes the error
+      - assets/data/
+  ```
+
+  **After:**
+  ```yaml
+  flutter:
+    assets:
+      - assets/images/
+      - assets/data/
+  ```
