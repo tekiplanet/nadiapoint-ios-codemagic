@@ -691,3 +691,39 @@ Search for "convert cer to p12 online" and try:
       - assets/images/
       - assets/data/
   ```
+
+---
+
+### 🚨 **TROUBLESHOOTING: `No file or variants found for asset: .env`**
+
+- **Symptom**: The build fails with an error stating that the `.env` asset cannot be found.
+
+  ```log
+  Error (Xcode): No file or variants found for asset: .env.
+  ```
+
+- **Root Cause**: The `.env` file is correctly listed in your `.gitignore` file to protect your secrets (API keys, etc.). Because it is not committed to your Git repository, it does not exist on the Bitrise build server when the build process tries to bundle it.
+
+- **Solution**: Do **NOT** remove `.env` from your `.gitignore`. Instead, use Bitrise's secure Secrets feature to create the file on the build server at the start of the build.
+
+  1.  **Add a Bitrise Secret**:
+      - In your Bitrise project, go to the **Secrets** tab.
+      - Click **Add new**.
+      - **Secret key**: `DOT_ENV_CONTENT`
+      - **Secret value**: Copy the **entire contents** of your local `.env` file and paste it here.
+      - Ensure the **"Expose for Pull Requests?"** toggle is **OFF** for security.
+      - Click **Save**.
+
+  2.  **Add a `Script` Step to Your Workflow**:
+      - Go to the **Workflows** tab.
+      - Add a new **Script** step immediately after the **Git Clone Repository** step.
+      - **Set the Script Content** to the following:
+
+        ```bash
+        #!/bin/bash
+        # This script creates the .env file from the Bitrise secret
+        set -ex
+        echo "$DOT_ENV_CONTENT" > "$BITRISE_SOURCE_DIR/.env"
+        ```
+
+  This ensures the `.env` file exists before any build or asset-bundling commands are run, resolving the error securely.
