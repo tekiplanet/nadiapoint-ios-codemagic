@@ -14,21 +14,20 @@ This document provides the final instructions to resolve the iOS build signing e
 
 ---
 
-### **ACTION REQUIRED**: Generate and Upload Provisioning Profile
+### **Final Fix**: Using the Profile UUID
 
-You must now generate an **App Store** provisioning profile with the correct name and upload it to Bitrise.
+When using the profile *name* still resulted in a "Profile Not Found" error, the final solution was to reference the provisioning profile by its unique ID (UUID) instead.
 
-**Step 1: Generate the Provisioning Profile**
+**Action Taken:**
 
-1.  Log in to your [Apple Developer Account](https://developer.apple.com/account/).
-2.  Navigate to **Certificates, Identifiers & Profiles**.
-3.  Select **Profiles** from the sidebar.
-4.  Click the **+** button to create a new profile.
-5.  Under the **Distribution** section, select **App Store** and click **Continue**.
-6.  Select the correct App ID: `com.nadiapoint.exchange` and click **Continue**.
-7.  Select your active **Apple Distribution** certificate and click **Continue**.
-8.  For the **Provisioning Profile Name**, you must enter the name **exactly** as it appears in the project file: `match AppStore com.nadiapoint.exchange`.
-9.  Click **Generate**, and then **Download** the `.mobileprovision` file.
+1.  **Located the UUID**: The UUID for the provisioning profile (`14385a45-f676-46d8-af8e-ba68b50ed804`) was found in the **Code Signing** section of the Bitrise project.
+
+2.  **Updated Project File**: The `project.pbxproj` file was edited to replace the profile name with the UUID for the `PROVISIONING_PROFILE_SPECIFIER` setting in both `Release` configurations.
+
+    -   **Old Value**: `"match AppStore com.nadiapoint.exchange"`
+    -   **New Value**: `"14385a45-f676-46d8-af8e-ba68b50ed804"`
+
+This provides a direct, unambiguous link to the profile, bypassing any potential name resolution or caching issues.
 
 **Step 2: Upload the Profile to Bitrise**
 
@@ -41,6 +40,19 @@ You must now generate an **App Store** provisioning profile with the correct nam
 - Once the profile is uploaded, go back to your app's main page and trigger a new build.
 
 This should resolve the final signing error. Please let me know the result of the next build.
+
+---
+
+### Build Caching (Attempted Fix)
+
+If the error persists even after uploading the profile, it is due to a caching issue on the Bitrise build machine. You must clear the cache before the next build.
+
+1.  On your app's main page, find the menu on the left side.
+2.  Click on **Build Cache**.
+3.  On the Build Cache page, find and click the button to **Delete all caches**.
+4.  Once the cache is cleared, go back to the main **Builds** page and start a new build normally.
+
+This will force the build machine to download all your code signing files fresh, resolving the issue.
 
 ### Solution Implemented
 
