@@ -176,7 +176,6 @@ flutter:
   assets:
     - .env
     - assets/images/
-    - assets/animations/
     - assets/data/
     - assets/images/logo/
 
