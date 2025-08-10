@@ -337,20 +337,24 @@ dependency_overrides:
 
 **SOLUTION**:
 
-**SOLUTION (Corrected)**:
+**SOLUTION (Definitive)**:
 
-**Step 1: Update CocoaPods Command in Bitrise**
-1.  In the Bitrise Workflow Editor, select the **Run CocoaPods install** step.
-2.  Find the **CocoaPods command** dropdown field.
-3.  Change the selected value from `install` to `update`.
-4.  Save the workflow.
+The previous solutions failed because the Bitrise `Run CocoaPods install` step automatically adds a `--no-repo-update` flag, which prevents dependency resolution. The definitive solution is to replace this step with a custom script.
 
-**Step 2: Update `ios/Podfile`**
-1.  Add the following line inside the `target 'Runner' do` block in your `ios/Podfile`:
-    ```ruby
-    pod 'GoogleMLKit/BarcodeScanning', '~> 4.0.0'
+**Step 1: Fix `Podfile` Syntax**
+1.  Ensure the `target 'Runner' do` block in your `ios/Podfile` is correctly closed with an `end` statement before the `post_install` block.
+
+**Step 2: Replace the CocoaPods Step with a Script**
+1.  In the Bitrise Workflow Editor, **delete** the `Run CocoaPods install` step.
+2.  Add a new **Script** step in its place.
+3.  In the new `Script` step's **Script content** input field, paste the following:
+    ```bash
+    #!/bin/bash
+    set -ex
+    cd "${BITRISE_SOURCE_DIR}/ios"
+    pod update --repo-update
     ```
-2.  Commit and push this change to your repository.
+4.  Save the workflow.
 
 **Step 3: Run a New Build**
 - After completing the two steps above, start a new build on Bitrise.
