@@ -1,10 +1,10 @@
+stack_image_version: 2-108-3
+host_name: vm-osx-sequoia-16-g2.mac.large-5f560c76-5cea-4563-b0bf-7237292544e1
+node_name: US-EAST-IAD-1A-AM06-0138
+bitrise_cli_command: $ bitrise "run" "--config" "/var/folders/f6/wf2hj3cj75qdwmt5rn814r_00000gn/T/bitrise-agent135340013/bitrise.yml" "--inventory" "/var/folders/f6/wf2hj3cj75qdwmt5rn814r_00000gn/T/bitrise-agent135340013/bitrise.secrets.yml" "--json-params-base64" "eyJ3b3JrZmxvdyI6InByaW1hcnkifQ==" "--output-format" "json"
 xcode_version: 16.4
 den_agent_version: 2.57.12
-stack_image_version: 2-108-3
-host_name: vm-osx-sequoia-16-g2.mac.large-912f9c23-32d6-4a27-8d57-52f5fad0e0a1
-node_name: US-CENTRAL-ORD-1A-AM06-0216
-bitrise_cli_command: $ bitrise "run" "--config" "/var/folders/f6/wf2hj3cj75qdwmt5rn814r_00000gn/T/bitrise-agent3198660144/bitrise.yml" "--inventory" "/var/folders/f6/wf2hj3cj75qdwmt5rn814r_00000gn/T/bitrise-agent3198660144/bitrise.secrets.yml" "--json-params-base64" "eyJ3b3JrZmxvdyI6InByaW1hcnkifQ==" "--output-format" "json"
-Invocation started at 19:50:10
+Invocation started at 20:23:46
 Bitrise CLI version: 2.33.0
 Run modes:
 CI mode: true
@@ -25,7 +25,7 @@ Step uses latest version, updating StepLib...
 +---+---------------------------------------------------------------+----------+
 
 +---+---------------------------------------------------------------+----------+
-| ✓ | Git Clone Repository                                          | 5.58 sec |
+| ✓ | Git Clone Repository                                          | 5.15 sec |
 +---+---------------------------------------------------------------+----------+
                                         ▼
 +------------------------------------------------------------------------------+
@@ -34,7 +34,7 @@ Step uses latest version, updating StepLib...
 +---+---------------------------------------------------------------+----------+
 
 +---+---------------------------------------------------------------+----------+
-| ✓ | Script                                                        | 0.47 sec |
+| ✓ | Script                                                        | 0.48 sec |
 +---+---------------------------------------------------------------+----------+
                                         ▼
 +------------------------------------------------------------------------------+
@@ -43,7 +43,7 @@ Step uses latest version, updating StepLib...
 +---+---------------------------------------------------------------+----------+
 
 +---+---------------------------------------------------------------+----------+
-| ✓ | Flutter Install                                               | 40.88 sec |
+| ✓ | Flutter Install                                               | 40.27 sec |
 +---+---------------------------------------------------------------+----------+
 | Update available: 0 (0.13.1) -> 1.0.0                                        |
 | Release notes are available below                                            |
@@ -56,7 +56,7 @@ Step uses latest version, updating StepLib...
 +---+---------------------------------------------------------------+----------+
 
 +---+---------------------------------------------------------------+----------+
-| ✓ | Script                                                        | 24.41 sec |
+| ✓ | Script                                                        | 24.21 sec |
 +---+---------------------------------------------------------------+----------+
                                         ▼
 +------------------------------------------------------------------------------+
@@ -76,7 +76,7 @@ Step uses latest version, updating StepLib...
 | version: 5.8.0                                                               |
 | collection: https://github.com/bitrise-io/bitrise-steplib.git                |
 | toolkit: go                                                                  |
-| time: 2025-08-10T19:53:11Z                                                   |
+| time: 2025-08-10T20:26:49Z                                                   |
 +------------------------------------------------------------------------------+
 |                                                                              |
 Inputs:
@@ -87,7 +87,7 @@ Inputs:
 - configuration: Release
 - xcconfig_content: COMPILER_INDEX_STORE_ENABLE = NO
 - perform_clean_action: false
-- xcodebuild_options: DEVELOPMENT_TEAM=J3RMZWZ73D
+- xcodebuild_options: <unset>
 - log_formatter: xcpretty
 - automatic_code_signing: off
 - register_test_devices: false
@@ -98,7 +98,7 @@ Inputs:
 - keychain_path: /Users/[REDACTED]/Library/Keychains/login.keychain
 - keychain_password: *****
 - fallback_provisioning_profile_url_list: <unset>
-- export_development_team: J3RMZWZ73D
+- export_development_team: <unset>
 - compile_bitcode: true
 - upload_bitcode: true
 - icloud_container_environment: <unset>
@@ -113,27 +113,25 @@ Inputs:
 - api_key_issuer_id: <unset>
 - api_key_enterprise_account: false
 - verbose_log: false
-- BITRISE_BUILD_URL: https://app.bitrise.io/build/a59d3731-7a82-4432-badd-38b14f6fd49b
+- BITRISE_BUILD_URL: https://app.bitrise.io/build/94450863-b038-42dd-a2fb-d094570f8bcd
 - BITRISE_BUILD_API_TOKEN: *****
 Xcode version:
 Xcode 16.4 (16F6)
 Checking if log formatter (xcpretty) is installed
 - log formatter version: 0.4.1
 Running resolve Swift package dependencies
-[19:53:20] Resolving package dependencies...
-[19:53:20] $ xcodebuild "-workspace" "/Users/[REDACTED]/git/ios/Runner.xcworkspace" "-scheme" "Runner" "-configuration" "Release" "-resolvePackageDependencies" "DEVELOPMENT_TEAM=J3RMZWZ73D"
+[20:26:58] Resolving package dependencies...
+[20:26:58] $ xcodebuild "-workspace" "/Users/[REDACTED]/git/ios/Runner.xcworkspace" "-scheme" "Runner" "-configuration" "Release" "-resolvePackageDependencies"
 Command line invocation:
-    /Applications/Xcode-16.4.0.app/Contents/Developer/usr/bin/xcodebuild -workspace /Users/[REDACTED]/git/ios/Runner.xcworkspace -scheme Runner -configuration Release -resolvePackageDependencies DEVELOPMENT_TEAM=J3RMZWZ73D
-Build settings from command line:
-    DEVELOPMENT_TEAM = J3RMZWZ73D
+    /Applications/Xcode-16.4.0.app/Contents/Developer/usr/bin/xcodebuild -workspace /Users/[REDACTED]/git/ios/Runner.xcworkspace -scheme Runner -configuration Release -resolvePackageDependencies
 resolved source packages: 
-[19:53:22] Resolved package dependencies.
+[20:26:59] Resolved package dependencies.
 Looking for artifact name as field is empty
-[19:53:22] Reading build settings...
-[19:53:22] $ xcodebuild "-workspace" "/Users/[REDACTED]/git/ios/Runner.xcworkspace" "-scheme" "Runner" "-configuration" "Release" "-showBuildSettings"
-[19:53:23] Read target settings.
+[20:26:59] Reading build settings...
+[20:26:59] $ xcodebuild "-workspace" "/Users/[REDACTED]/git/ios/Runner.xcworkspace" "-scheme" "Runner" "-configuration" "Release" "-showBuildSettings"
+[20:27:01] Read target settings.
 Automatic code signing is disabled, skipped downloading code sign assets
-[19:53:23] Opening xcode project at path: /Users/[REDACTED]/git/ios/Runner.xcworkspace for scheme: Runner
+[20:27:01] Opening xcode project at path: /Users/[REDACTED]/git/ios/Runner.xcworkspace for scheme: Runner
 Read Runner scheme in 0s.
 Read AppAuth-AppAuthCore_Privacy scheme in 0s.
 Read AppAuth scheme in 0s.
@@ -222,26 +220,26 @@ Read url_launcher_ios-url_launcher_ios_privacy scheme in 0s.
 Read url_launcher_ios scheme in 0s.
 Read webview_flutter_wkwebview-webview_flutter_wkwebview_privacy scheme in 0s.
 Read webview_flutter_wkwebview scheme in 0s.
-[19:53:23] Reading xcode project
-[19:53:23] Reading main target
-[19:53:23] Creating the Archive ...
-[19:53:23] $ set -o pipefail && xcodebuild "archive" "-workspace" "/Users/[REDACTED]/git/ios/Runner.xcworkspace" "-scheme" "Runner" "-configuration" "Release" "-xcconfig" "/var/folders/f6/wf2hj3cj75qdwmt5rn814r_00000gn/T/281404920/temp.xcconfig" "-archivePath" "/var/folders/f6/wf2hj3cj75qdwmt5rn814r_00000gn/T/xcodeArchive929109636/Runner.xcarchive" "-destination" "generic/platform=iOS" "DEVELOPMENT_TEAM=J3RMZWZ73D" | xcpretty
+[20:27:01] Reading xcode project
+[20:27:01] Reading main target
+[20:27:01] Creating the Archive ...
+[20:27:01] $ set -o pipefail && xcodebuild "archive" "-workspace" "/Users/[REDACTED]/git/ios/Runner.xcworkspace" "-scheme" "Runner" "-configuration" "Release" "-xcconfig" "/var/folders/f6/wf2hj3cj75qdwmt5rn814r_00000gn/T/3442939222/temp.xcconfig" "-archivePath" "/var/folders/f6/wf2hj3cj75qdwmt5rn814r_00000gn/T/xcodeArchive1059547065/Runner.xcarchive" "-destination" "generic/platform=iOS" | xcpretty
     no rule to process file '/Users/[REDACTED]/.pub-cache/hosted/pub.dev/flutter_native_splash-2.4.4/ios/flutter_native_splash/Sources/flutter_native_splash/PrivacyInfo.xcprivacy' of type 'text.xml' for architecture 'arm64' (in target 'flutter_native_splash' from project 'Pods')
 Last lines of the Xcode log:
-note: Disabling previews because SWIFT_VERSION is set and SWIFT_OPTIMIZATION_LEVEL=-O, expected -Onone (in target 'firebase_core' from project 'Pods')
-note: Disabling previews because SWIFT_VERSION is set and SWIFT_OPTIMIZATION_LEVEL=-O, expected -Onone (in target 'Flutter' from project 'Pods')
-note: Disabling previews because SWIFT_VERSION is set and SWIFT_OPTIMIZATION_LEVEL=-O, expected -Onone (in target 'url_launcher_ios-url_launcher_ios_privacy' from project 'Pods')
-note: Disabling previews because SWIFT_VERSION is set and SWIFT_OPTIMIZATION_LEVEL=-O, expected -Onone (in target 'google_sign_in_ios-google_sign_in_ios_privacy' from project 'Pods')
-/Users/[REDACTED]/git/ios/Pods/Pods.xcodeproj: warning: The iOS deployment target 'IPHONEOS_DEPLOYMENT_TARGET' is set to 9.0, but the range of supported deployment target versions is 12.0 to 18.5.99. (in target 'flutter_secure_storage-flutter_secure_storage' from project 'Pods')
-note: Disabling previews because SWIFT_VERSION is set and SWIFT_OPTIMIZATION_LEVEL=-O, expected -Onone (in target 'flutter_secure_storage-flutter_secure_storage' from project 'Pods')
-/Users/[REDACTED]/git/ios/Pods/Pods.xcodeproj: warning: The iOS deployment target 'IPHONEOS_DEPLOYMENT_TARGET' is set to 10.0, but the range of supported deployment target versions is 12.0 to 18.5.99. (in target 'GTMAppAuth' from project 'Pods')
-note: Disabling previews because SWIFT_VERSION is set and SWIFT_OPTIMIZATION_LEVEL=-O, expected -Onone (in target 'GTMAppAuth' from project 'Pods')
-/Users/[REDACTED]/git/ios/Pods/Pods.xcodeproj: warning: The iOS deployment target 'IPHONEOS_DEPLOYMENT_TARGET' is set to 9.0, but the range of supported deployment target versions is 12.0 to 18.5.99. (in target 'flutter_native_splash-flutter_native_splash_privacy' from project 'Pods')
-note: Disabling previews because SWIFT_VERSION is set and SWIFT_OPTIMIZATION_LEVEL=-O, expected -Onone (in target 'flutter_native_splash-flutter_native_splash_privacy' from project 'Pods')
-/Users/[REDACTED]/git/ios/Pods/Pods.xcodeproj: warning: The iOS deployment target 'IPHONEOS_DEPLOYMENT_TARGET' is set to 9.0, but the range of supported deployment target versions is 12.0 to 18.5.99. (in target 'PromisesObjC-FBLPromises_Privacy' from project 'Pods')
-note: Disabling previews because SWIFT_VERSION is set and SWIFT_OPTIMIZATION_LEVEL=-O, expected -Onone (in target 'PromisesObjC-FBLPromises_Privacy' from project 'Pods')
-note: Disabling previews because SWIFT_VERSION is set and SWIFT_OPTIMIZATION_LEVEL=-O, expected -Onone (in target 'FirebaseAuth-FirebaseAuth_Privacy' from project 'Pods')
-note: Disabling previews because SWIFT_VERSION is set and SWIFT_OPTIMIZATION_LEVEL=-O, expected -Onone (in target 'flutter_secure_storage' from project 'Pods')
+/Users/[REDACTED]/git/ios/Pods/Pods.xcodeproj: warning: The iOS deployment target 'IPHONEOS_DEPLOYMENT_TARGET' is set to 9.0, but the range of supported deployment target versions is 12.0 to 18.5.99. (in target 'libwebp' from project 'Pods')
+note: Disabling previews because SWIFT_VERSION is set and SWIFT_OPTIMIZATION_LEVEL=-O, expected -Onone (in target 'libwebp' from project 'Pods')
+/Users/[REDACTED]/git/ios/Pods/Pods.xcodeproj: warning: The iOS deployment target 'IPHONEOS_DEPLOYMENT_TARGET' is set to 10.0, but the range of supported deployment target versions is 12.0 to 18.5.99. (in target 'GTMSessionFetcher-GTMSessionFetcher_Core_Privacy' from project 'Pods')
+note: Disabling previews because SWIFT_VERSION is set and SWIFT_OPTIMIZATION_LEVEL=-O, expected -Onone (in target 'GTMSessionFetcher-GTMSessionFetcher_Core_Privacy' from project 'Pods')
+note: Disabling previews because SWIFT_VERSION is set and SWIFT_OPTIMIZATION_LEVEL=-O, expected -Onone (in target 'nanopb-nanopb_Privacy' from project 'Pods')
+note: Disabling previews because SWIFT_VERSION is set and SWIFT_OPTIMIZATION_LEVEL=-O, expected -Onone (in target 'FirebaseMessaging-FirebaseMessaging_Privacy' from project 'Pods')
+note: Disabling previews because SWIFT_VERSION is set and SWIFT_OPTIMIZATION_LEVEL=-O, expected -Onone (in target 'mobile_scanner' from project 'Pods')
+note: Disabling previews because SWIFT_VERSION is set and SWIFT_OPTIMIZATION_LEVEL=-O, expected -Onone (in target 'FirebaseAppCheckInterop' from project 'Pods')
+note: Disabling previews because SWIFT_VERSION is set and SWIFT_OPTIMIZATION_LEVEL=-O, expected -Onone (in target 'MLKitCommon' from project 'Pods')
+note: Disabling previews because SWIFT_VERSION is set and SWIFT_OPTIMIZATION_LEVEL=-O, expected -Onone (in target 'FBAEMKit' from project 'Pods')
+/Users/[REDACTED]/git/ios/Pods/Pods.xcodeproj: warning: The iOS deployment target 'IPHONEOS_DEPLOYMENT_TARGET' is set to 11.0, but the range of supported deployment target versions is 12.0 to 18.5.99. (in target 'RecaptchaInterop' from project 'Pods')
+note: Disabling previews because SWIFT_VERSION is set and SWIFT_OPTIMIZATION_LEVEL=-O, expected -Onone (in target 'RecaptchaInterop' from project 'Pods')
+note: Disabling previews because SWIFT_VERSION is set and SWIFT_OPTIMIZATION_LEVEL=-O, expected -Onone (in target 'flutter_facebook_auth' from project 'Pods')
+note: Disabling previews because SWIFT_VERSION is set and SWIFT_OPTIMIZATION_LEVEL=-O, expected -Onone (in target 'rive_common' from project 'Pods')
 ** ARCHIVE FAILED **
 The following build commands failed:
 	Archiving workspace Runner with scheme Runner
@@ -252,17 +250,17 @@ is available in the $BITRISE_XCODEBUILD_ARCHIVE_LOG_PATH environment variable.
 Deploy to Bitrise.io Step can attach the file to your build as an artifact.
 Failed to execute Step main logic:
   failed to archive the project:
-    command failed with exit status 65 (xcodebuild "archive" "-workspace" "/Users/[REDACTED]/git/ios/Runner.xcworkspace" "-scheme" "Runner" "-configuration" "Release" "-xcconfig" "/var/folders/f6/wf2hj3cj75qdwmt5rn814r_00000gn/T/281404920/temp.xcconfig" "-archivePath" "/var/folders/f6/wf2hj3cj75qdwmt5rn814r_00000gn/T/xcodeArchive929109636/Runner.xcarchive" "-destination" "generic/platform=iOS" "DEVELOPMENT_TEAM=J3RMZWZ73D"):
-      /Users/[REDACTED]/git/ios/Runner.xcodeproj: error: No profile for team 'J3RMZWZ73D' matching 'match AppStore com.nadiapoint.exchange' found: Xcode couldn't find any provisioning profiles matching 'J3RMZWZ73D/match AppStore com.nadiapoint.exchange'. Install the profile (by dragging and dropping it onto Xcode's dock item) or select a different one in the Signing & Capabilities tab of the target editor. (in target 'Runner' from project 'Runner')
-[19:53:29] Exporting outputs...
+    command failed with exit status 65 (xcodebuild "archive" "-workspace" "/Users/[REDACTED]/git/ios/Runner.xcworkspace" "-scheme" "Runner" "-configuration" "Release" "-xcconfig" "/var/folders/f6/wf2hj3cj75qdwmt5rn814r_00000gn/T/3442939222/temp.xcconfig" "-archivePath" "/var/folders/f6/wf2hj3cj75qdwmt5rn814r_00000gn/T/xcodeArchive1059547065/Runner.xcarchive" "-destination" "generic/platform=iOS"):
+      /Users/[REDACTED]/git/ios/Runner.xcodeproj: error: Signing for "Runner" requires a development team. Select a development team in the Signing & Capabilities editor that matches the selected profile "14385a45-f676-46d8-af8e-ba68b50ed804". (in target 'Runner' from project 'Runner')
+[20:27:06] Exporting outputs...
 The xcodebuild archive log path is now available in the Environment Variable: BITRISE_XCODEBUILD_ARCHIVE_LOG_PATH (value: /Users/[REDACTED]/deploy/xcodebuild-archive.log)
 Failed to execute Step main logic:
   failed to archive the project:
-    command failed with exit status 65 (xcodebuild "archive" "-workspace" "/Users/[REDACTED]/git/ios/Runner.xcworkspace" "-scheme" "Runner" "-configuration" "Release" "-xcconfig" "/var/folders/f6/wf2hj3cj75qdwmt5rn814r_00000gn/T/281404920/temp.xcconfig" "-archivePath" "/var/folders/f6/wf2hj3cj75qdwmt5rn814r_00000gn/T/xcodeArchive929109636/Runner.xcarchive" "-destination" "generic/platform=iOS" "DEVELOPMENT_TEAM=J3RMZWZ73D"):
-      /Users/[REDACTED]/git/ios/Runner.xcodeproj: error: No profile for team 'J3RMZWZ73D' matching 'match AppStore com.nadiapoint.exchange' found: Xcode couldn't find any provisioning profiles matching 'J3RMZWZ73D/match AppStore com.nadiapoint.exchange'. Install the profile (by dragging and dropping it onto Xcode's dock item) or select a different one in the Signing & Capabilities tab of the target editor. (in target 'Runner' from project 'Runner')
+    command failed with exit status 65 (xcodebuild "archive" "-workspace" "/Users/[REDACTED]/git/ios/Runner.xcworkspace" "-scheme" "Runner" "-configuration" "Release" "-xcconfig" "/var/folders/f6/wf2hj3cj75qdwmt5rn814r_00000gn/T/3442939222/temp.xcconfig" "-archivePath" "/var/folders/f6/wf2hj3cj75qdwmt5rn814r_00000gn/T/xcodeArchive1059547065/Runner.xcarchive" "-destination" "generic/platform=iOS"):
+      /Users/[REDACTED]/git/ios/Runner.xcodeproj: error: Signing for "Runner" requires a development team. Select a development team in the Signing & Capabilities editor that matches the selected profile "14385a45-f676-46d8-af8e-ba68b50ed804". (in target 'Runner' from project 'Runner')
 |                                                                              |
 +---+---------------------------------------------------------------+----------+
-| x | Xcode Archive & Export for iOS (Failed)                       | 18.71 sec |
+| x | Xcode Archive & Export for iOS (Failed)                       | 18.37 sec |
 +---+---------------------------------------------------------------+----------+
 | Issue tracker: https://github.com/bitrise-steplib/steps-xcode-archive/issues |
 | Source: https://github.com/bitrise-steplib/steps-xcode-archive               |
@@ -274,36 +272,36 @@ Failed to execute Step main logic:
 +---+---------------------------------------------------------------+----------+
 
 +---+---------------------------------------------------------------+----------+
-| - | Deploy to App Store Connect - Application Loader... (Skipped) | 0.49 sec |
+| - | Deploy to App Store Connect - Application Loader... (Skipped) | 0.51 sec |
 +---+---------------------------------------------------------------+----------+
 +------------------------------------------------------------------------------+
 |                           bitrise summary: primary                           |
 +---+---------------------------------------------------------------+----------+
 |   | title                                                         | time (s) |
 +---+---------------------------------------------------------------+----------+
-| ✓ | Git Clone Repository                                          | 5.59 sec |
+| ✓ | Git Clone Repository                                          | 5.15 sec |
 +---+---------------------------------------------------------------+----------+
-| ✓ | Script                                                        | 0.47 sec |
+| ✓ | Script                                                        | 0.48 sec |
 +---+---------------------------------------------------------------+----------+
-| ✓ | Flutter Install                                               | 40.88 sec|
+| ✓ | Flutter Install                                               | 40.27 sec|
 +---+---------------------------------------------------------------+----------+
 | Update available: 0 (0.13.1) -> 1.0.0                                        |
 |                                                                              |
 | Release notes are available below                                            |
 | https://github.com/bitrise-steplib/bitrise-step-flutter-installer/releases   |
 +---+---------------------------------------------------------------+----------+
-| ✓ | Script                                                        | 24.41 sec|
+| ✓ | Script                                                        | 24.21 sec|
 +---+---------------------------------------------------------------+----------+
 | ✓ | Script                                                        | 1.9 min  |
 +---+---------------------------------------------------------------+----------+
-| x | Xcode Archive & Export for iOS (Failed)                       | 18.71 sec|
+| x | Xcode Archive & Export for iOS (Failed)                       | 18.37 sec|
 +---+---------------------------------------------------------------+----------+
 | Issue tracker: https://github.com/bitrise-steplib/steps-xcode-archive/issues |
 | Source: https://github.com/bitrise-steplib/steps-xcode-archive               |
 +---+---------------------------------------------------------------+----------+
-| - | Deploy to App Store Connect - Application Loader ... (Skipped)| 0.50 sec |
+| - | Deploy to App Store Connect - Application Loader ... (Skipped)| 0.51 sec |
 +---+---------------------------------------------------------------+----------+
-| Total runtime: 3.4 min                                                       |
+| Total runtime: 3.3 min                                                       |
 +------------------------------------------------------------------------------+
 Bitrise build failed (exit code: 1)
 ExitCode: 1

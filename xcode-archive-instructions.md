@@ -14,20 +14,34 @@ This document provides the final instructions to resolve the iOS build signing e
 
 ---
 
-### **Final Fix**: Using the Profile UUID
+### **THE REAL FINAL FIX**: Removing the Build Step Override
 
-When using the profile *name* still resulted in a "Profile Not Found" error, the final solution was to reference the provisioning profile by its unique ID (UUID) instead.
+After all other fixes, the build still failed because a setting in the Bitrise workflow itself was overriding the project's code signing configuration.
 
-**Action Taken:**
+**The Culprit:**
 
-1.  **Located the UUID**: The UUID for the provisioning profile (`14385a45-f676-46d8-af8e-ba68b50ed804`) was found in the **Code Signing** section of the Bitrise project.
+- In the **Workflow Editor**, inside the **Xcode Archive & Export for iOS** step, there is a field called **"Additional options for the xcodebuild command"**.
+- This field contained the value `DEVELOPMENT_TEAM=J3RMZWZ73D`.
+- This was forcing the build to use a specific team ID, which conflicted with our manual signing setup.
 
-2.  **Updated Project File**: The `project.pbxproj` file was edited to replace the profile name with the UUID for the `PROVISIONING_PROFILE_SPECIFIER` setting in both `Release` configurations.
+**The Solution:**
 
-    -   **Old Value**: `"match AppStore com.nadiapoint.exchange"`
-    -   **New Value**: `"14385a45-f676-46d8-af8e-ba68b50ed804"`
+1.  Go to the **Workflow Editor**.
+2.  Click on the **Xcode Archive & Export for iOS** step.
+3.  Find the field **Additional options for the xcodebuild command**.
+4.  **Delete** the text `DEVELOPMENT_TEAM=J3RMZWZ73D` from the box.
+5.  **Save** the workflow.
 
-This provides a direct, unambiguous link to the profile, bypassing any potential name resolution or caching issues.
+This action stops Bitrise from interfering and allows the manual signing settings in the `project.pbxproj` file to work as intended.
+
+**The Final Piece: Adding the Team ID to the Project**
+
+The last error `Signing for "Runner" requires a development team` indicated that even with manual signing, Xcode needed to know which team the profile belonged to. The final fix was to add the team ID directly into the project file.
+
+- **File**: `ios/Runner.xcodeproj/project.pbxproj`
+- **Action**: Added `DEVELOPMENT_TEAM = J3RMZWZ73D;` to both `Release` build configurations.
+
+This completes the manual signing configuration, telling Xcode exactly which profile to use AND which team it belongs to.
 
 **Step 2: Upload the Profile to Bitrise**
 
@@ -43,7 +57,7 @@ This should resolve the final signing error. Please let me know the result of th
 
 ---
 
-### Build Caching (Attempted Fix)
+### Previous Incorrect Fixes
 
 If the error persists even after uploading the profile, it is due to a caching issue on the Bitrise build machine. You must clear the cache before the next build.
 
