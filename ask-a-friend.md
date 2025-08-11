@@ -14,9 +14,32 @@ This is a step-by-step script for a screen-sharing call. **Miracle**, you will g
 1.  Click the magnifying glass icon in the top-right corner of your screen.
 2.  Type `Keychain Access` and press `Enter`.
 
-**Miracle**: "Great. Now, in the menu bar at the very top of the screen, click `Keychain Access`, then go to `Certificate Assistant`, and click `Request a Certificate From a Certificate Authority...`"
+**Miracle**: "Great. Now we need to find the Certificate Assistant. Let's try a few different ways since it can be in different places depending on your macOS version."
 
-**Wisdom**: A new window should appear. 
+**Method 1 - Top Menu Bar:**
+**Miracle**: "Look at the very top menu bar of your screen (where it says Keychain Access, File, Edit, View, etc.). Click on `Keychain Access` in that top menu bar and look for `Certificate Assistant` or `Request a Certificate From a Certificate Authority...`"
+
+**If Method 1 doesn't work, try Method 2:**
+
+**Method 2 - Keyboard Shortcut:**
+**Miracle**: "Press `Command + Option + A` on your keyboard. This should open the Certificate Assistant directly."
+
+**If Method 2 doesn't work, try Method 3:**
+
+**Method 3 - For macOS Sequoia (15.6) and newer:**
+**Miracle**: "Close the 'About This Mac' window. In Keychain Access, click on `File` in the top menu bar and look for `New` then `Certificate Request` or similar."
+
+**Method 4 - Terminal Approach (if all else fails):**
+**Miracle**: "Close Keychain Access completely. Click the magnifying glass, type `Terminal` and press Enter. Then follow these steps:"
+
+1. **Miracle**: "First, if there's any command running, press `Control + C` to clear it."
+2. **Miracle**: "Type: `openssl genrsa -out ~/Desktop/private.key 2048` and press Enter."
+3. **Miracle**: "Then type: `openssl req -new -key ~/Desktop/private.key -out ~/Desktop/CertificateSigningRequest.certSigningRequest -subj '/CN=Goddey Ojabuoma/emailAddress=maihiben@gmail.com'`"
+4. **Miracle**: "This will create both the private key and certificate request files on the Desktop."
+5. **Miracle**: "Check the Desktop for a file called `CertificateSigningRequest.certSigningRequest` and send it to me."
+
+**Once you find the Certificate Assistant:**
+**Wisdom**: A new window should appear with certificate request options. 
 
 **Miracle**:
 1.  "In the `User Email Address` field, I'll give you my Apple Developer email. Please type it in."
@@ -47,22 +70,43 @@ This is a step-by-step script for a screen-sharing call. **Miracle**, you will g
 5.  When it asks you to upload a signing request, click `Choose File` and upload the `CertificateSigningRequest.certSigningRequest` file that Wisdom just sent you.
 6.  Click `Continue` and then `Download` to get the official certificate. It will be named `distribution.cer`.
 
-**Miracle**: "Okay, Wisdom. I've created the certificate. I'm sending it to you now. It's called `distribution.cer`."
+**Miracle**: "Okay, Wisdom. I've created the certificate. I'm sending it to you now. It's called `apple_distribution.cer` (or `distribution.cer`)."
 
 --- 
 
 ### **Part 3: Wisdom Creates the Final .p12 File**
 
-**Wisdom**:
-1.  Save the `distribution.cer` file from Miracle onto your Desktop.
-2.  Find the file and double-click it. Keychain Access will open and install it. It might seem like nothing happened, but it's done.
-
-**Miracle**: "Okay, now let's check if it installed correctly. Go back to the Keychain Access app."
+**Miracle**: "Okay Wisdom, I'm sending you the `apple_distribution.cer` file. Before you open it, we need to import the private key we created on the Desktop. This is a crucial step."
 
 **Wisdom**:
-1.  In the `My Certificates` category, look for `Apple Distribution: Goddey Ojabuoma (J3RMZWZ73D)`.
+1.  Save the `apple_distribution.cer` file from Miracle onto your Desktop.
+2.  Find the **`private.key`** file that is also on your Desktop.
+3.  Drag the `private.key` file from your Desktop and drop it directly onto the list of items in the main Keychain Access window (the large white area).
+4.  If it asks for a password, enter your Mac's login password.
+
+**Miracle**: "**What if dragging it gives an error like 'Unable to import'?** No problem, we'll use the Terminal. Please open the Terminal app."
+
+**Miracle**: "Once it's open, copy and paste this exact command into the Terminal and press Enter:"
+
+```bash
+security import ~/Desktop/private.key -k ~/Library/Keychains/login.keychain-db
+```
+
+**Miracle**: "It will probably ask for your Mac login password. Type it in and press Enter. The cursor won't move, but it's working."
+
+**Miracle**: "Great, the key is imported. NOW, please find and double-click the `apple_distribution.cer` file on your Desktop."
+
+**Wisdom**: Double-click the `.cer` file.
+
+**Miracle**: "Perfect. Now, in the Keychain Access window, click on `My Certificates` in the left sidebar."
+
+**Wisdom**: Click on `My Certificates` in the left sidebar.
+
+**Miracle**: "Great! Now look in the main area for a certificate that says `Apple Distribution: Goddey Ojabuoma (J3RMZWZ73D)`."
 
 **Miracle**: "This next part is the most important check. Do you see a little arrow to the left of that certificate name? Please click it."
+
+**Miracle**: "**Wait! What if there's no arrow?** That means we missed a step. Please find the `Apple Distribution` certificate in the list, right-click it, and choose `Delete`. Then we must start Part 3 over again, making sure to drag the `private.key` file in *before* double-clicking the certificate file."
 
 **Wisdom**: Click the arrow. A "private key" should appear nested underneath the certificate.
 
