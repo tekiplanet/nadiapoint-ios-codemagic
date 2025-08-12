@@ -1,59 +1,60 @@
-### Definitive iOS Build Signing Configuration
+# Definitive Bitrise iOS Code Signing Guide (Script Method)
 
-> **CRITICAL WARNING:** A valid code signing certificate (`.p12` file) **MUST** contain both the public certificate AND its corresponding private key. The only way to create a valid `.p12` file is to export it from the **Keychain Access** application on the specific Mac computer that originally created the certificate request. 
-> 
-> A `.cer` file downloaded from the Apple Developer portal is **NOT** sufficient. Converting a `.cer` file will result in a `.p12` file that is missing the private key, and it will cause the build to fail. You must obtain the correct `.p12` file from a team member with access to the necessary Mac.
-
-This document outlines the complete and final three-part configuration required to resolve iOS build signing errors on Bitrise. Follow all three parts carefully.
+This guide provides the single, correct method for configuring iOS code signing on Bitrise using a custom script. This approach bypasses the unreliable default Bitrise steps and provides full control.
 
 ---
 
-### Part 1: Xcode Project File (`project.pbxproj`)
+### Part 1: Prerequisites
 
-The Xcode project must be the single source of truth for all signing settings. Both `Release` build configurations must be updated with the following manual signing information.
+1.  **Valid Signing Files**: In the Bitrise **Code Signing** tab, ensure you have:
+    *   A valid `.p12` certificate (containing the private key) uploaded.
+    *   The correct `.mobileprovision` profile uploaded.
+    *   The password for the `.p12` file entered correctly.
+    *   The **Exposed** toggle turned **ON** for both files is recommended.
 
--   **File**: `ios/Runner.xcodeproj/project.pbxproj`
--   **Required settings for BOTH `Release` configurations**:
-    -   `CODE_SIGN_STYLE = Manual;`
-    -   `"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Distribution";`
-    -   `PROVISIONING_PROFILE_SPECIFIER = "14385a45-f676-46d8-af8e-ba68b50ed804";`
-    -   `DEVELOPMENT_TEAM = J3RMZWZ73D;`
-
-This configuration explicitly tells Xcode which certificate, provisioning profile, and development team to use, removing all ambiguity.
+2.  **Manual Signing in Xcode Project**: Your `ios/Runner.xcodeproj/project.pbxproj` file must be configured for manual signing with the correct identifiers.
 
 ---
 
-### Part 2: Bitrise Code Signing Tab
+### Part 2: Bitrise Workflow Configuration
 
-Bitrise must have the correct signing files uploaded and configured.
+> **CRITICAL: The script will fail if the 'Exposed' toggles are not enabled.** Before running the build, go to the **Code Signing** tab and ensure the toggle is **ON (green)** for **BOTH** the certificate and the provisioning profile. This allows the script to access the file URLs.
 
-1.  Navigate to your app on Bitrise, go to the **Workflow** tab, and then the **Code Signing** tab.
-2.  Ensure your **Apple Distribution Certificate (`.p12` file)** is uploaded.
-3.  Ensure your **App Store Provisioning Profile (`.mobileprovision` file)** is uploaded.
-4.  For the provisioning profile, ensure the **"Exposed" toggle is turned ON**. This prevents issues with pull request builds.
+This is the entire workflow setup. Do not use the `File Downloader` or `Certificate and profile installer` steps.
 
----
+1.  **Delete Old Steps**: In the Workflow Editor, **delete** the `Certificate and profile installer` step and any `File Downloader` steps you may have added.
 
-### Part 3: Bitrise Workflow Editor
+2.  **Add a `Script` Step**: Immediately after the `Git Clone Repository` step, add a new **`Script`** step.
 
-The workflow must be configured to correctly install the signing files and not override the project settings.
-
-1.  **Add and Configure the Installer Step**: Add the **`Certificate and profile installer`** step to your workflow, placing it immediately after `Git Clone Repository`. Then, click on the step and configure it:
-    -   Find the **`Installs default Codesign Files`** input and set it to **`no`**. This is critical to prevent the step from trying to install blank default files.
-
-2.  **Configure the Xcode Archive Step**: Click on the **`Xcode Archive & Export for iOS`** step and ensure the following fields are **EMPTY** to prevent them from overriding the project settings:
-    -   `Developer Portal team`
-    -   `Additional options for the xcodebuild command`
-
-3.  **(Recommended) Add Cache Clearing Script**: Add a **`Script`** step immediately after the `Certificate and profile installer` step. Add the following commands to the script content to prevent issues with stale cache:
+3.  **Paste the Script**: Click on the new `Script` step and paste the following code into the **Script content** box. This script manually handles the entire code signing setup.
 
     ```bash
-    echo "Clearing Xcode caches..."
-    rm -rf ~/Library/Developer/Xcode/DerivedData/
-    rm -rf $BITRISE_CACHE_DIR
-    echo "Caches cleared."
+    #!/bin/bash
+
+    echo "--- Downloading Signing Files ---"
+    curl -fLso certificate.p12 "$BITRISE_CERTIFICATE_URL"
+    curl -fLso profile.mobileprovision "$BITRISE_PROVISION_URL"
+    
+    echo "--- Installing Provisioning Profile ---"
+    mkdir -p "$HOME/Library/MobileDevice/Provisioning Profiles"
+    cp profile.mobileprovision "$HOME/Library/MobileDevice/Provisioning Profiles/"
+    
+    echo "--- Installing Certificate & Key ---"
+    security import certificate.p12 -k "$HOME/Library/Keychains/login.keychain-db" -P "$BITRISE_CERTIFICATE_PASSPHRASE" -A
+    
+    echo "--- Code Signing Setup Complete ---"
     ```
 
-4.  **Save** the workflow.
+    **Note:** When copying the script, be aware that formatting issues may occur. Ensure that the script is pasted correctly to avoid errors.
 
-After completing all three parts, run a new build. This comprehensive setup should resolve all signing errors.
+4.  **Save and Run**: Save the workflow. This is the final and correct configuration. Run your build.
+
+    **If the Script Still Fails (One-Liner Fallback):**
+
+    If you still see formatting errors (`command not found`, `illegal option`), try replacing the script with this single, continuous line. This is much more robust against copy-paste issues:
+
+    ```bash
+    curl -Lso certificate.p12 "$BITRISE_CERTIFICATE_URL" && curl -Lso profile.mobileprovision "$BITRISE_PROVISION_URL" && mkdir -p "$HOME/Library/MobileDevice/Provisioning Profiles" && cp profile.mobileprovision "$HOME/Library/MobileDevice/Provisioning Profiles/" && security import certificate.p12 -k "$HOME/Library/Keychains/login.keychain-db" -P "$BITRISE_CERTIFICATE_PASSPHRASE" -A
+    ```
+
+

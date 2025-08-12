@@ -1,0 +1,53 @@
+Subject: Urgent: Persistent Code Signing Failure - Certificate URL is Corrupted or Empty
+
+App Slug: [PLEASE ADD YOUR APP SLUG HERE]
+Latest Failing Build URL: [PLEASE ADD THE URL OF YOUR LAST FAILED BUILD HERE]
+
+Hi Bitrise Support Team,
+
+We are experiencing a persistent and critical code signing failure that is preventing us from building our iOS application. After extensive troubleshooting, we have isolated the root cause to the $BITRISE_CERTIFICATE_URL environment variable being consistently corrupted or empty, while the $BITRISE_PROVISION_URL works correctly.
+
+Here is a detailed summary of our setup and the exhaustive steps we have taken to resolve this:
+
+SIGNING FILE GENERATION PROCESS
+
+To ensure the integrity of our signing files, we followed a meticulous process:
+
+1. Provisioning Profile (.mobileprovision): Downloaded directly from our Apple Developer account (Apple Distribution type).
+
+2. Certificate (.p12):
+   - The official Apple Distribution certificate (.cer) was downloaded from the Apple Developer account.
+   - A team member with a macOS machine imported this .cer file into their Keychain Access.
+   - They then exported the certificate along with its associated private key to create the .p12 file, providing a password during export.
+
+Both files were then uploaded to the Bitrise Code Signing tab, the password was entered, and the "Exposed" toggle was enabled for both.
+
+TROUBLESHOOTING ATTEMPTS & BUILD FAILURES
+
+We have tried multiple methods to install these files, all of which have failed for the same underlying reason:
+
+Attempt 1: Default 'Certificate and profile installer' Step
+- Result: The step failed with an "unsupported protocol scheme" error. This was our first indication that the environment variables were not being populated correctly.
+
+Attempt 2: Custom 'Script' with 'curl'
+- Action: We replaced the default step with a custom script to manually download and install the files using curl.
+- Debugging: We used 'env | sort' to identify the correct environment variable names: $BITRISE_CERTIFICATE_URL and $BITRISE_PROVISION_URL.
+- Result: The script successfully downloaded the provisioning profile from $BITRISE_PROVISION_URL. However, the curl command for the certificate failed with a "Malformed input to a URL function" error, indicating the $BITRISE_CERTIFICATE_URL was not a valid URL.
+
+Attempt 3: Using 'File Downloader' Steps
+- Action: To rule out any issues with our script, we replaced it with two official 'File Downloader' steps.
+- Result: The step for the provisioning profile succeeded. The step for the certificate failed with the error: 'wget: unable to resolve host address ‘empty’'.
+
+CONCLUSION & CORE ISSUE
+
+The final error from the 'File Downloader' step is the definitive proof: the $BITRISE_CERTIFICATE_URL variable is literally being resolved to the string 'empty'. The provisioning profile URL, handled by the same system, works perfectly every time.
+
+This demonstrates that the issue is not with our workflow configuration, our script, or the .p12 file itself. The problem lies in a platform-level issue on Bitrise's side where the uploaded .p12 file is not generating a valid, accessible URL, or the variable is being explicitly overwritten with an invalid value.
+
+We have also tried deleting and re-uploading the .p12 file to force a new URL to be generated, but the issue persists.
+
+Could you please investigate the backend handling of our uploaded certificate for the app specified above and determine why it is generating a corrupted or empty URL? This issue has completely blocked our CI/CD pipeline.
+
+Thank you for your time and assistance.
+
+Best regards.
