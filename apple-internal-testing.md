@@ -34,3 +34,17 @@ Once the build is marked as "Ready to Test," you can invite your team to try it 
 3.  **Add Testers to the Group**: Once the group is created, you can select it and add testers by clicking the **+** icon next to the "Testers" section within the group.
 3.  **Testers Receive an Email**: Once added, each tester will receive an email invitation with a link to install the build via the **TestFlight app** on their iOS device.
 4.  **Monitor Feedback**: You can track installation status, sessions, and crashes for each tester directly within the TestFlight section.
+
+---
+
+### ✅ **Step 3: Handle Common Build Warnings**
+
+Even after a successful build, you may receive emails from Apple about non-blocking issues. It's best to resolve these for the next build.
+
+-   **Issue**: `ITMS-90683: Missing purpose string in Info.plist` for `NSLocationWhenInUseUsageDescription`.
+-   **Meaning**: Your app (or a dependency) has the capability to access user location, and you must explain why.
+-   **Resolution**: Add the `NSLocationWhenInUseUsageDescription` key to your `ios/Runner/Info.plist` file with a user-facing description. We have already done this for the next build.
+
+-   **Issue**: Build fails during the "Publishing to App Store Connect" step with the error `The bundle version must be higher than the previously uploaded version`.
+-   **Meaning**: You cannot upload a new build with the same build number as one that already exists in App Store Connect.
+-   **Resolution**: Before starting a new build, increment the build number in your `pubspec.yaml` file. For example, change `version: 1.0.0+1` to `version: 1.0.0+2`. We have already done this.
