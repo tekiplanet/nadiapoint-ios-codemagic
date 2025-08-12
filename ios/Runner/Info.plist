@@ -60,6 +60,8 @@
 		<string>This app needs access to photo library to select images</string>
 		<key>NSPhotoLibraryAddUsageDescription</key>
 		<string>Allow adding images to your photo library when you export or save media</string>
+		<key>NSLocationWhenInUseUsageDescription</key>
+		<string>This app requires access to your location to provide location-based services and improve your experience.</string>
 		<key>LSApplicationQueriesSchemes</key>
 		<array>
 			<string>google</string>
@@ -78,6 +80,8 @@
 		<key>UIStatusBarHidden</key>
 		<true/>
 		<key>UIViewControllerBasedStatusBarAppearance</key>
+		<false/>
+		<key>ITSAppUsesNonExemptEncryption</key>
 		<false/>
 	</dict>
 </plist>
