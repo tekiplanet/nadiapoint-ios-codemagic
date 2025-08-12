@@ -50,6 +50,10 @@ Here, you'll connect Codemagic to your Apple Developer account using the key you
     -   **Private key**: Upload the `.p8` file you downloaded.
 -   [ ] **Save Connection**: Click **Save connection**. Codemagic will verify the key.
 
+## Final Sanity Checks
+
+-   [ ] **Verify App Record in App Store Connect**: Before starting a build, log in to `appstoreconnect.apple.com`, go to "My Apps", and ensure an app record exists with the exact bundle ID (`com.nadiapoint.exchange`) you are trying to build for. If it doesn't exist, create it.
+
 ---
 
 ### ✅ **Phase 4: Configure the Build Workflow**
@@ -60,26 +64,38 @@ Use the Workflow Editor to define the build steps.
 
 -   [ ] **Open Workflow Editor**: Go to your app's **Settings → Workflow** tab.
 -   [x] **Build Triggers**: Left disabled for now to allow for manual builds during setup.
--   [ ] **Environment Variables**: Skip this section for now. API keys and signing credentials will be handled in the Distribution section.
--   [ ] **Configure Build Steps**:
-    1.  **Build Tab**:
-        -   **Flutter version**: Select the version your project uses.
-        -   **Mode**: `Release`.
-    2.  **Distribution Tab**:
-        -   Expand the **App Store Connect** section.
-        -   **Select your API Key**: Choose the key you configured in the previous phase.
-        -   **Automatic code signing**: Ensure this is enabled. Codemagic will handle provisioning profiles automatically.
--   [ ] **Add Custom Scripts (if needed)**:
-    -   If you encounter CocoaPods issues like before, you can add pre-build scripts.
-    -   Go to the **Pre-build** section of the workflow.
-    -   Add the following commands to ensure CocoaPods is up-to-date:
-        ```bash
-        #!/bin/sh
-        set -e
-        cd ios
-        pod repo update
-        pod install
-        ```
+-   [x] **Environment Variables**: Add the following project-specific variables. Make sure to check the **Secret** box for the `JWT_KEY`.
+    -   `API_URL` = `https://decrypted.nadiapoint.com`
+    -   `JWT_KEY` = `482577dbc71da156764d3ba2a755db2ca3eb5ec735568ceef5118e4bf3ee4c93b209bfb4ffff2823c92ef3870bf5be7cfafbdf65b1aa66ee5b63f3fcaed861da`
+    -   `APP_NAME` = `NadiaPoint`
+-   [x] **Dependency Caching**: Leave this disabled for now to ensure a clean build environment during setup.
+-   [x] **Pre-build Script**: Add the following script to create the `.env` file from your secure environment variables. This makes them accessible to your app during the build.
+    ```bash
+    #!/bin/sh
+    set -e
+    set -x
+
+    # Create the .env file from Codemagic environment variables
+    echo "API_URL=${API_URL}" > .env
+    echo "JWT_KEY=${JWT_KEY}" >> .env
+    echo "APP_NAME=${APP_NAME}" >> .env
+
+    echo "Successfully created .env file:"
+    cat .env
+    ```
+
+-   [x] **Build**: Configure the build settings as follows:
+    -   **Flutter version**: Ensure this is set to `channel Stable` or the specific version your project requires.
+    -   **Mode**: Select `Release`.
+    -   **Build arguments**: Clear the text field for **iOS**.
+-   [x] **Distribution**: This is the final step for configuration.
+    -   [x] **iOS code signing**: Select **Automatic** and set **Provisioning profile type** to `App Store`.
+    -   [x] **App Store Connect publishing**: 
+        -   Check **Enable App Store Connect publishing**.
+        -   Select your API Key from the dropdown.
+        -   Check **Submit to TestFlight beta review**.
+
+-   [x] **Tests**: Leave all testing options disabled for the initial setup to simplify the first build. We can enable them later.
 
 ---
 
