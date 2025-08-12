@@ -52,11 +52,15 @@ Here, you'll connect Codemagic to your Apple Developer account using the key you
 
 ## Final Sanity Checks
 
--   [ ] **Verify App Record in App Store Connect**: Before starting a build, log in to `appstoreconnect.apple.com`, go to "My Apps", and ensure an app record exists with the exact bundle ID (`com.nadiapoint.exchange`) you are trying to build for. If it doesn't exist, create it.
+-   [ ] **Create App Record in App Store Connect**: Before publishing, you must create an app record in App Store Connect. See the detailed guide here: [createapp-app-store.md](./createapp-app-store.md)
 
 ---
 
-### ✅ **Phase 4: Configure the Build Workflow**
+### ✅ **Phase 4: Configure Project Settings**
+
+-   [ ] **Change App Name (Optional)**: To change the output file name (e.g., from `safejet_exchange.ipa` to `nadiapoint.ipa`), open your `pubspec.yaml` file and change the `name:` property to `nadiapoint`. Commit and push this change.
+
+### ✅ **Phase 5: Configure the Build Workflow**
 
 -   [ ] **Select Build Platform**: In the **Build for platforms** section, ensure only **iOS** is checked. Uncheck Android, Web, etc., to focus the build.
 
