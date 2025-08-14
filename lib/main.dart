@@ -182,7 +182,18 @@ Future<void> _setupFirebaseMessaging() async {
   await messaging.requestPermission();
 
   // Get the token (for debugging/logging)
-  String? token = await messaging.getToken();
+  String? token;
+  try {
+    token = await messaging.getToken();
+  } on FirebaseException catch (e) {
+    if (e.code == 'apns-token-not-set') {
+      print('Firebase Messaging: APNS token not available on this device (likely a simulator). This is normal.');
+    } else {
+      print('Firebase Messaging: Failed to get token in _setupFirebaseMessaging: ${e.message}');
+    }
+  } catch (e) {
+    print('Firebase Messaging: An unknown error occurred while fetching the token in _setupFirebaseMessaging: $e');
+  }
   print('FCM Token: ${token ?? "(null)"}');
 
   // Register device with backend
