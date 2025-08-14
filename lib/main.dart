@@ -123,9 +123,24 @@ Future<void> registerDeviceWithBackend() async {
   final jwt = await storage.read(key: 'accessToken');
   print('JWT for device registration: $jwt');
   if (jwt == null) return;
-  final fcmToken = await FirebaseMessaging.instance.getToken();
-  print('FCM Token for registration: $fcmToken');
-  if (fcmToken == null) return;
+  String? fcmToken;
+  try {
+    fcmToken = await FirebaseMessaging.instance.getToken();
+    print('FCM Token for registration: $fcmToken');
+  } on FirebaseException catch (e) {
+    if (e.code == 'apns-token-not-set') {
+      print('Firebase Messaging: APNS token not available on this device (likely a simulator). This is normal.');
+    } else {
+      print('Firebase Messaging: Failed to get token: ${e.message}');
+    }
+  } catch (e) {
+    print('Firebase Messaging: An unknown error occurred while fetching the token: $e');
+  }
+
+  if (fcmToken == null) {
+    print('FCM token is null, skipping device registration.');
+    return;
+  }
 
   final apiBase = EnvConfig.apiUrl;
   final url = Uri.parse('$apiBase/user-devices/register');

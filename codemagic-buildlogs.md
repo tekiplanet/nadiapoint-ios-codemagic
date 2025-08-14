@@ -140,7 +140,7 @@ Xcode archive done.                                         113.8s
     • Deployment Target: 13.0
     • Bundle Identifier: com.nadiapoint.exchange
 
-To update the settings, please refer to https://flutter.dev/to/ios-deploy
+To update the settings, please refer to https://fluGIT tter.dev/to/ios-deploy
 
 Building App Store IPA...                                          11.9s
 ✓ Built IPA to build/ios/ipa (54.8MB)

@@ -198,13 +198,15 @@ If deep cleaning the pods doesn't fix module errors, Xcode's workspace is likely
       ```
 
 2.  **Fix `Module not found` Errors (The Deep Clean)**:
-    *   If builds fail with errors like `Module 'firebase_auth' not found`, it indicates a problem with the CocoaPods installation. The most reliable fix is a deep clean.
-    *   In the **Terminal**, navigate to the `ios` directory:
+    *   If builds fail with errors like `Module 'firebase_auth' not found` or `Module 'mobile_scanner' not found`, it indicates a problem with the CocoaPods installation. The most reliable fix is a deep clean.
+    *   In the **Terminal**, run the following commands from your project's root directory:
+      ```bash
+      flutter clean
+      flutter pub get
+      ```
+    *   Then, navigate to the `ios` directory and reinstall the pods completely:
       ```bash
       cd ios
-      ```
-    *   Then, remove the old pod files and reinstall them completely:
-      ```bash
       rm -rf Pods Podfile.lock
       pod install --repo-update
       ```
