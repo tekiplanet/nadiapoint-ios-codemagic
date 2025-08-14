@@ -6,45 +6,44 @@ This guide documents the steps for managing and distributing builds via TestFlig
 
 ### ✅ **Step 1: Handle Export Compliance**
 
-After a successful build, App Store Connect will flag the build with "Missing Compliance." This is a mandatory check to see if your app uses non-standard encryption.
+After your first build, App Store Connect will flag it with "Missing Compliance." This is a one-time setup.
 
 1.  **Navigate to TestFlight**: In App Store Connect, go to your app's **TestFlight** tab.
-2.  **Find the Build**: Locate the build with the yellow warning icon.
-3.  **Manage Compliance**: Click **Manage** next to the warning. A popup titled **App Encryption Documentation** will appear.
-4.  **Select the Correct Option**: For most apps using standard HTTPS for API calls, the correct option is:
-    -   `Standard encryption algorithms instead of, or in addition to, using or accessing the encryption within Apple's operating system`
-5.  **Select the Correct Option**: For most apps using standard HTTPS for API calls, the correct option is:
-    -   `Standard encryption algorithms instead of, or in addition to, using or accessing the encryption within Apple's operating system`
-6.  **Answer French Distribution Question**: On the next screen, when asked if the app will be available for distribution in France, select **No** (unless you have specific authorization).
-7.  **Save**: Click **Save**.
-
-To automate this for future builds, we have added the `ITSAppUsesNonExemptEncryption` key (set to `false`) to the `Info.plist` file.
+2.  **Manage Compliance**: Click **Manage** next to the build warning. 
+3.  **Answer Encryption Question**: Select `Standard encryption algorithms...`.
+4.  **Answer French Distribution Question**: Select **No**.
+5.  **Save**. This process is automated for future builds by a key we added to `Info.plist`.
 
 ---
 
-### ✅ **Step 2: Invite Internal Testers**
+### ✅ **Step 2: Add Testers to Your Team**
 
-Once the build is marked as "Ready to Test," you can invite your team to try it out.
+Testers must be invited to your App Store Connect team before they can test builds.
 
-1.  **Navigate to Internal Testing**: In App Store Connect, go to the **TestFlight** tab and click on **Internal Testing** in the left sidebar.
-2.  **Create an Internal Group**: Click the **+** icon next to "Internal Testing." A dialog will appear.
-    -   **Group Name**: Give the group a descriptive name (e.g., `Internal Testers`).
-    -   **Enable automatic distribution**: Keep this checked. This ensures all new builds are automatically sent to this group.
-    -   Click **Create**.
-3.  **Add Testers to the Group**: Once the group is created, you can select it and add testers by clicking the **+** icon next to the "Testers" section within the group.
-3.  **Testers Receive an Email**: Once added, each tester will receive an email invitation with a link to install the build via the **TestFlight app** on their iOS device.
-4.  **Monitor Feedback**: You can track installation status, sessions, and crashes for each tester directly within the TestFlight section.
+1.  **Navigate to Users and Access**.
+2.  **Invite New User**: Click the **+** icon and fill in their name and email address.
+3.  **Assign Role**: Assign a role like `Developer` or `App Manager`.
+4.  **Send Invitation**: Click **Invite**. The user must accept the email invitation.
+
+*Note: Testers only need a standard Apple ID; they do not need a paid developer account.*
 
 ---
 
-### ✅ **Step 3: Handle Common Build Warnings**
+### ✅ **Step 3: Create a Test Group and Invite Testers**
 
-Even after a successful build, you may receive emails from Apple about non-blocking issues. It's best to resolve these for the next build.
+1.  **Navigate to Internal Testing**: In the **TestFlight** tab, click **Internal Testing**.
+2.  **Create Group**: Click the **+** icon, name the group (e.g., `Internal Testers`), and click **Create**.
+3.  **Add Testers to Group**: Select the new group, click the **+** icon next to "Testers," and add your team members.
+4.  **Notifications**: Testers will receive an email with instructions to download the app via TestFlight.
 
--   **Issue**: `ITMS-90683: Missing purpose string in Info.plist` for `NSLocationWhenInUseUsageDescription`.
--   **Meaning**: Your app (or a dependency) has the capability to access user location, and you must explain why.
--   **Resolution**: Add the `NSLocationWhenInUseUsageDescription` key to your `ios/Runner/Info.plist` file with a user-facing description. We have already done this for the next build.
+---
 
--   **Issue**: Build fails during the "Publishing to App Store Connect" step with the error `The bundle version must be higher than the previously uploaded version`.
--   **Meaning**: You cannot upload a new build with the same build number as one that already exists in App Store Connect.
--   **Resolution**: Before starting a new build, increment the build number in your `pubspec.yaml` file. For example, change `version: 1.0.0+1` to `version: 1.0.0+2`. We have already done this.
+### ✅ **Step 4: Handle Common Build Issues**
+
+If a new build fails, check for these common issues.
+
+-   **Issue**: `Missing purpose string` (e.g., for `NSLocationWhenInUseUsageDescription`).
+    -   **Resolution**: Add the required privacy key to `ios/Runner/Info.plist`. We have already done this for the location permission.
+
+-   **Issue**: `The bundle version must be higher than the previously uploaded version`.
+    -   **Resolution**: Before starting a new build, increment the build number in `pubspec.yaml` (e.g., `version: 1.0.0+2` to `1.0.0+3`).

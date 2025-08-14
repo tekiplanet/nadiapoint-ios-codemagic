@@ -81,7 +81,7 @@ Use the Workflow Editor to define the build steps.
     echo "APP_NAME=${APP_NAME}" >> .env
 
     echo "Successfully created .env file:"
-    cat .env
+    C
     ```
 
 -   [x] **Build**: Configure the build settings as follows:
